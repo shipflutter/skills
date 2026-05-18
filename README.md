@@ -45,6 +45,7 @@ Install one skill:
 ```bash
 npx skills add shipflutter/skills --skill flutter-integration-test -a claude-code --copy
 npx skills add shipflutter/skills --skill flutter-driver-screenshot-test -a claude-code --copy
+npx skills add shipflutter/skills --skill flutter-unit-test-coverage -a claude-code --copy
 ```
 
 ## Skills
@@ -53,6 +54,7 @@ npx skills add shipflutter/skills --skill flutter-driver-screenshot-test -a clau
 |---|---|
 | `flutter-integration-test` | Adds Flutter `integration_test` coverage that runs on emulator/simulator without saving screenshot images. |
 | `flutter-driver-screenshot-test` | Adds Flutter driver screenshot tests that save PNG files through the host driver process. |
+| `flutter-unit-test-coverage` | Adds Flutter unit/widget coverage reporting with `flutter test --coverage` and optional HTML reports. |
 
 ## Repository structure
 
@@ -62,10 +64,14 @@ skills/
 │   ├── SKILL.md
 │   └── scripts/
 │       └── integration_test.sh
-└── flutter-driver-screenshot-test/
+├── flutter-driver-screenshot-test/
+│   ├── SKILL.md
+│   └── scripts/
+│       └── e2e.sh
+└── flutter-unit-test-coverage/
     ├── SKILL.md
     └── scripts/
-        └── e2e.sh
+        └── run_test.sh
 ```
 
 ## Notes

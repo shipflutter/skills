@@ -6,6 +6,10 @@ Initial release of Flutter testing skills for AI agents.
 
 ### Added
 
+- `flutter-unit-test-coverage`
+  - Adds Flutter unit/widget test coverage reporting.
+  - Provides `scripts/run_test.sh` for `flutter test --coverage` and optional `lcov` HTML report generation.
+
 - `flutter-integration-test`
   - Adds Flutter `integration_test` coverage for emulator/simulator execution.
   - Provides guidance for smoke tests without screenshot image persistence.
