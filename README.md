@@ -48,13 +48,13 @@ npx skills add shipflutter/skills --skill flutter-driver-screenshot-test -a clau
 npx skills add shipflutter/skills --skill flutter-unit-test-coverage -a claude-code --copy
 ```
 
-## Skills
+## Available Skills
 
-| Skill | Purpose |
-|---|---|
-| `flutter-integration-test` | Adds Flutter `integration_test` coverage that runs on emulator/simulator without saving screenshot images. |
-| `flutter-driver-screenshot-test` | Adds Flutter driver screenshot tests that save PNG files through the host driver process. |
-| `flutter-unit-test-coverage` | Adds Flutter unit/widget coverage reporting with `flutter test --coverage` and optional HTML reports. |
+| Skill | Description | Example prompt |
+|---|---|---|
+| [`flutter-integration-test`](skills/flutter-integration-test/SKILL.md) | Adds Flutter `integration_test` coverage that runs on emulator/simulator without saving screenshot images. | `Add Flutter integration tests for the main app flow without saving screenshots.` |
+| [`flutter-driver-screenshot-test`](skills/flutter-driver-screenshot-test/SKILL.md) | Adds Flutter driver screenshot tests that save PNG files through the host driver process. | `Add e2e screenshot tests for the main screens and save PNG files to screenshots/.` |
+| [`flutter-unit-test-coverage`](skills/flutter-unit-test-coverage/SKILL.md) | Adds Flutter unit/widget coverage reporting with `flutter test --coverage` and optional HTML reports. | `Add a run_test.sh script that generates Flutter unit test coverage and an HTML report.` |
 
 ## Repository structure
 
