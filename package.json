@@ -9,6 +9,7 @@
   "files": [
     "bin/",
     "skills/",
+    "scripts/",
     "README.md",
     "README-ai.md",
     "README-ai-en.md",
@@ -16,7 +17,8 @@
     "CHANGELOG.md"
   ],
   "scripts": {
-    "test": "node bin/cli.mjs list"
+    "test": "node bin/cli.mjs list",
+    "publish:npm": "./scripts/publish-npm.sh"
   },
   "keywords": [
     "agent-skills",

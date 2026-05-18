@@ -12,6 +12,14 @@ npx shipflutter-skills list
 
 The npm package ships the skill files and a small listing command. Use the open `skills` CLI below to install skills into AI agents.
 
+Publish with an npm token:
+
+```bash
+NODE_AUTH_TOKEN='<npm-token>' npm run publish:npm
+```
+
+The token must have publish permission. If your npm account uses 2FA, use a granular token with bypass 2FA enabled or publish manually with `--otp`.
+
 ## Install skills
 
 List available skills:
