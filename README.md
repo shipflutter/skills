@@ -2,7 +2,17 @@
 
 Flutter testing skills for AI coding agents.
 
-## Install
+## npm package
+
+Run the package CLI:
+
+```bash
+npx shipflutter-skills list
+```
+
+The npm package ships the skill files and a small listing command. Use the open `skills` CLI below to install skills into AI agents.
+
+## Install skills
 
 List available skills:
 

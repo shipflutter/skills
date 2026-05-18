@@ -1,0 +1,39 @@
+{
+  "name": "shipflutter-skills",
+  "version": "0.0.1",
+  "description": "Flutter testing skills for AI coding agents.",
+  "type": "module",
+  "bin": {
+    "shipflutter-skills": "bin/cli.mjs"
+  },
+  "files": [
+    "bin/",
+    "skills/",
+    "README.md",
+    "README-ai.md",
+    "README-ai-en.md",
+    "skills-table.md",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "test": "node bin/cli.mjs list"
+  },
+  "keywords": [
+    "agent-skills",
+    "claude-code",
+    "flutter",
+    "integration-test",
+    "flutter-driver",
+    "screenshots"
+  ],
+  "author": "shipflutter",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shipflutter/skills.git"
+  },
+  "bugs": {
+    "url": "https://github.com/shipflutter/skills/issues"
+  },
+  "homepage": "https://github.com/shipflutter/skills#readme"
+}
