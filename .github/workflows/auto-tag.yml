@@ -1,0 +1,68 @@
+name: Auto Tag on Merge to Master
+
+on:
+  push:
+    branches:
+      - master
+
+permissions:
+  contents: write
+
+jobs:
+  create-tag:
+    name: Create Release Tag
+    runs-on: ubuntu-latest
+    if: |
+      github.event_name == 'push' &&
+      contains(github.event.head_commit.message, 'Merge') &&
+      (
+        contains(github.event.head_commit.message, 'main') ||
+        contains(github.event.head_commit.message, 'MAIN')
+      )
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Read version from package.json
+        id: read_version
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          echo "VERSION=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "VERSION: $VERSION"
+
+      - name: Generate tag name
+        id: gen_tag
+        run: |
+          DATE=$(date +"%Y%m%d%H")
+          TAG_NAME="prod_${{ steps.read_version.outputs.VERSION }}_${DATE}"
+          echo "TAG_NAME=$TAG_NAME" >> "$GITHUB_OUTPUT"
+          echo "TAG_NAME: $TAG_NAME"
+
+      - name: Create and push tag
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          TAG_NAME="${{ steps.gen_tag.outputs.TAG_NAME }}"
+          echo "Creating tag: $TAG_NAME"
+
+          git tag "$TAG_NAME"
+          git push origin "$TAG_NAME"
+
+      - name: Print summary
+        run: |
+          echo "## Tag Created Successfully" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Field | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Tag | \`${{ steps.gen_tag.outputs.TAG_NAME }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Version | \`${{ steps.read_version.outputs.VERSION }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Commit | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
