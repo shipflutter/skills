@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.2 - 2026-05-18
+
+### Added
+
+- `flutter-unit-test-coverage`
+  - Adds Flutter unit/widget test coverage reporting.
+  - Provides `scripts/run_test.sh` for `flutter test --coverage` and optional `lcov` HTML report generation.
+
 ## 0.0.1 - 2026-05-18
 
 Initial release of Flutter testing skills for AI agents.
