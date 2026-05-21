@@ -46,15 +46,17 @@ Install one skill:
 npx skills add shipflutter/skills --skill flutter-integration-test -a claude-code --copy
 npx skills add shipflutter/skills --skill flutter-driver-screenshot-test -a claude-code --copy
 npx skills add shipflutter/skills --skill flutter-unit-test-coverage -a claude-code --copy
+npx skills add shipflutter/skills --skill privacy-safe-device-referral-attributes -a claude-code --copy
 ```
 
-## Skills
+## Available Skills
 
-| Skill | Purpose |
-|---|---|
-| `flutter-integration-test` | Adds Flutter `integration_test` coverage that runs on emulator/simulator without saving screenshot images. |
-| `flutter-driver-screenshot-test` | Adds Flutter driver screenshot tests that save PNG files through the host driver process. |
-| `flutter-unit-test-coverage` | Adds Flutter unit/widget coverage reporting with `flutter test --coverage` and optional HTML reports. |
+| Skill | Description | Example prompt |
+|---|---|---|
+| [`flutter-integration-test`](skills/flutter-integration-test/SKILL.md) | Adds Flutter `integration_test` coverage that runs on emulator/simulator without saving screenshot images. | `Add Flutter integration tests for the main app flow without saving screenshots.` |
+| [`flutter-driver-screenshot-test`](skills/flutter-driver-screenshot-test/SKILL.md) | Adds Flutter driver screenshot tests that save PNG files through the host driver process. | `Add e2e screenshot tests for the main screens and save PNG files to screenshots/.` |
+| [`flutter-unit-test-coverage`](skills/flutter-unit-test-coverage/SKILL.md) | Adds Flutter unit/widget coverage reporting with `flutter test --coverage` and optional HTML reports. | `Add a run_test.sh script that generates Flutter unit test coverage and an HTML report.` |
+| [`privacy-safe-device-referral-attributes`](skills/privacy-safe-device-referral-attributes/SKILL.md) | Adds privacy-safe Flutter Android, iOS, Web, and static Web device/referral attribute demos. | `Add a transparent device referral attributes screen without third-party IP lookup or invasive fingerprinting.` |
 
 ## Repository structure
 
@@ -68,11 +70,40 @@ skills/
 │   ├── SKILL.md
 │   └── scripts/
 │       └── e2e.sh
-└── flutter-unit-test-coverage/
+├── flutter-unit-test-coverage/
+│   ├── SKILL.md
+│   └── scripts/
+│       └── run_test.sh
+└── privacy-safe-device-referral-attributes/
     ├── SKILL.md
-    └── scripts/
-        └── run_test.sh
+    ├── examples/
+    │   └── prompts.md
+    └── reference/
+        └── attribute-contract.md
 ```
+
+## Device referral fingerprint POC
+
+The repository includes `example/flutter-poc-fingerprint` as a runnable reference for privacy-safe device/referral attributes.
+
+```mermaid
+flowchart TD
+  A[User opens device page or POC] --> B{Runtime}
+  B -->|Android| C[Load safe Android attributes]
+  B -->|iOS| D[Load safe iOS attributes]
+  B -->|Flutter Web| E[Load browser attributes]
+  B -->|Static Web| F[Run device.html JavaScript]
+  C --> G[Normalize allowed device fields]
+  D --> G
+  E --> G
+  F --> G
+  A --> H[Parse allowlisted referral params]
+  H --> I[Generate local SHA-256 hash]
+  G --> I
+  I --> J[Render transparent JSON report]
+```
+
+Implemented attributes include platform, OS/browser version, model/manufacturer where available, locale, timezone, screen size, device pixel ratio, referrer, and allowlisted referral params. Public IP is documented as unavailable without a same-origin backend endpoint.
 
 ## Notes
 
