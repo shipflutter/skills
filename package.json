@@ -1,6 +1,6 @@
 {
   "name": "shipflutter-skills",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Flutter testing skills for AI coding agents.",
   "type": "module",
   "bin": {
