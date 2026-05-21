@@ -111,6 +111,24 @@ Integrate 2 Flutter test skills into this project:
 Read the skill folders if available, create tests that match the current app, run validation, and fix failures until everything passes.
 ```
 
+## 5. Privacy-safe device/referral attributes
+
+```text
+Use the `privacy-safe-device-referral-attributes` skill.
+
+Add a transparent device/referral attributes POC for Flutter Android, iOS, and Web.
+
+Requirements:
+- Use normal platform/browser metadata only.
+- Parse only allowlisted referral params such as ref, referral, utm_source, utm_medium, utm_campaign, gclid, fbclid.
+- Ignore sensitive unknown query params like token, email, session, access_token.
+- Generate a local SHA-256 hash from normalized allowed attributes.
+- Do not call third-party IP services.
+- Do not use canvas/audio/WebGL/font fingerprinting.
+- Show the collected JSON and privacy notes in the UI.
+- Run format/analyze and report changed files.
+```
+
 ## Technical notes
 
 - Use `flutter test integration_test` for normal integration tests that do not need a screenshot-saving driver.

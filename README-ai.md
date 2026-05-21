@@ -111,6 +111,24 @@ Tích hợp 2 skill Flutter test vào project này:
 Đọc skill folder nếu có, tạo test phù hợp với app hiện tại, chạy validation, sửa lỗi đến khi pass.
 ```
 
+## 5. Thuộc tính device/referral an toàn quyền riêng tư
+
+```text
+Dùng skill `privacy-safe-device-referral-attributes`.
+
+Tạo POC minh bạch cho device/referral attributes trên Flutter Android, iOS và Web.
+
+Yêu cầu:
+- Chỉ dùng metadata platform/browser thông thường.
+- Chỉ parse referral params trong allowlist như ref, referral, utm_source, utm_medium, utm_campaign, gclid, fbclid.
+- Bỏ qua query params nhạy cảm không nằm trong allowlist như token, email, session, access_token.
+- Tạo SHA-256 hash local từ các thuộc tính đã normalize và được phép dùng.
+- Không gọi third-party IP services.
+- Không dùng canvas/audio/WebGL/font fingerprinting.
+- Hiển thị JSON đã collect và privacy notes trong UI.
+- Chạy format/analyze và báo cáo file đã thay đổi.
+```
+
 ## Ghi nhớ kỹ thuật
 
 - `flutter test integration_test` phù hợp cho integration test thường, không cần driver lưu ảnh.
