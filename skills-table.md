@@ -59,6 +59,7 @@ Instructions for the AI agent.
 |---|---|---|---|
 | Flutter Integration Test | `.claude/skills/flutter-integration-test/` | Adds integration tests that run on emulator/simulator without saving screenshots. | `scripts/integration_test.sh` |
 | Flutter Driver Screenshot Test | `.claude/skills/flutter-driver-screenshot-test/` | Adds `flutter drive` screenshot tests that save PNG files on the host machine. | `scripts/e2e.sh` |
+| Privacy-Safe Device Referral Attributes | `.claude/skills/privacy-safe-device-referral-attributes/` | Adds transparent Flutter/Web device and referral attribute POCs without invasive fingerprinting. | N/A |
 
 ## Notes
 
