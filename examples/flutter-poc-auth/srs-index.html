@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Software Requirements Specification</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <style>
+    :root {
+      --color-primary: #FCD535;
+      --color-canvas: #ffffff;
+      --color-surface: #fafafa;
+      --color-surface-strong: #f3f3f5;
+      --color-ink: #181a20;
+      --color-muted: #707a8a;
+      --color-hairline: #eaecef;
+      --color-link: #2563eb;
+      --font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+    * { box-sizing: border-box; }
+    body { font-family: var(--font-body); color: var(--color-ink); background: var(--color-surface); margin: 0; padding: 0; line-height: 1.6; }
+    .layout { display: grid; grid-template-columns: 280px 1fr; min-height: 100vh; }
+    aside { position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto; background: var(--color-canvas); border-right: 1px solid var(--color-hairline); padding: 24px 16px; }
+    aside h2 { font-size: 14px; text-transform: uppercase; color: var(--color-muted); margin: 0 0 12px; letter-spacing: .03em; border: 0; padding: 0; }
+    aside nav ol, aside nav ul { list-style: none; padding: 0; margin: 0; }
+    aside nav .toc-h2 > a { font-weight: 600; font-size: 13px; color: var(--color-ink); display: block; padding: 6px 10px; border-radius: 6px; text-decoration: none; }
+    aside nav .toc-h2 > a:hover { background: var(--color-surface); }
+    aside nav .toc-h2.active > a { background: var(--color-primary); color: var(--color-ink); }
+    aside nav .toc-h3 { padding-left: 18px; border-left: 2px solid var(--color-hairline); margin-left: 10px; }
+    aside nav .toc-h3 a { display: block; padding: 4px 10px; font-size: 12px; color: var(--color-muted); border-radius: 4px; text-decoration: none; line-height: 1.4; }
+    aside nav .toc-h3 a:hover { background: var(--color-surface); color: var(--color-ink); }
+    aside nav .toc-h3 a.active { color: var(--color-ink); font-weight: 600; background: var(--color-surface); }
+    aside nav .toc-h2.collapsed .toc-h3 { display: none; }
+    aside nav .toggle { cursor: pointer; user-select: none; color: var(--color-muted); margin-right: 4px; display: inline-block; width: 12px; transition: transform .15s; }
+    aside nav .toc-h2.collapsed .toggle { transform: rotate(-90deg); }
+    main { padding: 40px 60px; max-width: 1100px; }
+    main h1 { font-size: 32px; border-bottom: 2px solid var(--color-ink); padding-bottom: 12px; }
+    main h2 { font-size: 24px; margin-top: 40px; border-bottom: 1px solid var(--color-hairline); padding-bottom: 6px; }
+    main h3 { font-size: 18px; margin-top: 28px; color: var(--color-ink); }
+    main h4 { font-size: 16px; margin-top: 20px; }
+    main p, main li { font-size: 14px; }
+    main code { font-family: var(--font-mono); font-size: 13px; background: var(--color-surface); padding: 2px 6px; border-radius: 4px; }
+    main pre { background: var(--color-surface); border: 1px solid var(--color-hairline); border-radius: 8px; padding: 16px; overflow-x: auto; font-size: 13px; }
+    main pre.mermaid { background: var(--color-canvas); text-align: center; color: var(--color-ink); white-space: pre; }
+    main .mermaid svg { max-width: 100%; }
+    main table { border-collapse: collapse; width: 100%; margin: 16px 0; font-size: 13px; }
+    main th, main td { border: 1px solid var(--color-hairline); padding: 8px 12px; text-align: left; vertical-align: top; }
+    main th { background: var(--color-surface); font-weight: 600; }
+    main a { color: var(--color-link); text-decoration: none; }
+    main a:hover { text-decoration: underline; }
+    main hr { border: none; border-top: 1px solid var(--color-hairline); margin: 32px 0; }
+    main blockquote { border-left: 4px solid var(--color-primary); margin: 16px 0; padding: 8px 16px; background: var(--color-surface); color: var(--color-muted); }
+    .meta { color: var(--color-muted); font-size: 13px; margin-bottom: 24px; }
+    footer { padding: 24px 60px; border-top: 1px solid var(--color-hairline); color: var(--color-muted); font-size: 13px; background: var(--color-canvas); }
+    footer code { font-family: var(--font-mono); background: var(--color-surface); padding: 2px 6px; border-radius: 4px; }
+    @media (max-width: 768px) { .layout { grid-template-columns: 1fr; } aside { position: static; height: auto; border-right: none; border-bottom: 1px solid var(--color-hairline); } main { padding: 24px; } footer { padding: 16px 24px; } }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside>
+      <h2>Flutter POC Auth</h2>
+      <div class="meta">SRS Package</div>
+      <nav><ol id="toc"></ol></nav>
+    </aside>
+    <main id="content">
+<h1 id="software-requirements-specification-flutter-poc-auth">Software Requirements Specification: Flutter POC Auth</h1>
+<h2 id="1-purpose">1. Purpose</h2>
+<p>This SRS documents the Flutter POC auth feature generated with the <code>add-feat</code> and <code>add-srs</code> workflows. The intended outcome is a small, auditable demo for sign-in and sign-up flows with traceability from user stories to tests.</p>
+<h2 id="2-scope">2. Scope</h2>
+<p>The POC supports:</p>
+<ul>
+<li>Sign-in with demo email and password.</li>
+<li>Sign-up with email, password, and display name.</li>
+<li>Loading, success, and error UI states.</li>
+<li>Local deterministic <code>AuthService</code> boundary.</li>
+<li>Unit and integration tests.</li>
+</ul>
+<p>The POC does not support production token storage, OAuth/OIDC, password recovery, biometric auth, or real identity-provider integration.</p>
+<h2 id="3-user-stories">3. User Stories</h2>
+<table><tbody>
+<tr>
+<td>ID</td>
+<td>Summary</td>
+<td>Source</td>
+</tr>
+<tr>
+<td>---</td>
+<td>---</td>
+<td>---</td>
+</tr>
+<tr>
+<td>EP01.US001</td>
+<td>Open auth POC and view sign-in/sign-up entry points.</td>
+<td><code>resources/user-story/ep01-auth.md</code></td>
+</tr>
+<tr>
+<td>EP01.US002</td>
+<td>Submit auth data and render success or error result.</td>
+<td><code>resources/user-story/ep01-auth.md</code></td>
+</tr>
+<tr>
+<td>EP01.US003</td>
+<td>Preview auth flow through e2e/integration coverage.</td>
+<td><code>resources/user-story/ep01-auth.md</code></td>
+</tr>
+</tbody></table>
+<h2 id="4-functional-requirements">4. Functional Requirements</h2>
+<table><tbody>
+<tr>
+<td>ID</td>
+<td>Requirement</td>
+<td>Trace</td>
+</tr>
+<tr>
+<td>---</td>
+<td>---</td>
+<td>---</td>
+</tr>
+<tr>
+<td>FR-001</td>
+<td>The app shall render an auth page on launch.</td>
+<td>EP01.US001</td>
+</tr>
+<tr>
+<td>FR-002</td>
+<td>The app shall support switching between sign-in and sign-up modes.</td>
+<td>EP01.US001</td>
+</tr>
+<tr>
+<td>FR-003</td>
+<td>The app shall submit sign-in credentials to the auth service.</td>
+<td>EP01.US002</td>
+</tr>
+<tr>
+<td>FR-004</td>
+<td>The app shall submit sign-up credentials and display name to the auth service.</td>
+<td>EP01.US002</td>
+</tr>
+<tr>
+<td>FR-005</td>
+<td>The app shall render successful user summary data.</td>
+<td>EP01.US002</td>
+</tr>
+<tr>
+<td>FR-006</td>
+<td>The app shall render clear error messages for invalid data.</td>
+<td>EP01.US002</td>
+</tr>
+</tbody></table>
+<h2 id="5-use-cases">5. Use Cases</h2>
+<h3 id="uc-001-sign-in">UC-001 Sign in</h3>
+<ol>
+<li>User opens the auth POC.</li>
+<li>User keeps sign-in mode selected.</li>
+<li>User enters email and password.</li>
+<li>User submits.</li>
+<li>App shows returned user summary or error.</li>
+</ol>
+<h3 id="uc-002-sign-up">UC-002 Sign up</h3>
+<ol>
+<li>User opens the auth POC.</li>
+<li>User switches to sign-up mode.</li>
+<li>User enters email, password, and display name.</li>
+<li>User submits.</li>
+<li>App shows returned user summary or error.</li>
+</ol>
+<h2 id="6-flow-diagram">6. Flow Diagram</h2>
+<pre class="mermaid">
+flowchart TD
+  A[Open AuthPocApp] --&gt; B[Render AuthPage]
+  B --&gt; C{Mode}
+  C --&gt;|Sign in| D[Email + password]
+  C --&gt;|Sign up| E[Email + password + display name]
+  D --&gt; F[Submit]
+  E --&gt; F
+  F --&gt; G[AuthService]
+  G --&gt; H{Valid input?}
+  H --&gt;|Yes| I[AuthResult]
+  H --&gt;|No| J[Error message]
+  I --&gt; K[Render success]
+  J --&gt; L[Render error]
+</pre>
+<h2 id="7-entities">7. Entities</h2>
+<table><tbody>
+<tr>
+<td>Entity</td>
+<td>Fields</td>
+<td>Purpose</td>
+</tr>
+<tr>
+<td>---</td>
+<td>---</td>
+<td>---</td>
+</tr>
+<tr>
+<td><code>AuthCredentials</code></td>
+<td><code>email</code>, <code>password</code>, <code>displayName</code></td>
+<td>User-submitted auth data.</td>
+</tr>
+<tr>
+<td><code>AuthResult</code></td>
+<td><code>userId</code>, <code>email</code>, <code>displayName</code></td>
+<td>Successful auth response.</td>
+</tr>
+<tr>
+<td><code>AuthSubmissionState</code></td>
+<td><code>loading</code>, <code>result</code>, <code>error</code></td>
+<td>UI state for submission.</td>
+</tr>
+</tbody></table>
+<h2 id="8-non-functional-requirements">8. Non-Functional Requirements</h2>
+<ul>
+<li>The POC must stay local and deterministic.</li>
+<li>The POC must not store passwords or tokens.</li>
+<li>The UI should remain readable on mobile and web-sized screens.</li>
+<li>Tests should run without external services.</li>
+</ul>
+<h2 id="9-traceability">9. Traceability</h2>
+<table><tbody>
+<tr>
+<td>Artifact</td>
+<td>Path</td>
+</tr>
+<tr>
+<td>---</td>
+<td>---</td>
+</tr>
+<tr>
+<td>App entry</td>
+<td><code>lib/main.dart</code></td>
+</tr>
+<tr>
+<td>UI</td>
+<td><code>lib/src/auth_page.dart</code></td>
+</tr>
+<tr>
+<td>Models</td>
+<td><code>lib/src/auth_models.dart</code></td>
+</tr>
+<tr>
+<td>Service</td>
+<td><code>lib/src/auth_service.dart</code></td>
+</tr>
+<tr>
+<td>Unit test</td>
+<td><code>test/auth_service_test.dart</code></td>
+</tr>
+<tr>
+<td>Integration test</td>
+<td><code>integration_test/auth_flow_test.dart</code></td>
+</tr>
+<tr>
+<td>E2E runner</td>
+<td><code>e2e.sh</code></td>
+</tr>
+<tr>
+<td>Technical design</td>
+<td><code>resources/technial-design/ep01-auth.md</code></td>
+</tr>
+</tbody></table>
+<h2 id="10-verification">10. Verification</h2>
+<pre><code>
+flutter pub get
+dart format --set-exit-if-changed .
+flutter analyze
+flutter test
+./resources/srs.sh
+</code></pre>
+    </main>
+  </div>
+  <footer>Generated from <code>resources/srs.md</code> by <code>resources/srs.sh</code>.</footer>
+  <script>
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+    const toc = document.getElementById('toc');
+    const headings = [...document.querySelectorAll('main h2, main h3')];
+    let currentGroup = null;
+    headings.forEach((heading) => {
+      const item = document.createElement('li');
+      const link = document.createElement('a');
+      link.href = `#${heading.id}`;
+      link.textContent = heading.textContent;
+      if (heading.tagName === 'H2') {
+        item.className = 'toc-h2';
+        const toggle = document.createElement('span');
+        toggle.className = 'toggle';
+        toggle.textContent = '▾';
+        link.prepend(toggle);
+        item.appendChild(link);
+        const sub = document.createElement('ul');
+        sub.className = 'toc-h3';
+        item.appendChild(sub);
+        toc.appendChild(item);
+        currentGroup = sub;
+        toggle.addEventListener('click', (event) => {
+          event.preventDefault();
+          item.classList.toggle('collapsed');
+        });
+      } else if (currentGroup) {
+        item.appendChild(link);
+        currentGroup.appendChild(item);
+      }
+    });
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        const link = document.querySelector(`aside nav a[href="#${entry.target.id}"]`);
+        if (!link) return;
+        if (entry.isIntersecting) {
+          document.querySelectorAll('aside nav a.active, aside nav li.active').forEach((node) => node.classList.remove('active'));
+          link.classList.add('active');
+          link.closest('.toc-h2')?.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-20% 0px -70% 0px' });
+    headings.forEach((heading) => observer.observe(heading));
+  </script>
+</body>
+</html>

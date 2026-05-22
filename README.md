@@ -43,6 +43,8 @@ npx skills add shipflutter/skills --skill '*' -a claude-code -g --copy
 Install one skill:
 
 ```bash
+npx skills add shipflutter/skills --skill add-feat -a claude-code --copy
+npx skills add shipflutter/skills --skill add-srs -a claude-code --copy
 npx skills add shipflutter/skills --skill flutter-integration-test -a claude-code --copy
 npx skills add shipflutter/skills --skill flutter-driver-screenshot-test -a claude-code --copy
 npx skills add shipflutter/skills --skill flutter-unit-test-coverage -a claude-code --copy
@@ -53,6 +55,8 @@ npx skills add shipflutter/skills --skill privacy-safe-device-referral-attribute
 
 | Skill | Description | Example prompt |
 |---|---|---|
+| [`add-feat`](skills/add-feat/SKILL.md) | Creates feature user-story and technical-design docs, including `gen-tdd` source scanning. | `Run add-feat gen-tdd auth EP01 and create the feature docs.` |
+| [`add-srs`](skills/add-srs/SKILL.md) | Generates or updates SRS packages from user-story and technical-design docs. | `Generate the SRS from the current user-story and technical-design docs.` |
 | [`flutter-integration-test`](skills/flutter-integration-test/SKILL.md) | Adds Flutter `integration_test` coverage that runs on emulator/simulator without saving screenshot images. | `Add Flutter integration tests for the main app flow without saving screenshots.` |
 | [`flutter-driver-screenshot-test`](skills/flutter-driver-screenshot-test/SKILL.md) | Adds Flutter driver screenshot tests that save PNG files through the host driver process. | `Add e2e screenshot tests for the main screens and save PNG files to screenshots/.` |
 | [`flutter-unit-test-coverage`](skills/flutter-unit-test-coverage/SKILL.md) | Adds Flutter unit/widget coverage reporting with `flutter test --coverage` and optional HTML reports. | `Add a run_test.sh script that generates Flutter unit test coverage and an HTML report.` |
@@ -62,6 +66,13 @@ npx skills add shipflutter/skills --skill privacy-safe-device-referral-attribute
 
 ```text
 skills/
+├── add-feat/
+│   ├── SKILL.md
+│   ├── assets/templates/
+│   ├── references/
+│   └── scripts/add_feat.sh
+├── add-srs/
+│   └── SKILL.md
 ├── flutter-integration-test/
 │   ├── SKILL.md
 │   └── scripts/
@@ -82,9 +93,24 @@ skills/
         └── attribute-contract.md
 ```
 
+## Feature docs workflow
+
+Use `add-feat gen-tdd` to derive user-story and technical-design docs from a Flutter feature source tree:
+
+```bash
+scripts/add_feat.sh gen-tdd auth EP01
+```
+
+The command creates:
+
+- `resources/user-story/ep01-auth.md`
+- `resources/technial-design/ep01-auth.md`
+
+Use `add-srs` after that to compile the generated docs into `resources/srs.md` and render `srs-index.html` through `resources/srs.sh` using the standard two-column Mermaid SRS template.
+
 ## Device referral fingerprint POC
 
-The repository includes `example/flutter-poc-fingerprint` as a runnable reference for privacy-safe device/referral attributes.
+The repository includes `examples/flutter-poc-fingerprint` as a runnable reference for privacy-safe device/referral attributes.
 
 ```mermaid
 flowchart TD
@@ -104,6 +130,25 @@ flowchart TD
 ```
 
 Implemented attributes include platform, OS/browser version, model/manufacturer where available, locale, timezone, screen size, device pixel ratio, referrer, and allowlisted referral params. Public IP is documented as unavailable without a same-origin backend endpoint.
+
+## Auth POC
+
+The repository includes `examples/flutter-poc-auth` as a runnable reference for the `add-feat` and `add-srs` workflows.
+
+It demonstrates:
+
+- Sign-in and sign-up UI states.
+- Local auth service boundary.
+- User-story and technical-design docs under `resources/`.
+- Unit and integration tests.
+
+```bash
+cd examples/flutter-poc-auth
+../../scripts/add_feat.sh gen-tdd auth EP01
+./resources/srs.sh
+flutter pub get
+flutter test
+```
 
 ## Notes
 

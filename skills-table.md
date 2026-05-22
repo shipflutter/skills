@@ -57,6 +57,7 @@ Instructions for the AI agent.
 
 | Skill | Folder | Purpose | Script |
 |---|---|---|---|
+| Add SRS | `.claude/skills/add-srs/` | Generates or updates SRS packages from user-story and technical-design docs. | `scripts/render_srs.sh` |
 | Flutter Integration Test | `.claude/skills/flutter-integration-test/` | Adds integration tests that run on emulator/simulator without saving screenshots. | `scripts/integration_test.sh` |
 | Flutter Driver Screenshot Test | `.claude/skills/flutter-driver-screenshot-test/` | Adds `flutter drive` screenshot tests that save PNG files on the host machine. | `scripts/e2e.sh` |
 | Privacy-Safe Device Referral Attributes | `.claude/skills/privacy-safe-device-referral-attributes/` | Adds transparent Flutter/Web device and referral attribute POCs without invasive fingerprinting. | N/A |

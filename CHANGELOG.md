@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.0.6 - 2026-05-23
+
+### Added
+
+- Added `examples/flutter-poc-test` demo project for `flutter-unit-test-coverage`, `flutter-integration-test`, and `flutter-driver-screenshot-test`.
+- Added e2e screenshot HTML report generation with screenshot gallery and passed test summary.
+- Added example prompts for applying screenshot e2e testing to other Flutter projects.
+
+### Fixed
+
+- Fixed `examples/flutter-poc-fingerprint` iOS simulator loading by moving inherited-widget dependent loading out of `initState`.
+- Made fingerprint POC screenshot tests assert the report UI renders instead of only saving a screenshot.
+
 ## 0.0.2 - 2026-05-18
 
 ### Added
