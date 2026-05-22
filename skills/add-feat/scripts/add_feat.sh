@@ -84,6 +84,7 @@ Acceptance criteria:
 - Integration tests exist in \`integration_test/\` for the main user flow.
 - Driver or screenshot tests exist and save PNG files to \`screenshots/\`.
 - \`e2e.sh\` generates \`e2e-index.html\` with screenshot grid and auto-opens it.
+- Screenshot items in the HTML report use width equal to screen width divided by 6.
 - Screenshot names are stable and include the epic or user-story id.
 - The flow appears in SRS traceability.
 EOF
@@ -156,6 +157,7 @@ flowchart TD
 - Driver tests in \`test_driver/\` when using \`flutter drive\`.
 - Screenshot tests save PNG files to \`screenshots/\`.
 - \`e2e.sh\` runs the test suite, captures screenshots, generates \`e2e-index.html\`, and auto-opens the report.
+- Screenshot items in \`e2e-index.html\` use width equal to screen width divided by 6.
 
 ## Verification
 \`\`\`bash

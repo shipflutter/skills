@@ -47,7 +47,7 @@ Use this skill to bootstrap a new feature package in this repository.
 - Include explicit flow steps and entities in the technical design.
 - Include unit, widget, integration, and driver/screenshot test coverage before marking implementation complete.
 - Include screenshot e2e runner names based on the user-story id or epic id.
-- Generate `e2e-index.html` from `e2e.sh` with the standard E2E report CSS/template, screenshot grid, and auto-open behavior.
+- Generate `e2e-index.html` from `e2e.sh` with the standard E2E report CSS/template, screenshot grid, screenshot item width equal to screen width divided by 6, and auto-open behavior.
 
 ## Example pattern
 Use the bundled sign-in template when the feature calls an API:

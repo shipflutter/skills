@@ -190,8 +190,8 @@ build_report() {
     .summary { font-size: 18px; }
     ul { margin: 0; padding-left: 20px; }
     li { margin: 6px 0; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
-    figure { margin: 0; }
+    .grid { display: grid; grid-template-columns: repeat(6, calc((100vw - 48px - 80px) / 6)); gap: 16px; overflow-x: auto; }
+    figure { margin: 0; width: calc((100vw - 48px - 80px) / 6); }
     img { width: 100%; height: auto; border: 1px solid var(--border); border-radius: 10px; background: #fff; }
     figcaption { margin-top: 8px; font-size: 14px; color: var(--muted); word-break: break-word; }
     .pass { color: var(--pass); font-weight: 600; }
