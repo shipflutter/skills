@@ -18,11 +18,12 @@ Behavior:
   Scans lib/presentation/<feature-slug> when present.
   Creates resources/user-story/epXX-<feature-slug>.md.
   Creates resources/technial-design/epXX-<feature-slug>.md.
+  Requires unit, widget, integration, driver/screenshot tests, and e2e-index.html report generation.
 EOF
 }
 
 titleize() {
-  printf '%s' "$1" | tr '-_' '  ' | awk '{ for (i=1;i<=NF;i++) { $i=toupper(substr($i,1,1)) substr($i,2) } print }'
+  printf '%s' "$1" | sed 's/[-_]/ /g' | awk '{ for (i=1;i<=NF;i++) { $i=toupper(substr($i,1,1)) substr($i,2) } print }'
 }
 
 require_feature() {
@@ -74,13 +75,16 @@ Acceptance criteria:
 - Success state is rendered.
 - Failure state shows a clear message.
 
-## ${epic_id}.US003: Preview ${Feature_title:-$feature_title} with e2e screenshots
+## ${epic_id}.US003: Preview ${feature_title} with e2e screenshots
 As a developer, I want screenshot e2e coverage for ${feature_title} so that the feature can be visually reviewed.
 
 Acceptance criteria:
-- Screenshot test exists in \`integration_test/\`.
-- E2E runner exists in \`e2e/\`.
-- Screenshot names are stable.
+- Unit tests exist in \`test/\` for service/usecase behavior.
+- Widget tests exist in \`test/\` for rendering and validation.
+- Integration tests exist in \`integration_test/\` for the main user flow.
+- Driver or screenshot tests exist and save PNG files to \`screenshots/\`.
+- \`e2e.sh\` generates \`e2e-index.html\` with screenshot grid and auto-opens it.
+- Screenshot names are stable and include the epic or user-story id.
 - The flow appears in SRS traceability.
 EOF
 
@@ -146,14 +150,17 @@ flowchart TD
 | ${feature_title}State | UI state | initial, loading, success, error |
 
 ## Tests
-- Unit tests for usecase/service behavior.
-- Widget tests for form rendering and validation.
-- Integration tests for the main user flow.
-- Screenshot e2e runner in \`e2e/e2e-${epic_lower}-${feature_slug}.sh\`.
+- Unit tests in \`test/\` for usecase/service behavior.
+- Widget tests in \`test/\` for form rendering and validation.
+- Integration tests in \`integration_test/\` for the main user flow.
+- Driver tests in \`test_driver/\` when using \`flutter drive\`.
+- Screenshot tests save PNG files to \`screenshots/\`.
+- \`e2e.sh\` runs the test suite, captures screenshots, generates \`e2e-index.html\`, and auto-opens the report.
 
 ## Verification
 \`\`\`bash
 flutter test
+./e2e.sh
 ./resources/srs.sh
 \`\`\`
 EOF

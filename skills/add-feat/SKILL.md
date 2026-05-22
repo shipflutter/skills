@@ -8,10 +8,10 @@ description: Create a new feature package from repo conventions by writing user-
 Use this skill to bootstrap a new feature package in this repository.
 
 ## Core sources
-- `resources/implement_feat_readme.md`
-- `resources/user-story/ep01-ssh-terminal.md`
-- `resources/technial-design/ep01-ssh-terminal.md`
-- `resources/templates/add-feat/`
+- `resources/implement_feat_readme.md` when present in the target app.
+- `resources/user-story/` for `EPXX.US###` requirements.
+- `resources/technial-design/` for `epXX-<feature>.md` technical design.
+- `skills/add-feat/assets/templates/` for reusable templates.
 
 ## Workflow
 1. Read `resources/implement_feat_readme.md` first.
@@ -20,23 +20,34 @@ Use this skill to bootstrap a new feature package in this repository.
    - technical design docs in `resources/technial-design/`
    - implementation in `lib/presentation/`
    - integration in `lib/integration/`
-   - tests in `test/` and `integration_test/`
-   - e2e screenshot runners in `e2e/`
+   - unit/widget tests in `test/`
+   - integration tests in `integration_test/`
+   - driver tests in `test_driver/`
+   - screenshot output in `screenshots/`
+   - an `e2e.sh` runner that generates `e2e-index.html`
 3. For a new feature, create:
    - a feature brief
    - user-story markdown
    - technical-design markdown
    - implementation plan for UI -> bloc -> usecase -> repository/service
-   - unit/widget/integration/e2e tests
-4. If the user asks to derive docs from source, run:
-   - `skills/add-feat/scripts/add_feat.sh gen-tdd <feature-slug> <EPXX>`
-   - Example: `skills/add-feat/scripts/add_feat.sh gen-tdd auth EP01`
+   - unit tests for service/usecase behavior
+   - widget tests for rendering and validation
+   - integration tests for the main user flow
+   - driver or screenshot tests that save PNG screenshots
+   - an `e2e.sh` script that runs tests, captures screenshots, builds `e2e-index.html`, and auto-opens it
+4. If the user asks to derive docs from source, run `gen-tdd`:
+   - From a target Flutter app: `../../scripts/add_feat.sh gen-tdd <feature-slug> <EPXX>`
+   - From this repository root: `scripts/add_feat.sh gen-tdd <feature-slug> <EPXX>`
+   - Direct skill script: `skills/add-feat/scripts/add_feat.sh gen-tdd <feature-slug> <EPXX>`
+   - Example: `scripts/add_feat.sh gen-tdd auth EP01`
 
 ## Required conventions
 - Keep user stories in the form `EPXX.US###`.
 - Keep technical design files in the form `epXX-<feature>.md`.
 - Include explicit flow steps and entities in the technical design.
+- Include unit, widget, integration, and driver/screenshot test coverage before marking implementation complete.
 - Include screenshot e2e runner names based on the user-story id or epic id.
+- Generate `e2e-index.html` from `e2e.sh` with the standard E2E report CSS/template, screenshot grid, and auto-open behavior.
 
 ## Example pattern
 Use the bundled sign-in template when the feature calls an API:
@@ -46,10 +57,15 @@ Use the bundled sign-in template when the feature calls an API:
 
 ## Script
 - `scripts/add_feat.sh gen-tdd <feature-slug> [EPXX]`
-- Scans `lib/presentation/<feature-slug>` and creates user-story plus technical-design markdown.
+- Scans `lib/presentation/<feature-slug>` when it exists and records discovered Dart entry points.
+- Creates `resources/user-story/epXX-<feature-slug>.md`.
+- Creates `resources/technial-design/epXX-<feature-slug>.md`.
+- Use the generated docs as the source for `add-srs` traceability.
 
 ## Output expectations
 - Produce markdown templates first.
 - Then produce the implementation plan.
-- Then produce tests and e2e scaffolding.
+- Then implement feature code.
+- Then add unit, widget, integration, and driver/screenshot tests.
+- Then add or update `e2e.sh` so it runs the test suite, captures screenshots, generates `e2e-index.html`, and auto-opens the report.
 - Keep everything aligned with the repo's existing docs and naming.
