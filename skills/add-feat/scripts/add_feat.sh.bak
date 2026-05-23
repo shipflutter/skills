@@ -17,7 +17,6 @@ Examples:
 Behavior:
   Scans lib/presentation/<feature-slug> when present.
   Creates resources/user-story/epXX-<feature-slug>.md.
-  Creates resources/screens/epXX-<feature-slug>-screen.md.
   Creates resources/technial-design/epXX-<feature-slug>.md.
   Requires unit, widget, integration, driver/screenshot tests, and e2e-index.html report generation.
 EOF
@@ -49,12 +48,11 @@ gen_tdd() {
   local feature_title
   feature_title="$(titleize "$feature_slug")"
   local user_story_path="resources/user-story/${epic_lower}-${feature_slug}.md"
-  local screen_path="resources/screens/${epic_lower}-${feature_slug}-screen.md"
   local tech_path="resources/technial-design/${epic_lower}-${feature_slug}.md"
   local files
   files="$(scan_feature_files || true)"
 
-  mkdir -p resources/user-story resources/screens resources/technial-design
+  mkdir -p resources/user-story resources/technial-design
 
   cat > "$user_story_path" <<EOF
 # ${epic_id}: ${feature_title} User Stories
@@ -91,49 +89,6 @@ Acceptance criteria:
 - The flow appears in SRS traceability.
 EOF
 
-  cat > "$screen_path" <<EOF
-# ${feature_title} Screen Layout
-
-## Layout Mode: Single-column
-
-\`\`\`
-┌──────────────────────────────────────────────┐
-│  AppBar: "${feature_title}"            [back] │
-├──────────────────────────────────────────────┤
-│                                              │
-│  [Add screen wireframe here using ASCII]     │
-│  [box-drawing characters: ┌─┐│└┘├┤┬┴]       │
-│                                              │
-│  ┌────────────────────────────────────────┐  │
-│  │ [icon] Field Label                     │  │
-│  │ [Placeholder text...              ]    │  │
-│  └────────────────────────────────────────┘  │
-│                                              │
-│  ┌────────────────────────────────────────┐  │
-│  │         [Action Button]                │  │
-│  └────────────────────────────────────────┘  │
-│                                              │
-└──────────────────────────────────────────────┘
-\`\`\`
-
-## Components
-- Component A: Description
-- Component B: Description
-
-## States
-- Initial: Description
-- Loading: Description
-- Success: Description
-- Error: Description
-
-## Events
-- EventName → Action description
-
-## SRS Export
-- `resources/srs.sh` renders this document inside the `Screens / UI Surfaces` section.
-- Keep the wireframe fenced so spacing and box-drawing characters survive HTML export.
-EOF
-
   cat > "$tech_path" <<EOF
 # ${epic_id} Technical Design: ${feature_title}
 
@@ -144,12 +99,6 @@ EOF
 - Usecase layer for business logic.
 - Integration service for API/platform calls.
 - Unit, widget, integration, and screenshot e2e tests.
-
-## Screen Layout
-- Source: \`resources/screens/${epic_lower}-${feature_slug}-screen.md\`
-- Type: ASCII layout document with box-drawing wireframe, components, states, and events.
-- Update the wireframe to match the actual UI implementation.
-- SRS export: \`resources/srs.sh\` renders this screen under \`Screens / UI Surfaces\` in \`srs-index.html\`.
 
 ## Entry Points
 EOF
@@ -219,7 +168,6 @@ flutter test
 EOF
 
   echo "Wrote $user_story_path"
-  echo "Wrote $screen_path"
   echo "Wrote $tech_path"
 }
 
@@ -235,3 +183,4 @@ case "$command" in
     exit 1
     ;;
 esac
+

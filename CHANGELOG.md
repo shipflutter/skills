@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.0.7 - 2026-05-24
+
+### Added
+
+- Added ASCII screen layout document support to `add-feat`, including a reusable screen layout template and generated `resources/screens/epXX-<feature>-screen.md` files.
+- Added screen layout awareness to `add-srs` so SRS packages can trace user stories, technical designs, and `ASCII screen` documents together.
+- Added forgot password flow coverage to `examples/flutter-poc-auth`, including model/service support, UI, user story, technical design, screen layout, tests, and screenshots.
+
+### Changed
+
+- Updated SRS HTML generation to render `resources/screens/*.md` inside the `Screens / UI Surfaces` section while preserving ASCII wireframes.
+- Improved the Flutter auth POC e2e and SRS reports with sidebar navigation, summary counts, screenshot filtering, and cross-links between reports.
+- Expanded SRS traceability for the auth POC to cover forgot password requirements, entities, flows, and verification artifacts.
+
 ## 0.0.6 - 2026-05-23
 
 ### Added
