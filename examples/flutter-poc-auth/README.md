@@ -67,6 +67,8 @@ Run e2e:
 The script runs the auth flow headlessly, captures screenshots with `test/auth_screenshot_test.dart`, generates `e2e-index.html`, and opens the report automatically.
 
 ## Generate docs with add-feat
+Example
+- https://shipflutter.github.io/vibe/srs.html#sec-7-5
 
 From this example directory:
 
