@@ -28,4 +28,20 @@ class AuthService {
       displayName: credentials.displayName!,
     );
   }
+
+  Future<PasswordResetResult> forgotPassword(String email) async {
+    await Future<void>.delayed(const Duration(milliseconds: 300));
+    final normalizedEmail = email.trim().toLowerCase();
+    if (!_isValidEmail(normalizedEmail)) {
+      throw StateError('Enter a valid email address.');
+    }
+    return PasswordResetResult(
+      email: normalizedEmail,
+      message: 'Reset link sent to $normalizedEmail',
+    );
+  }
+
+  bool _isValidEmail(String email) {
+    return email.contains('@') && email.contains('.') && !email.contains(' ');
+  }
 }

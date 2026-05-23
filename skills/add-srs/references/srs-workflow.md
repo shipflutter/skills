@@ -4,6 +4,8 @@
 - `resources/srs.md` is the editable SRS source.
 - `srs-index.html` is generated output.
 - `resources/srs.sh` renders markdown to HTML and opens the result.
+- `resources/screens/` stores ASCII layout documents for screen-level traceability.
+- `resources/srs.sh` injects `resources/screens/*.md` into the `Screens / UI Surfaces` HTML section.
 
 ## Required SRS sections
 - Executive Summary
@@ -12,6 +14,7 @@
 - User Stories & Acceptance Criteria
 - Use Cases
 - Screens / UI Surfaces
+- ASCII Layout Documents
 - Flow Diagrams
 - State Transitions
 - Data Entities
@@ -26,4 +29,3 @@
 ```bash
 ./resources/srs.sh
 ```
-

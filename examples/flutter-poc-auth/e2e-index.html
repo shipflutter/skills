@@ -5,61 +5,107 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Flutter POC Auth E2E Report</title>
   <style>
-    body { font-family: system-ui, sans-serif; margin: 24px; color: #111827; background: #f9fafb; }
-    h1, h2 { margin-bottom: 12px; }
-    .card { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 16px; margin-bottom: 20px; box-shadow: 0 1px 2px rgba(0,0,0,.04); }
+    :root {
+      --color-primary: #FCD535;
+      --color-canvas: #ffffff;
+      --color-surface: #fafafa;
+      --color-ink: #181a20;
+      --color-muted: #707a8a;
+      --color-hairline: #eaecef;
+      --color-link: #2563eb;
+      --font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body { font-family: var(--font-body); color: var(--color-ink); background: var(--color-surface); margin: 0; padding: 0; line-height: 1.6; }
+    .layout { display: grid; grid-template-columns: 280px 1fr; min-height: 100vh; }
+    aside { position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto; background: var(--color-canvas); border-right: 1px solid var(--color-hairline); padding: 24px 16px; }
+    aside h2 { font-size: 14px; text-transform: uppercase; color: var(--color-muted); margin: 0 0 12px; letter-spacing: .03em; border: 0; padding: 0; }
+    aside .meta { color: var(--color-muted); font-size: 13px; margin-bottom: 24px; }
+    aside nav ol, aside nav ul { list-style: none; padding: 0; margin: 0; }
+    aside nav .toc-h2 > a { font-weight: 600; font-size: 13px; color: var(--color-ink); display: block; padding: 6px 10px; border-radius: 6px; text-decoration: none; }
+    aside nav .toc-h2 > a:hover { background: var(--color-surface); }
+    main { padding: 40px 60px; max-width: 1280px; }
+    h1 { font-size: 32px; border-bottom: 2px solid var(--color-ink); padding-bottom: 12px; margin: 0 0 24px; }
+    h2 { margin: 0 0 12px; font-size: 20px; }
+    .card { background: var(--color-canvas); border: 1px solid var(--color-hairline); border-radius: 8px; padding: 16px; margin-bottom: 20px; box-shadow: 0 1px 2px rgba(0,0,0,.04); }
     ul { margin: 0; padding-left: 20px; }
     li { margin: 6px 0; }
-    .grid { display: grid; grid-template-columns: repeat(6, calc((100vw - 48px - 80px) / 6)); gap: 16px; overflow-x: auto; }
-    figure { margin: 0; width: calc((100vw - 48px - 80px) / 6); }
-    img { width: 100%; height: auto; border: 1px solid #d1d5db; border-radius: 10px; background: #fff; }
-    figcaption { margin-top: 8px; font-size: 14px; color: #374151; word-break: break-word; }
-    .story { display: block; margin-top: 4px; color: #6b7280; font-size: 12px; }
+    .grid { display: grid; grid-template-columns: repeat(6, minmax(160px, 1fr)); gap: 16px; }
+    figure { margin: 0; }
+    img { width: 100%; height: auto; border: 1px solid var(--color-hairline); border-radius: 8px; background: #fff; }
+    figcaption { margin-top: 8px; font-size: 14px; color: var(--color-muted); word-break: break-word; }
+    .story { display: block; margin-top: 4px; color: var(--color-muted); font-size: 12px; }
     .filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 16px; }
-    .filter-button { border: 1px solid #d1d5db; border-radius: 999px; background: #fff; color: #374151; cursor: pointer; padding: 6px 12px; }
-    .filter-button.active { background: #2563eb; border-color: #2563eb; color: #fff; }
+    .filter-button { border: 1px solid var(--color-hairline); border-radius: 999px; background: var(--color-canvas); color: var(--color-muted); cursor: pointer; padding: 6px 12px; font-size: 13px; }
+    .filter-button.active { background: var(--color-primary); border-color: var(--color-primary); color: var(--color-ink); }
     .hidden { display: none; }
     .pass { color: #15803d; font-weight: 600; }
     .fail { color: #dc2626; font-weight: 600; }
-    .summary { margin-bottom: 20px; }
     .summary-stats { display: flex; gap: 24px; }
     .stat-number { font-size: 24px; font-weight: 700; }
+    @media (max-width: 900px) {
+      .layout { grid-template-columns: 1fr; }
+      aside { position: static; height: auto; border-right: none; border-bottom: 1px solid var(--color-hairline); }
+      main { padding: 24px; }
+      .grid { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+    }
   </style>
 </head>
 <body>
-  <h1>Flutter POC Auth E2E Report</h1>
-  <div class="card summary">
-    <h2>Test Summary</h2>
-    <div class="summary-stats">
-      <div class="stat">
-        <div class="stat-number" style="color: #15803d;">5</div>
-        <div>Passed</div>
+  <div class="layout">
+    <aside>
+      <h2>Flutter POC Auth</h2>
+      <div class="meta">E2E Report</div>
+      <nav aria-label="Report navigation">
+        <ol>
+          <li class="toc-h2"><a href="srs-index.html">SRS Index</a></li>
+          <li class="toc-h2"><a href="#summary">Test Summary</a></li>
+          <li class="toc-h2"><a href="#passed-steps">Passed Steps</a></li>
+          <li class="toc-h2"><a href="#failed-steps">Failed Steps</a></li>
+          <li class="toc-h2"><a href="#screenshots">Screenshots</a></li>
+        </ol>
+      </nav>
+    </aside>
+    <main>
+      <h1>Flutter POC Auth E2E Report</h1>
+      <div class="card" id="summary">
+        <h2>Test Summary</h2>
+        <div class="summary-stats">
+          <div class="stat">
+            <div class="stat-number" style="color: #15803d;">6</div>
+            <div>Passed</div>
+          </div>
+          <div class="stat">
+            <div class="stat-number" style="color: #dc2626;">0</div>
+            <div>Failed</div>
+          </div>
+        </div>
       </div>
-      <div class="stat">
-        <div class="stat-number" style="color: #dc2626;">0</div>
-        <div>Failed</div>
+      <div class="card" id="passed-steps">
+        <h2>Passed Steps</h2>
+        <ul>
+          <li class="pass">✓ Dart format</li>
+          <li class="pass">✓ Flutter analyze</li>
+          <li class="pass">✓ Flutter unit tests</li>
+          <li class="pass">✓ Auth sign-in and sign-up flow</li>
+          <li class="pass">✓ Auth screenshot capture</li>
+          <li class="pass">✓ Forgot password screenshot capture</li>
+        </ul>
       </div>
-    </div>
-  </div>
-    <div class="card">
-      <h2>Passed Steps</h2>
-      <ul>
-        <li class="pass">✓ Dart format</li>
-        <li class="pass">✓ Flutter analyze</li>
-        <li class="pass">✓ Flutter unit tests</li>
-        <li class="pass">✓ Auth sign-in and sign-up flow</li>
-        <li class="pass">✓ Auth screenshot capture</li>
-      </ul>
-    </div>
-  <div class="card">
-    <h2>Screenshots</h2>
-    <div class="filters" aria-label="Screenshot user-story filters">
-      <button class="filter-button active" type="button" data-filter="all">All</button>
-      <button class="filter-button" type="button" data-filter="ep01-auth">EP01 Auth</button>
-    </div>
-    <div class="grid" id="screenshots-grid">
-      <figure data-story="ep01-auth"><img src="screenshots/ep01-auth-sign-in-form.png" alt="ep01-auth-sign-in-form.png" /><figcaption>ep01-auth-sign-in-form.png<span class="story">EP01 Auth</span></figcaption></figure>
-    </div>
+      <div class="card" id="screenshots">
+        <h2>Screenshots</h2>
+        <div class="filters" aria-label="Screenshot filters">
+          <button class="filter-button active" type="button" data-filter="all">All</button>
+          <button class="filter-button" type="button" data-filter="ep01-auth">EP01 Auth</button>
+          <button class="filter-button" type="button" data-filter="ep02-forgot-password">EP02 Forgot Password</button>
+        </div>
+        <div class="grid" id="screenshots-grid">
+          <figure data-story="ep01-auth"><img src="screenshots/ep01-auth-sign-in-form.png" alt="ep01-auth-sign-in-form.png" /><figcaption>ep01-auth-sign-in-form.png<span class="story">EP01 Auth</span></figcaption></figure>
+          <figure data-story="ep02-forgot-password"><img src="screenshots/ep02-forgot-password-form.png" alt="ep02-forgot-password-form.png" /><figcaption>ep02-forgot-password-form.png<span class="story">EP02 Forgot Password</span></figcaption></figure>
+          <figure data-story="ep02-forgot-password"><img src="screenshots/ep02-forgot-password-success.png" alt="ep02-forgot-password-success.png" /><figcaption>ep02-forgot-password-success.png<span class="story">EP02 Forgot Password</span></figcaption></figure>
+        </div>
+      </div>
+    </main>
   </div>
   <script>
     document.querySelectorAll('.filter-button').forEach((button) => {
