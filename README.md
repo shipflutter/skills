@@ -2,6 +2,10 @@
 
 Flutter testing skills for AI coding agents.
 
+Show case E2E and SRS report:
+- https://shipflutter.github.io/vibe/e2e.html
+- https://shipflutter.github.io/vibe/srs.html
+
 ## npm package
 
 Run the package CLI:
