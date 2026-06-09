@@ -1,0 +1,4 @@
+interface:
+  display_name: "App Distribution"
+  short_description: "Deploy Flutter apps to TestFlight, Firebase, and Play Store"
+  default_prompt: "Use $app-dist to deploy the Flutter app to iOS TestFlight and Android internal testing"
