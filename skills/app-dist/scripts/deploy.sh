@@ -79,6 +79,12 @@ else
   exit 1
 fi
 
+# ── Build log ────────────────────────────────────────────────────────────────
+LOG_DIR="$PROJECT_ROOT/.deploy_logs"
+mkdir -p "$LOG_DIR"
+LOG_FILE="$LOG_DIR/build_$(date '+%Y-%m-%d_%H-%M-%S').log"
+echo -e "${CYAN}Build log: ${LOG_FILE}${NC}"
+
 # ── Validate required vars ──────────────────────────────────────────────────
 REQUIRED_VARS=(APPLE_API_KEY_ID ISSUER_ID APPLE_API_PRIVATE_KEY
                TEAM_ID BUNDLE_ID
@@ -158,14 +164,22 @@ if $DEPLOY_IOS; then
   patch_xcode_signing() {
     local pbxproj="$IOS_DIR/Runner.xcodeproj/project.pbxproj"
     cp "$pbxproj" "$pbxproj.bak"
+    # Force manual signing for all targets
     sed -i '' 's/CODE_SIGN_STYLE = Automatic;/CODE_SIGN_STYLE = Manual;/g' "$pbxproj"
-    sed -i '' "s/DEVELOPMENT_TEAM = [A-Z0-9]\{1,\};/DEVELOPMENT_TEAM = $TEAM_ID;/g" "$pbxproj"
+    # Set team ID
+    sed -i '' "s/DEVELOPMENT_TEAM = [A-Za-z0-9]*;/DEVELOPMENT_TEAM = ${TEAM_ID};/g" "$pbxproj"
+    # Replace existing provisioning profile specifier values (fix stale entries from previous failed builds)
+    sed -i '' 's/PROVISIONING_PROFILE_SPECIFIER = "[^"]*";/PROVISIONING_PROFILE_SPECIFIER = "'"${PROVISIONING_PROFILE_NAME}"'";/g' "$pbxproj"
+    sed -i '' 's/"PROVISIONING_PROFILE_SPECIFIER\[sdk=iphoneos\*\]" = [^;]*;/"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = '"${PROVISIONING_PROFILE_NAME}"';/g' "$pbxproj"
+    # If no specifier exists yet (clean pbxproj), add after each bundle id line
     if ! grep -q "PROVISIONING_PROFILE_SPECIFIER" "$pbxproj"; then
-      sed -i '' "s/PRODUCT_BUNDLE_IDENTIFIER = $BUNDLE_ID;/PRODUCT_BUNDLE_IDENTIFIER = $BUNDLE_ID;\\n\\t\\t\\t\\tPROVISIONING_PROFILE_SPECIFIER = \\"$PROVISIONING_PROFILE_NAME\\";/g" "$pbxproj"
+      sed -i '' "s/PRODUCT_BUNDLE_IDENTIFIER = ${BUNDLE_ID};/PRODUCT_BUNDLE_IDENTIFIER = ${BUNDLE_ID};\\n\\t\\t\\t\\tPROVISIONING_PROFILE_SPECIFIER = \\"${PROVISIONING_PROFILE_NAME}\\";/g" "$pbxproj"
     fi
+    # Set code sign identity to Apple Distribution
     sed -i '' 's/"CODE_SIGN_IDENTITY\[sdk=iphoneos\*\]" = "iPhone Developer";/"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Distribution";/g' "$pbxproj"
-    ok "Xcode project patched (team: $TEAM_ID)"
+    ok "Xcode project patched (team: ${TEAM_ID}, profile: ${PROVISIONING_PROFILE_NAME})"
   }
+
   restore_xcode_signing() {
     local pbxproj="$IOS_DIR/Runner.xcodeproj/project.pbxproj"
     [[ -f "$pbxproj.bak" ]] && mv "$pbxproj.bak" "$pbxproj"
@@ -214,30 +228,26 @@ KEYEOF
   info "Running: flutter build apk --release"
   echo "         ───────────────────────────────────────────────"
 
-  BUILD_LOG=$(mktemp)
   set +e
   flutter build apk --release \
       --build-name="$VERSION" \
       --build-number="$BUILD_NO" \
-      > "$BUILD_LOG" 2>&1
-  APK_EXIT=$?
+      2>&1 | tee -a "$LOG_FILE"
+  APK_EXIT=${PIPESTATUS[0]}
   set -e
-  tail -30 "$BUILD_LOG"
 
   if [[ $APK_EXIT -eq 0 ]]; then
     ok "APK build succeeded"
   else
     fail "APK build FAILED (exit: $APK_EXIT)"
-    tail -30 "$BUILD_LOG"
-    rm -f "$BUILD_LOG"
-    exit $APK_EXIT
+    echo -e "         Full log: ${LOG_FILE}"
+    on_telegram_error
   fi
-  rm -f "$BUILD_LOG"
 
   APK_FILE=$(find "$PROJECT_ROOT/$ANDROID_APK_DIR" -name "app-release.apk" -type f 2>/dev/null | head -1)
   if [[ -z "$APK_FILE" ]]; then
     fail "APK not found in $ANDROID_APK_DIR"
-    exit 1
+    on_telegram_error
   fi
   ok "APK: $(basename "$APK_FILE") ($(du -h "$APK_FILE" | cut -f1))"
 
@@ -281,13 +291,13 @@ KEYEOF
   else
     # Build AAB for Play Store
     info "Building Android App Bundle..."
-    AAB_LOG=$(mktemp)
     set +e
-    flutter build appbundle --release         --build-name="$VERSION"         --build-number="$BUILD_NO"         > "$AAB_LOG" 2>&1
-    AAB_EXIT=$?
+    flutter build appbundle --release \
+        --build-name="$VERSION" \
+        --build-number="$BUILD_NO" \
+        2>&1 | tee -a "$LOG_FILE"
+    AAB_EXIT=${PIPESTATUS[0]}
     set -e
-    tail -10 "$AAB_LOG"
-    rm -f "$AAB_LOG"
 
     if [[ $AAB_EXIT -ne 0 ]]; then
       fail "AAB build FAILED"
@@ -295,6 +305,7 @@ KEYEOF
       AAB_FILE=$(find "$PROJECT_ROOT/build/app/outputs/bundle/release" -name "app-release.aab" -type f 2>/dev/null | head -1)
       if [[ -z "$AAB_FILE" ]]; then
         fail "AAB not found"
+        on_telegram_error
       else
         ok "AAB: $(basename "$AAB_FILE") ($(du -h "$AAB_FILE" | cut -f1))"
 
@@ -341,7 +352,8 @@ if $DEPLOY_IOS; then
   if ! security import "$P12_FILE" -k "$TEMP_KEYCHAIN_NAME" -P "$P12_PASSWORD" -T /usr/bin/codesign -T /usr/bin/security -T /usr/bin/xcodebuild 2>/tmp/p12_error.log; then
     fail "P12 import failed. Wrong password?"
     cat /tmp/p12_error.log
-    exit 1
+    cat /tmp/p12_error.log >> "$LOG_FILE"
+    on_telegram_error
   fi
   ok "P12 certificate imported"
 
@@ -351,7 +363,13 @@ if $DEPLOY_IOS; then
   PROFILE_DEST="${PROFILE_DEST:-$HOME/Library/MobileDevice/Provisioning Profiles}"
   mkdir -p "$PROFILE_DEST"
   cp "$PROFILE_FILE" "$PROFILE_DEST/ShipFlutterAppstore.mobileprovision"
-  ok "Provisioning profile installed"
+  PROFILE_UUID=$(security cms -D -i "$PROFILE_FILE" 2>/dev/null | plutil -p - 2>/dev/null | grep '"UUID"' | grep -oE '[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}' | head -1)
+  if [ -n "$PROFILE_UUID" ]; then
+    cp "$PROFILE_FILE" "$PROFILE_DEST/${PROFILE_UUID}.mobileprovision"
+    ok "Provisioning profile installed (UUID: $PROFILE_UUID)"
+  else
+    ok "Provisioning profile installed"
+  fi
 
   # ── iOS Step 2: Build ─────────────────────────────────────────────────────
   CURRENT_STEP=$((CURRENT_STEP + 1))
@@ -361,27 +379,24 @@ if $DEPLOY_IOS; then
   patch_xcode_signing
 
   flutter clean >/dev/null 2>&1 || true
+  mkdir -p "$LOG_DIR" 2>/dev/null || true
 
-  BUILD_LOG=$(mktemp)
   set +e
   flutter build ipa --release \
       --build-name="$VERSION" \
       --build-number="$BUILD_NO" \
-      > "$BUILD_LOG" 2>&1
-  IOS_EXIT=$?
+      2>&1 | tee -a "$LOG_FILE"
+  IOS_EXIT=${PIPESTATUS[0]}
   set -e
-  tail -30 "$BUILD_LOG"
 
   if [[ $IOS_EXIT -eq 0 ]]; then
     restore_xcode_signing
     ok "Build succeeded"
-    rm -f "$BUILD_LOG"
   else
     restore_xcode_signing
     fail "Build FAILED (exit: $IOS_EXIT)"
-    tail -30 "$BUILD_LOG"
-    rm -f "$BUILD_LOG"
-    exit $IOS_EXIT
+    echo -e "         Full log: ${LOG_FILE}"
+    on_telegram_error
   fi
 
   # ── iOS Step 3: Export IPA ────────────────────────────────────────────────
@@ -421,30 +436,26 @@ PLIST
   export CODE_SIGN_KEYCHAIN="$TEMP_KEYCHAIN_NAME"
   info "Exporting archive..."
 
-  EXPORT_LOG=$(mktemp)
   set +e
   xcodebuild -exportArchive \
       -archivePath "$ARCHIVE_PATH" \
       -exportPath "$EXPORT_PATH" \
       -exportOptionsPlist "$EXPORT_OPTIONS" \
       -allowProvisioningUpdates \
-      > "$EXPORT_LOG" 2>&1
-  EXPORT_EXIT=$?
+      2>&1 | tee -a "$LOG_FILE"
+  EXPORT_EXIT=${PIPESTATUS[0]}
   set -e
-  tail -10 "$EXPORT_LOG"
 
   if [[ $EXPORT_EXIT -eq 0 ]]; then
     ok "Export succeeded"
-    rm -f "$EXPORT_LOG"
   else
     fail "Export FAILED (exit: $EXPORT_EXIT)"
-    tail -10 "$EXPORT_LOG"
-    rm -f "$EXPORT_LOG"
-    exit $EXPORT_EXIT
+    echo -e "         Full log: ${LOG_FILE}"
+    on_telegram_error
   fi
 
   IPA_FILE=$(find "$EXPORT_PATH" -name "*.ipa" -type f 2>/dev/null | head -1)
-  [[ -z "$IPA_FILE" ]] && { fail "No .ipa found"; exit 1; }
+  [[ -z "$IPA_FILE" ]] && { fail "No .ipa found"; on_telegram_error; }
   ok "IPA: $(basename "$IPA_FILE") ($(du -h "$IPA_FILE" | cut -f1))"
 
   # ── iOS Step 4: Upload to TestFlight ──────────────────────────────────────
@@ -479,10 +490,12 @@ PLIST
   if [[ $UPLOAD_EXIT -eq 0 ]]; then
     ok "Upload successful"
     echo -e "${GREEN}$UPLOAD_OUTPUT${NC}" | tail -8
+    echo "$UPLOAD_OUTPUT" >> "$LOG_FILE"
   else
     fail "Upload FAILED"
     echo -e "${RED}$UPLOAD_OUTPUT${NC}" | tail -10
-    exit $UPLOAD_EXIT
+    echo "$UPLOAD_OUTPUT" >> "$LOG_FILE"
+    on_telegram_error
   fi
 fi
 
@@ -490,6 +503,8 @@ fi
 elapsed="${SECONDS}s total"
 notify_build_finish "true" "ShipFlutter" "v${VERSION}+${BUILD_NO}" "$PLATFORM"
 trap - ERR
+echo ""
+echo -e "${GREEN}Log saved: ${LOG_FILE}${NC}"
 
 echo ""
 echo -e "  ${GREEN}┌──────────────────────────────────────────────────────────────┐${NC}"
