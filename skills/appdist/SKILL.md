@@ -1,5 +1,5 @@
 ---
-name: app-dist
+name: appdist
 description: Automated CI/CD deploy pipeline for Flutter mobile apps — iOS TestFlight, Android Firebase App Distribution, and Google Play Store internal testing. Use when setting up or running multi-platform app distribution, configuring signing assets (.app_dist/), generating GitHub Secrets for CI/CD, setting up GitHub Actions auto-deploy on push, sending Telegram build notifications, or troubleshooting deploy failures for iOS/Android Flutter apps.
 ---
 
