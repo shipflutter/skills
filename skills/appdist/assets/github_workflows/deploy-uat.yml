@@ -1,0 +1,162 @@
+name: Deploy UAT to TestFlight + Firebase + Play Store
+
+on:
+  push:
+    branches:
+      - uat
+  workflow_dispatch:
+    inputs:
+      platform:
+        description: 'Deploy target'
+        required: true
+        type: choice
+        options:
+          - all
+          - ios
+          - android
+        default: 'all'
+
+concurrency:
+  group: deploy-uat-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  # ── iOS ──────────────────────────────────────────────────────────────────
+  deploy-ios:
+    name: iOS → TestFlight
+    runs-on: macos-15
+    timeout-minutes: 90
+    if: github.event.inputs.platform == 'ios' || github.event.inputs.platform == 'all' || github.event_name == 'push'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.41.9'
+          channel: 'stable'
+
+      - name: Show versions
+        run: |
+          flutter --version
+          xcodebuild -version
+
+      - name: Decode signing assets
+        env:
+          P12_B64: ${{ secrets.APP_DIST_P12_B64 }}
+          PROFILE_B64: ${{ secrets.APP_DIST_PROFILE_B64 }}
+          WWDR_B64: ${{ secrets.APP_DIST_WWDR_B64 }}
+        run: |
+          mkdir -p .app_dist
+          echo "$P12_B64" | base64 -d > .app_dist/ship_flutter_cert_123123.p12
+          echo "$PROFILE_B64" | base64 -d > .app_dist/ShipFlutterAppstore.mobileprovision
+          echo "$WWDR_B64" | base64 -d > .app_dist/AppleWWDRCAG3.cer
+
+      - name: Create .env.prod
+        run: |
+          cat > .env.prod << 'ENVEOF'
+          APPLE_API_KEY_ID=${{ secrets.APPLE_API_KEY_ID }}
+          ISSUER_ID=${{ secrets.ISSUER_ID }}
+          APPLE_API_PRIVATE_KEY=${{ secrets.APPLE_API_PRIVATE_KEY }}
+          TEAM_ID=${{ vars.TEAM_ID || '86PC33ZDHF' }}
+          BUNDLE_ID=${{ vars.BUNDLE_ID || 'app.shipflutter.mobile' }}
+          P12_FILE=.app_dist/ship_flutter_cert_123123.p12
+          P12_PASSWORD=${{ secrets.P12_PASSWORD }}
+          PROFILE_FILE=.app_dist/ShipFlutterAppstore.mobileprovision
+          WWDR_CERT=.app_dist/AppleWWDRCAG3.cer
+          PROVISIONING_PROFILE_NAME=ShipFlutterAppstore
+          TEMP_KEYCHAIN_NAME=shipflutter-build.keychain
+          TEMP_KEYCHAIN_PASS=tempbuild123
+          KEYCHAIN_UNLOCK_PASS=ci-build
+          ARCHIVE_DIR=build/ios/archive
+          EXPORT_DIR=build/ios/ipa
+          TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID=${{ secrets.TELEGRAM_CHAT_ID }}
+          TELEGRAM_DISABLE_NOTIFICATION=false
+          ENVEOF
+
+      - name: Validate scripts
+        run: bash -n deploy.sh && bash -n scripts/telegram.sh
+
+      - name: Deploy iOS to TestFlight
+        run: bash deploy.sh ios
+
+  # ── Android ──────────────────────────────────────────────────────────────
+  deploy-android:
+    name: Android → Firebase + Play Store (internal)
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    if: github.event.inputs.platform == 'android' || github.event.inputs.platform == 'all' || github.event_name == 'push'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.41.9'
+          channel: 'stable'
+
+      - name: Show versions
+        run: |
+          flutter --version
+          java -version
+
+      - name: Decode keystore
+        run: |
+          mkdir -p .app_dist
+          echo "${{ secrets.ANDROID_KEYSTORE_B64 }}" | base64 -d > .app_dist/shipflutter.jks
+
+      - name: Decode Play Store service account JSON
+        env:
+          PLAYSTORE_SA_B64: ${{ secrets.PLAYSTORE_SERVICE_ACCOUNT_JSON_B64 }}
+        run: |
+          echo "$PLAYSTORE_SA_B64" | base64 -d > .app_dist/playstore-service-account.json
+
+      - name: Create .env.prod
+        run: |
+          cat > .env.prod << 'ENVEOF'
+          ANDROID_KEYSTORE_FILE=.app_dist/shipflutter.jks
+          ANDROID_KEYSTORE_PASSWORD=${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS=${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD=${{ secrets.ANDROID_KEY_PASSWORD }}
+          BUNDLE_ID=${{ vars.BUNDLE_ID || 'app.shipflutter.mobile' }}
+          APP_DIST=.app_dist
+          FIREBASE_APP_ID=${{ secrets.FIREBASE_APP_ID }}
+          FIREBASE_TOKEN=${{ secrets.FIREBASE_TOKEN }}
+          FIREBASE_GROUPS=${{ vars.FIREBASE_GROUPS || 'developer' }}
+          PLAYSTORE_SERVICE_ACCOUNT_JSON=.app_dist/playstore-service-account.json
+          PLAYSTORE_PACKAGE_NAME=${{ vars.PLAYSTORE_PACKAGE_NAME || 'app.shipflutter.mobile' }}
+          PLAYSTORE_TRACK=${{ vars.PLAYSTORE_TRACK || 'internal' }}
+          TEMP_KEYCHAIN_NAME=shipflutter-build.keychain
+          TEMP_KEYCHAIN_PASS=tempbuild123
+          ANDROID_APK_DIR=build/app/outputs/flutter-apk
+          TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID=${{ secrets.TELEGRAM_CHAT_ID }}
+          TELEGRAM_DISABLE_NOTIFICATION=false
+          APPLE_API_KEY_ID=dummy
+          ISSUER_ID=dummy
+          APPLE_API_PRIVATE_KEY=dummy
+          TEAM_ID=dummy
+          ENVEOF
+
+      - name: Validate scripts
+        run: bash -n deploy.sh
+
+      - name: Install Firebase CLI
+        run: npm install -g firebase-tools
+
+      - name: Install Python deps for Play Store upload
+        run: pip3 install --quiet google-auth google-api-python-client
+
+      - name: Deploy Android to Firebase + Play Store
+        run: bash deploy.sh android
