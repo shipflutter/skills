@@ -38,4 +38,34 @@ void main() {
     expect(find.text('Email: new@shipflutter.dev'), findsOneWidget);
     expect(find.text('Name: New User'), findsOneWidget);
   });
+
+  testWidgets('forgot password flow renders success state', (tester) async {
+    await tester.pumpWidget(const AuthPocApp());
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Forgot password?'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Reset your password'), findsOneWidget);
+    expect(find.text('Send Reset Link'), findsOneWidget);
+
+    await tester.enterText(
+      find.widgetWithText(TextField, 'Email'),
+      'reset@shipflutter.dev',
+    );
+    await tester.tap(find.text('Send Reset Link'));
+    await tester.pump();
+    await tester.pumpAndSettle(const Duration(seconds: 1));
+
+    expect(
+      find.text('Reset link sent to reset@shipflutter.dev'),
+      findsOneWidget,
+    );
+
+    await tester.tap(find.text('Remember your password? Sign in'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Flutter POC Auth'), findsOneWidget);
+    expect(find.text('Forgot password?'), findsOneWidget);
+  });
 }

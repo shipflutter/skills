@@ -1,6 +1,6 @@
 ---
 name: add-feat
-description: Create a new feature package from repo conventions by writing user-story docs, technical design docs, implementation notes, and test/e2e scaffolding. Use when the user wants to add a feature template or expand a feature using the repo's user-story and technical-design structure.
+description: Create a new feature package from repo conventions by writing user-story docs, technical design docs, ASCII layout screen documents under resources/screens, implementation notes, and test/e2e scaffolding. Use when the user wants to add a feature template or expand a feature using the repo's user-story, technical-design, and screen-layout structure.
 ---
 
 # Add Feature Skill
@@ -11,6 +11,7 @@ Use this skill to bootstrap a new feature package in this repository.
 - `resources/implement_feat_readme.md` when present in the target app.
 - `resources/user-story/` for `EPXX.US###` requirements.
 - `resources/technial-design/` for `epXX-<feature>.md` technical design.
+- `resources/screens/` for ASCII layout screen documents.
 - `skills/add-feat/assets/templates/` for reusable templates.
 
 ## Workflow
@@ -18,6 +19,7 @@ Use this skill to bootstrap a new feature package in this repository.
 2. Mirror the repo structure:
    - user-story docs in `resources/user-story/`
    - technical design docs in `resources/technial-design/`
+   - ASCII layout screen docs in `resources/screens/`
    - implementation in `lib/presentation/`
    - integration in `lib/integration/`
    - unit/widget tests in `test/`
@@ -29,6 +31,7 @@ Use this skill to bootstrap a new feature package in this repository.
    - a feature brief
    - user-story markdown
    - technical-design markdown
+   - screen layout markdown using `assets/templates/screen-layout-template.md`
    - implementation plan for UI -> bloc -> usecase -> repository/service
    - unit tests for service/usecase behavior
    - widget tests for rendering and validation
@@ -44,6 +47,9 @@ Use this skill to bootstrap a new feature package in this repository.
 ## Required conventions
 - Keep user stories in the form `EPXX.US###`.
 - Keep technical design files in the form `epXX-<feature>.md`.
+- Keep screen layout files in the form `epXX-<feature>-screen.md` under `resources/screens/`.
+- Use ASCII layout documents for screens: box-drawing wireframes plus component and event lists.
+- Keep screen layout docs compatible with `resources/srs.sh`: first heading is the screen name, wireframe lives in a fenced code block, and Components/States/Events use markdown lists.
 - Include explicit flow steps and entities in the technical design.
 - Include unit, widget, integration, and driver/screenshot test coverage before marking implementation complete.
 - Include screenshot e2e runner names based on the user-story id or epic id.
@@ -59,6 +65,7 @@ Use the bundled sign-in template when the feature calls an API:
 - `scripts/add_feat.sh gen-tdd <feature-slug> [EPXX]`
 - Scans `lib/presentation/<feature-slug>` when it exists and records discovered Dart entry points.
 - Creates `resources/user-story/epXX-<feature-slug>.md`.
+- Creates `resources/screens/epXX-<feature-slug>-screen.md`.
 - Creates `resources/technial-design/epXX-<feature-slug>.md`.
 - Use the generated docs as the source for `add-srs` traceability.
 

@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+if [ -z "${BASH_VERSION:-}" ]; then
+  exec bash "$0" "$@"
+fi
 set -euo pipefail
 
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -26,6 +29,7 @@ slugify() {
 }
 
 render_markdown() {
+  local markdown_file="$1"
   local in_code=0
   local code_lang=""
   local in_ul=0
@@ -78,7 +82,7 @@ render_markdown() {
 
     if [[ "$line" =~ ^\|.*\|$ ]]; then
       close_lists
-      if [[ "$line" =~ ^\|[[:space:]-|:]+\|$ ]]; then
+      if [[ -z "$(printf '%s' "$line" | tr -d ' |:-')" ]]; then
         continue
       fi
       if [[ $in_table -eq 0 ]]; then
@@ -113,6 +117,11 @@ render_markdown() {
       text="${BASH_REMATCH[1]}"
       id="$(slugify "$text")"
       printf '<h3 id="%s">%s</h3>\n' "$id" "$(printf '%s' "$text" | html_escape | inline_md)"
+    elif [[ "$line" =~ ^####[[:space:]]+(.+)$ ]]; then
+      close_lists
+      text="${BASH_REMATCH[1]}"
+      id="$(slugify "$text")"
+      printf '<h4 id="%s">%s</h4>\n' "$id" "$(printf '%s' "$text" | html_escape | inline_md)"
     elif [[ "$line" =~ ^-[[:space:]]+(.+)$ ]]; then
       if [[ $in_ul -eq 0 ]]; then close_lists; echo '<ul>'; in_ul=1; fi
       printf '<li>%s</li>\n' "$(printf '%s' "${BASH_REMATCH[1]}" | html_escape | inline_md)"
@@ -126,14 +135,50 @@ render_markdown() {
       close_lists
       printf '<p>%s</p>\n' "$(printf '%s' "$line" | html_escape | inline_md)"
     fi
-  done < "$source_file"
+  done < "$markdown_file"
 
   close_lists
   close_table
 }
 
+append_screen_documents() {
+  local screens_dir="$script_dir/screens"
+  [[ -d "$screens_dir" ]] || return 0
+
+  find "$screens_dir" -maxdepth 1 -type f -name '*.md' | sort | while IFS= read -r screen_file; do
+    local screen_name
+    screen_name="$(sed -n 's/^# //p' "$screen_file" | head -n 1)"
+    if [[ -z "$screen_name" ]]; then
+      screen_name="$(basename "$screen_file" .md)"
+    fi
+
+    printf '\n### %s\n\n' "$screen_name"
+    printf 'Source: `%s`\n\n' "resources/screens/$(basename "$screen_file")"
+    sed '1{/^# /d;}' "$screen_file" | sed -E 's/^(#{2,5})[[:space:]]+/##\1 /'
+    printf '\n'
+  done
+}
+
+enriched_source_file="$(mktemp)"
+in_screens_section=0
+screen_documents_inserted=0
+while IFS= read -r line || [[ -n "$line" ]]; do
+  if [[ $in_screens_section -eq 1 && $screen_documents_inserted -eq 0 && "$line" =~ ^##[[:space:]]+ ]]; then
+    append_screen_documents >> "$enriched_source_file"
+    screen_documents_inserted=1
+    in_screens_section=0
+  fi
+  printf '%s\n' "$line" >> "$enriched_source_file"
+  if [[ "$line" =~ ^##[[:space:]]+([0-9]+\.[[:space:]]+)?Screens[[:space:]]*/[[:space:]]*UI[[:space:]]+Surfaces ]]; then
+    in_screens_section=1
+  fi
+done < "$source_file"
+if [[ $in_screens_section -eq 1 && $screen_documents_inserted -eq 0 ]]; then
+  append_screen_documents >> "$enriched_source_file"
+fi
+
 content_file="$(mktemp)"
-render_markdown > "$content_file"
+render_markdown "$enriched_source_file" > "$content_file"
 
 {
   cat <<'HTML'
@@ -259,7 +304,7 @@ HTML
 HTML
 } > "$output_file"
 
-rm -f "$content_file"
+rm -f "$content_file" "$enriched_source_file"
 
 echo "Generated $output_file"
 

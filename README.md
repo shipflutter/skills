@@ -2,6 +2,10 @@
 
 Flutter testing skills for AI coding agents.
 
+Show case E2E and SRS report:
+- https://shipflutter.github.io/vibe/e2e.html
+- https://shipflutter.github.io/vibe/srs.html
+
 ## npm package
 
 Run the package CLI:
@@ -47,6 +51,7 @@ npx skills add shipflutter/skills --skill add-feat -a claude-code --copy
 npx skills add shipflutter/skills --skill add-srs -a claude-code --copy
 npx skills add shipflutter/skills --skill flutter-integration-test -a claude-code --copy
 npx skills add shipflutter/skills --skill flutter-driver-screenshot-test -a claude-code --copy
+npx skills add shipflutter/skills --skill appdist -a claude-code --copy
 npx skills add shipflutter/skills --skill flutter-unit-test-coverage -a claude-code --copy
 npx skills add shipflutter/skills --skill privacy-safe-device-referral-attributes -a claude-code --copy
 ```
@@ -57,6 +62,7 @@ npx skills add shipflutter/skills --skill privacy-safe-device-referral-attribute
 |---|---|---|
 | [`add-feat`](skills/add-feat/SKILL.md) | Creates feature user-story and technical-design docs, including `gen-tdd` source scanning. | `Run add-feat gen-tdd auth EP01 and create the feature docs.` |
 | [`add-srs`](skills/add-srs/SKILL.md) | Generates or updates SRS packages from user-story and technical-design docs. | `Generate the SRS from the current user-story and technical-design docs.` |
+| [`appdist`](skills/appdist/SKILL.md) | Automated CI/CD deploy pipeline — iOS TestFlight, Android Firebase App Distribution, and Google Play Store internal testing with Telegram notifications. | `Use $appdist to set up deploy pipeline for iOS and Android.` |
 | [`flutter-integration-test`](skills/flutter-integration-test/SKILL.md) | Adds Flutter `integration_test` coverage that runs on emulator/simulator without saving screenshot images. | `Add Flutter integration tests for the main app flow without saving screenshots.` |
 | [`flutter-driver-screenshot-test`](skills/flutter-driver-screenshot-test/SKILL.md) | Adds Flutter driver screenshot tests that save PNG files through the host driver process. | `Add e2e screenshot tests for the main screens and save PNG files to screenshots/.` |
 | [`flutter-unit-test-coverage`](skills/flutter-unit-test-coverage/SKILL.md) | Adds Flutter unit/widget coverage reporting with `flutter test --coverage` and optional HTML reports. | `Add a run_test.sh script that generates Flutter unit test coverage and an HTML report.` |
@@ -73,6 +79,24 @@ skills/
 │   └── scripts/add_feat.sh
 ├── add-srs/
 │   └── SKILL.md
+├── appdist/
+│   ├── SKILL.md
+│   ├── agents/openai.yaml
+│   ├── scripts/
+│   │   ├── deploy.sh
+│   │   ├── prod.sh
+│   │   ├── prepare.sh
+│   │   ├── telegram.sh
+│   │   └── upload-playstore.py
+│   ├── assets/
+│   │   ├── .env.example
+│   │   ├── app_dist_template/
+│   │   │   └── README.md
+│   │   └── github_workflows/
+│   │       └── deploy-uat.yml
+│   └── references/
+│       ├── EP01.US001.md
+│       └── ep01-shipflutter-deploy.md
 ├── flutter-integration-test/
 │   ├── SKILL.md
 │   └── scripts/

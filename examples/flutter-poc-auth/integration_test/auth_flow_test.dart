@@ -40,5 +40,22 @@ void main() {
 
     expect(find.text('Email: new@shipflutter.dev'), findsOneWidget);
     expect(find.text('Name: New User'), findsOneWidget);
+
+    await tester.tap(find.text('Sign in').last);
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Forgot password?'));
+    await tester.pumpAndSettle();
+    await tester.enterText(
+      find.widgetWithText(TextField, 'Email'),
+      'reset@shipflutter.dev',
+    );
+    await tester.tap(find.text('Send Reset Link'));
+    await tester.pump();
+    await tester.pumpAndSettle(const Duration(seconds: 1));
+
+    expect(
+      find.text('Reset link sent to reset@shipflutter.dev'),
+      findsOneWidget,
+    );
   });
 }

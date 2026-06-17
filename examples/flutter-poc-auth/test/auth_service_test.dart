@@ -31,4 +31,22 @@ void main() {
     expect(result.email, 'new@shipflutter.dev');
     expect(result.displayName, 'New User');
   });
+
+  test('forgotPassword returns reset message for valid email', () async {
+    final service = AuthService();
+
+    final result = await service.forgotPassword('Demo@ShipFlutter.dev');
+
+    expect(result.email, 'demo@shipflutter.dev');
+    expect(result.message, 'Reset link sent to demo@shipflutter.dev');
+  });
+
+  test('forgotPassword rejects invalid email', () async {
+    final service = AuthService();
+
+    expect(
+      () => service.forgotPassword('invalid-email'),
+      throwsA(isA<StateError>()),
+    );
+  });
 }

@@ -67,28 +67,25 @@
     <main id="content">
 <h1 id="software-requirements-specification-flutter-poc-auth">Software Requirements Specification: Flutter POC Auth</h1>
 <h2 id="1-purpose">1. Purpose</h2>
-<p>This SRS documents the Flutter POC auth feature generated with the <code>add-feat</code> and <code>add-srs</code> workflows. The intended outcome is a small, auditable demo for sign-in and sign-up flows with traceability from user stories to tests.</p>
+<p>This SRS documents the Flutter POC auth feature generated with the <code>add-feat</code> and <code>add-srs</code> workflows. The intended outcome is a small, auditable demo for sign-in, sign-up, forgot password, screenshot e2e, and generated report flows with traceability from user stories to tests.</p>
 <h2 id="2-scope">2. Scope</h2>
 <p>The POC supports:</p>
 <ul>
 <li>Sign-in with demo email and password.</li>
 <li>Sign-up with email, password, and display name.</li>
+<li>Forgot password reset-link request with email validation.</li>
 <li>Loading, success, and error UI states.</li>
 <li>Local deterministic <code>AuthService</code> boundary.</li>
-<li>Unit and integration tests.</li>
+<li>Unit, widget, integration, screenshot, and e2e report tests.</li>
+<li>Generated <code>e2e-index.html</code> and <code>srs-index.html</code> reports with traceability back to user stories, screen layouts, and screenshot artifacts.</li>
 </ul>
-<p>The POC does not support production token storage, OAuth/OIDC, password recovery, biometric auth, or real identity-provider integration.</p>
+<p>The POC does not support production token storage, OAuth/OIDC, actual email delivery, biometric auth, or real identity-provider integration.</p>
 <h2 id="3-user-stories">3. User Stories</h2>
 <table><tbody>
 <tr>
 <td>ID</td>
 <td>Summary</td>
 <td>Source</td>
-</tr>
-<tr>
-<td>---</td>
-<td>---</td>
-<td>---</td>
 </tr>
 <tr>
 <td>EP01.US001</td>
@@ -102,8 +99,23 @@
 </tr>
 <tr>
 <td>EP01.US003</td>
-<td>Preview auth flow through e2e/integration coverage.</td>
+<td>Preview auth flow through screenshot and e2e report coverage.</td>
 <td><code>resources/user-story/ep01-auth.md</code></td>
+</tr>
+<tr>
+<td>EP02.US001</td>
+<td>Navigate to forgot password from sign-in.</td>
+<td><code>resources/user-story/ep02-forgot-password.md</code></td>
+</tr>
+<tr>
+<td>EP02.US002</td>
+<td>Submit email to receive password reset instructions.</td>
+<td><code>resources/user-story/ep02-forgot-password.md</code></td>
+</tr>
+<tr>
+<td>EP02.US003</td>
+<td>Preview forgot password through screenshot and e2e report coverage.</td>
+<td><code>resources/user-story/ep02-forgot-password.md</code></td>
 </tr>
 </tbody></table>
 <h2 id="4-functional-requirements">4. Functional Requirements</h2>
@@ -112,11 +124,6 @@
 <td>ID</td>
 <td>Requirement</td>
 <td>Trace</td>
-</tr>
-<tr>
-<td>---</td>
-<td>---</td>
-<td>---</td>
 </tr>
 <tr>
 <td>FR-001</td>
@@ -148,6 +155,41 @@
 <td>The app shall render clear error messages for invalid data.</td>
 <td>EP01.US002</td>
 </tr>
+<tr>
+<td>FR-007</td>
+<td>The app shall expose a forgot password flow from sign-in mode.</td>
+<td>EP02.US001</td>
+</tr>
+<tr>
+<td>FR-008</td>
+<td>The app shall validate email format before submitting a reset request.</td>
+<td>EP02.US002</td>
+</tr>
+<tr>
+<td>FR-009</td>
+<td>The app shall render reset-link success and error states.</td>
+<td>EP02.US002</td>
+</tr>
+<tr>
+<td>FR-010</td>
+<td>The e2e runner shall execute format, analysis, Flutter tests, and screenshot capture tests.</td>
+<td>EP01.US003, EP02.US003</td>
+</tr>
+<tr>
+<td>FR-011</td>
+<td>The e2e runner shall generate <code>e2e-index.html</code> with passed/failed step counts and screenshot filters.</td>
+<td>EP01.US003, EP02.US003</td>
+</tr>
+<tr>
+<td>FR-012</td>
+<td>The screenshot suite shall save stable PNG artifacts under <code>screenshots/</code>.</td>
+<td>EP01.US003, EP02.US003</td>
+</tr>
+<tr>
+<td>FR-013</td>
+<td>The SRS runner shall generate <code>srs-index.html</code> and render <code>resources/screens/*.md</code> under <code>Screens / UI Surfaces</code>.</td>
+<td>EP01.US003, EP02.US003</td>
+</tr>
 </tbody></table>
 <h2 id="5-use-cases">5. Use Cases</h2>
 <h3 id="uc-001-sign-in">UC-001 Sign in</h3>
@@ -166,6 +208,23 @@
 <li>User submits.</li>
 <li>App shows returned user summary or error.</li>
 </ol>
+<h3 id="uc-003-forgot-password">UC-003 Forgot password</h3>
+<ol>
+<li>User opens the auth POC.</li>
+<li>User taps <code>Forgot password?</code>.</li>
+<li>User enters a valid email address.</li>
+<li>User submits reset request.</li>
+<li>App shows reset-link confirmation or validation error.</li>
+</ol>
+<h3 id="uc-004-generate-visual-verification-reports">UC-004 Generate visual verification reports</h3>
+<ol>
+<li>Developer runs <code>./e2e.sh</code>.</li>
+<li>Runner executes format, analysis, Flutter tests, and screenshot capture tests.</li>
+<li>Runner writes screenshot PNG files under <code>screenshots/</code>.</li>
+<li>Runner generates <code>e2e-index.html</code> with summary counts, filters, and screenshot grid.</li>
+<li>Developer runs <code>./resources/srs.sh</code>.</li>
+<li>Runner generates <code>srs-index.html</code> with user stories, requirements, screen layouts, traceability, and verification commands.</li>
+</ol>
 <h2 id="6-flow-diagram">6. Flow Diagram</h2>
 <pre class="mermaid">
 flowchart TD
@@ -182,17 +241,39 @@ flowchart TD
   I --&gt; K[Render success]
   J --&gt; L[Render error]
 </pre>
+<h3 id="forgot-password-flow">Forgot Password Flow</h3>
+<pre class="mermaid">
+flowchart TD
+  A[Sign-in screen] --&gt; B[Forgot password link]
+  B --&gt; C[Forgot password mode]
+  C --&gt; D[Email field]
+  D --&gt; E[Send reset link]
+  E --&gt; F{Valid email?}
+  F --&gt;|Yes| G[PasswordResetResult]
+  F --&gt;|No| H[Error message]
+  G --&gt; I[Render reset confirmation]
+</pre>
+<h3 id="report-generation-flow">Report Generation Flow</h3>
+<pre class="mermaid">
+flowchart TD
+  A[Run e2e.sh] --&gt; B[Dart format]
+  B --&gt; C[Flutter analyze]
+  C --&gt; D[Flutter tests]
+  D --&gt; E[Screenshot capture tests]
+  E --&gt; F[screenshots/*.png]
+  F --&gt; G[e2e-index.html]
+  H[Run resources/srs.sh] --&gt; I[resources/srs.md]
+  I --&gt; J[resources/screens/*.md]
+  J --&gt; K[srs-index.html]
+  G --&gt; L[Visual review]
+  K --&gt; L
+</pre>
 <h2 id="7-entities">7. Entities</h2>
 <table><tbody>
 <tr>
 <td>Entity</td>
 <td>Fields</td>
 <td>Purpose</td>
-</tr>
-<tr>
-<td>---</td>
-<td>---</td>
-<td>---</td>
 </tr>
 <tr>
 <td><code>AuthCredentials</code></td>
@@ -205,27 +286,164 @@ flowchart TD
 <td>Successful auth response.</td>
 </tr>
 <tr>
+<td><code>PasswordResetResult</code></td>
+<td><code>email</code>, <code>message</code></td>
+<td>Successful forgot password response.</td>
+</tr>
+<tr>
 <td><code>AuthSubmissionState</code></td>
-<td><code>loading</code>, <code>result</code>, <code>error</code></td>
+<td><code>loading</code>, <code>result</code>, <code>resetResult</code>, <code>error</code></td>
 <td>UI state for submission.</td>
 </tr>
 </tbody></table>
-<h2 id="8-non-functional-requirements">8. Non-Functional Requirements</h2>
+<h2 id="8-screens-ui-surfaces">8. Screens / UI Surfaces</h2>
+<table><tbody>
+<tr>
+<td>Screen</td>
+<td>Layout Source</td>
+<td>Type</td>
+</tr>
+<tr>
+<td>Auth sign-in/sign-up</td>
+<td><code>resources/screens/ep01-auth-screen.md</code></td>
+<td>ASCII layout document</td>
+</tr>
+<tr>
+<td>Forgot password</td>
+<td><code>resources/screens/ep02-forgot-password-screen.md</code></td>
+<td>ASCII layout document</td>
+</tr>
+<tr>
+<td>E2E report</td>
+<td><code>e2e-index.html</code></td>
+<td>Generated HTML report</td>
+</tr>
+<tr>
+<td>SRS report</td>
+<td><code>srs-index.html</code></td>
+<td>Generated HTML report</td>
+</tr>
+</tbody></table>
+<h3 id="auth-sign-in-and-sign-up-screen-layout">Auth Sign-in and Sign-up Screen Layout</h3>
+<p>Source: <code>resources/screens/ep01-auth-screen.md</code></p>
+<h4 id="layout-mode-single-column">Layout Mode: Single-column</h4>
+<pre><code>
+┌──────────────────────────────────────────────┐
+│  AppBar: "Flutter POC Auth"                  │
+├──────────────────────────────────────────────┤
+│                                              │
+│  Auth Demo                                   │
+│  Local deterministic sign-in/sign-up POC     │
+│                                              │
+│  ┌────────────────────────────────────────┐  │
+│  │ [Sign in] [Sign up]                    │  │
+│  └────────────────────────────────────────┘  │
+│                                              │
+│  ┌────────────────────────────────────────┐  │
+│  │ [mail] Email                           │  │
+│  │ [demo@shipflutter.dev             ]    │  │
+│  └────────────────────────────────────────┘  │
+│                                              │
+│  ┌────────────────────────────────────────┐  │
+│  │ [lock] Password                        │  │
+│  │ [password123                      ]    │  │
+│  └────────────────────────────────────────┘  │
+│                                              │
+│  [Forgot password?]                          │
+│                                              │
+│  ┌────────────────────────────────────────┐  │
+│  │          [Sign in]                     │  │
+│  └────────────────────────────────────────┘  │
+│                                              │
+│  Success/error result area                  │
+│                                              │
+└──────────────────────────────────────────────┘
+</code></pre>
+<h4 id="components">Components</h4>
+<ul>
+<li>App bar: <code>Flutter POC Auth</code></li>
+<li>Mode selector: <code>SegmentedButton&lt;AuthMode&gt;</code> with Sign in and Sign up options</li>
+<li>Email field: TextField with email keyboard</li>
+<li>Password field: TextField with obscured text</li>
+<li>Display name field: TextField shown only in sign-up mode</li>
+<li>Forgot password link: TextButton shown only in sign-in mode</li>
+<li>Submit button: FilledButton with sign-in/sign-up label</li>
+<li>Result area: Text summary for success or error message</li>
+</ul>
+<h4 id="states">States</h4>
+<ul>
+<li>Initial: Sign-in mode with demo email and password prefilled</li>
+<li>Sign-up: Display name field appears and submit label changes to <code>Create account</code></li>
+<li>Loading: Submit button is disabled and label changes to <code>Submitting...</code></li>
+<li>Success: Shows returned user id, email, and optional display name</li>
+<li>Error: Shows service validation error in red</li>
+</ul>
+<h4 id="events">Events</h4>
+<ul>
+<li>AuthModeChanged -&gt; switch between sign-in and sign-up modes</li>
+<li>SignInRequested -&gt; call AuthService.signIn()</li>
+<li>SignUpRequested -&gt; call AuthService.signUp()</li>
+<li>ForgotPasswordTapped -&gt; switch to forgot password mode</li>
+</ul>
+<h3 id="forgot-password-screen-layout">Forgot Password Screen Layout</h3>
+<p>Source: <code>resources/screens/ep02-forgot-password-screen.md</code></p>
+<h4 id="layout-mode-single-column">Layout Mode: Single-column</h4>
+<pre><code>
+┌──────────────────────────────────────────────┐
+│  AppBar: "Forgot Password"            [back] │
+├──────────────────────────────────────────────┤
+│                                              │
+│  Reset your password                         │
+│  Enter your email and we'll send you         │
+│  instructions to reset your password.        │
+│                                              │
+│  ┌────────────────────────────────────────┐  │
+│  │ [mail] Email                           │  │
+│  │ [Enter your email...              ]    │  │
+│  └────────────────────────────────────────┘  │
+│                                              │
+│  ┌────────────────────────────────────────┐  │
+│  │         [Send Reset Link]              │  │
+│  └────────────────────────────────────────┘  │
+│                                              │
+│  Remember your password? [Sign in]           │
+│                                              │
+└──────────────────────────────────────────────┘
+</code></pre>
+<h4 id="components">Components</h4>
+<ul>
+<li>Title: "Reset your password" (Text, headline style)</li>
+<li>Description: Instructions text (Text, body style, muted color)</li>
+<li>Email field: TextField with email validation</li>
+<li>Send button: FilledButton, disabled when loading or email invalid</li>
+<li>Sign in link: TextButton -&gt; back to sign-in mode</li>
+</ul>
+<h4 id="states">States</h4>
+<ul>
+<li>Initial: Email field prefilled from sign-in form, button enabled when valid</li>
+<li>Loading: Button shows "Sending...", disabled</li>
+<li>Success: Show success message "Reset link sent to {email}"</li>
+<li>Error: Show error message below button</li>
+</ul>
+<h4 id="events">Events</h4>
+<ul>
+<li>ForgotPasswordRequested -&gt; validate email, call AuthService.forgotPassword()</li>
+<li>BackToSignInTapped -&gt; switch to sign-in mode</li>
+</ul>
+<h2 id="9-non-functional-requirements">9. Non-Functional Requirements</h2>
 <ul>
 <li>The POC must stay local and deterministic.</li>
 <li>The POC must not store passwords or tokens.</li>
 <li>The UI should remain readable on mobile and web-sized screens.</li>
 <li>Tests should run without external services.</li>
+<li>Screenshot names must remain stable for report filtering and traceability.</li>
+<li>HTML reports must be generated locally and link e2e output back to SRS output.</li>
 </ul>
-<h2 id="9-traceability">9. Traceability</h2>
+<h2 id="10-traceability">10. Traceability</h2>
 <table><tbody>
 <tr>
 <td>Artifact</td>
 <td>Path</td>
-</tr>
-<tr>
-<td>---</td>
-<td>---</td>
 </tr>
 <tr>
 <td>App entry</td>
@@ -248,24 +466,73 @@ flowchart TD
 <td><code>test/auth_service_test.dart</code></td>
 </tr>
 <tr>
+<td>Widget test</td>
+<td><code>test/auth_flow_widget_test.dart</code></td>
+</tr>
+<tr>
 <td>Integration test</td>
 <td><code>integration_test/auth_flow_test.dart</code></td>
+</tr>
+<tr>
+<td>Auth screenshot test</td>
+<td><code>test/auth_screenshot_test.dart</code></td>
+</tr>
+<tr>
+<td>Auth screenshot artifact</td>
+<td><code>screenshots/ep01-auth-sign-in-form.png</code></td>
+</tr>
+<tr>
+<td>Forgot password screenshot test</td>
+<td><code>test/forgot_password_screenshot_test.dart</code></td>
+</tr>
+<tr>
+<td>Forgot password screenshot artifact</td>
+<td><code>screenshots/ep02-forgot-password-form.png</code></td>
+</tr>
+<tr>
+<td>Forgot password success screenshot artifact</td>
+<td><code>screenshots/ep02-forgot-password-success.png</code></td>
 </tr>
 <tr>
 <td>E2E runner</td>
 <td><code>e2e.sh</code></td>
 </tr>
 <tr>
+<td>E2E report</td>
+<td><code>e2e-index.html</code></td>
+</tr>
+<tr>
+<td>SRS runner</td>
+<td><code>resources/srs.sh</code></td>
+</tr>
+<tr>
+<td>SRS report</td>
+<td><code>srs-index.html</code></td>
+</tr>
+<tr>
 <td>Technical design</td>
 <td><code>resources/technial-design/ep01-auth.md</code></td>
 </tr>
+<tr>
+<td>Auth screen layout</td>
+<td><code>resources/screens/ep01-auth-screen.md</code></td>
+</tr>
+<tr>
+<td>Forgot password technical design</td>
+<td><code>resources/technial-design/ep02-forgot-password.md</code></td>
+</tr>
+<tr>
+<td>Forgot password screen layout</td>
+<td><code>resources/screens/ep02-forgot-password-screen.md</code></td>
+</tr>
 </tbody></table>
-<h2 id="10-verification">10. Verification</h2>
+<h2 id="11-verification">11. Verification</h2>
 <pre><code>
 flutter pub get
 dart format --set-exit-if-changed .
 flutter analyze
 flutter test
+./e2e.sh
 ./resources/srs.sh
 </code></pre>
     </main>

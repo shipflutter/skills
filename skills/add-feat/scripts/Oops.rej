@@ -1,0 +1,69 @@
+@@ -90,6 +92,48 @@
+ - The flow appears in SRS traceability.
+ EOF
+ 
++  cat > "$screen_path" <<'SCREENEOF'
++# ${feature_title} Screen Layout
++
++## Layout Mode: Single-column
++
++```
++┌──────────────────────────────────────────────┐
++│  AppBar: "${feature_title}"            [back] │
++├──────────────────────────────────────────────┤
++│                                              │
++│  [Add screen wireframe here using ASCII]     │
++│  [box-drawing characters: ┌─┐│└┘├┤┬┴]       │
++│                                              │
++│  ┌────────────────────────────────────────┐  │
++│  │ [icon] Field Label                     │  │
++│  │ [Placeholder text...              ]    │  │
++│  └────────────────────────────────────────┘  │
++│                                              │
++│  ┌────────────────────────────────────────┐  │
++│  │         [Action Button]                │  │
++│  └────────────────────────────────────────┘  │
++│                                              │
++└──────────────────────────────────────────────┘
++```
++
++## Components
++- Component A: Description
++- Component B: Description
++
++## States
++- Initial: Description
++- Loading: Description
++- Success: Description
++- Error: Description
++
++## Events
++- EventName → Action description
++SCREENEOF
++
++  # Substitute variables in screen doc
++  sed -i.bak "s/\${feature_title}/${feature_title}/g" "$screen_path" && rm "${screen_path}.bak"
++
+   cat > "$tech_path" <<EOF
+ # ${epic_id} Technical Design: ${feature_title}
+ 
+@@ -101,6 +145,11 @@
+ - Integration service for API/platform calls.
+ - Unit, widget, integration, and screenshot e2e tests.
+ 
++## Screen Layout
++- Source: \`resources/screens/${epic_lower}-${feature_slug}-screen.md\`
++- Type: ASCII layout document with box-drawing wireframe, components, states, and events.
++- Update the wireframe to match the actual UI implementation.
++
+ ## Entry Points
+ EOF
+ 
+@@ -168,6 +217,7 @@
+ EOF
+ 
+   echo "Wrote $user_story_path"
++  echo "Wrote $screen_path"
+   echo "Wrote $tech_path"
+ }
+ 

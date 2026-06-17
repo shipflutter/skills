@@ -15,6 +15,9 @@ This POC keeps auth local and deterministic. It demonstrates UI states, form fie
 - User-story and technical-design docs generated through `add_feat.sh gen-tdd auth EP01`.
 
 ## Demo screenshots
+Example
+- https://shipflutter.github.io/vibe/srs.html#sec-7-5
+----
 
 | Feature | Screenshot |
 | --- | --- |
