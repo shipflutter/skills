@@ -24,6 +24,36 @@ NODE_AUTH_TOKEN='<npm-token>' npm run publish:npm
 
 The token must have publish permission. If your npm account uses 2FA, use a granular token with bypass 2FA enabled or publish manually with `--otp`.
 
+## Use with Claude Code
+
+These skills follow the Agent Skills `SKILL.md` format and work with Claude Code natively. There are three ways to make Claude Code use them.
+
+### Option A — Install as a Claude Code plugin (recommended)
+
+The repo ships a plugin marketplace (`.claude-plugin/marketplace.json`). In Claude Code:
+
+```text
+/plugin marketplace add shipflutter/skills
+/plugin install shipflutter-skills@shipflutter
+```
+
+This loads all skills (`add-feat`, `add-srs`, `appdist`, `flutter-integration-test`, `flutter-driver-screenshot-test`, `flutter-unit-test-coverage`, `privacy-safe-device-referral-attributes`) into every Claude Code session. Each skill bundles its own `scripts/`, `assets/`, and `references/`, resolved relative to the skill — no extra setup needed.
+
+### Option B — Copy skills into a project (via the `skills` CLI)
+
+See [Install skills](#install-skills) below to copy individual skills (or all) into `.claude/skills/` for Claude Code, Cursor, and other agents.
+
+### Option C — Work on the skills inside this repo
+
+To let Claude Code load the skills while developing in this repo, symlink them into the project skill path (`.claude/skills`, which is gitignored):
+
+```bash
+npm run link:claude
+# or: bash scripts/link-claude-skills.sh
+```
+
+This creates `.claude/skills -> ../skills` so Claude Code discovers every skill from the source of truth without copying.
+
 ## Install skills
 
 List available skills:
@@ -71,6 +101,9 @@ npx skills add shipflutter/skills --skill privacy-safe-device-referral-attribute
 ## Repository structure
 
 ```text
+.claude-plugin/            # Claude Code plugin marketplace manifest
+├── marketplace.json
+└── plugin.json
 skills/
 ├── add-feat/
 │   ├── SKILL.md
@@ -179,3 +212,4 @@ flutter test
 - The install source is `shipflutter/skills` because the GitHub repository is `https://github.com/shipflutter/skills`.
 - The package display name is `shipflutter-skills`.
 - Skills follow the Agent Skills `SKILL.md` format with `name` and `description` frontmatter.
+- Claude Code discovers skills from `.claude/skills/` (project) and `~/.claude/skills/` (global), or from an installed plugin. The repo's `.claude-plugin/` manifest exposes all skills as the `shipflutter-skills` plugin.
