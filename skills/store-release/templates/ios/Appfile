@@ -1,0 +1,5 @@
+# iOS Appfile (TEMPLATE) — replace placeholders with your real identifiers.
+app_identifier(ENV.fetch("BUNDLE_ID", "com.example.myapp"))
+apple_id(ENV.fetch("APPLE_ID", "you@example.com"))
+team_id(ENV.fetch("TEAM_ID", "XXXXXXXXXX"))
+itc_team_id(ENV["ITC_TEAM_ID"]) if ENV["ITC_TEAM_ID"]

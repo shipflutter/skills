@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Store Release — First Submission Checklist</title>
+<style>
+  :root {
+    --bg: #0f1115; --card: #181b22; --line: #262b35; --txt: #e6e9ef;
+    --muted: #9aa3b2; --accent: #4f8cff; --ok: #3ecf8e; --warn: #ffb454;
+    --ios: #0a84ff; --play: #34a853;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    background: var(--bg); color: var(--txt); }
+  header { padding: 32px 24px 16px; max-width: 980px; margin: 0 auto; }
+  h1 { margin: 0 0 6px; font-size: 26px; }
+  .sub { color: var(--muted); margin: 0; }
+  .bar { max-width: 980px; margin: 18px auto 0; padding: 0 24px;
+    display: flex; gap: 16px; align-items: center; }
+  .progress { flex: 1; height: 10px; background: var(--line); border-radius: 6px; overflow: hidden; }
+  .progress > div { height: 100%; width: 0; background: linear-gradient(90deg,var(--accent),var(--ok)); transition: width .25s; }
+  .pct { color: var(--muted); font-variant-numeric: tabular-nums; min-width: 42px; text-align: right; }
+  .reset { background: none; border: 1px solid var(--line); color: var(--muted);
+    border-radius: 7px; padding: 6px 12px; cursor: pointer; font-size: 13px; }
+  .reset:hover { color: var(--txt); border-color: var(--muted); }
+  main { max-width: 980px; margin: 0 auto; padding: 16px 24px 80px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 760px){ main { grid-template-columns: 1fr; } }
+  .col h2 { font-size: 16px; display: flex; align-items: center; gap: 8px; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  .ios .dot { background: var(--ios); } .play .dot { background: var(--play); } .common .dot{ background: var(--accent); }
+  .group { background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+    padding: 14px 16px; margin-bottom: 16px; }
+  .group > h3 { margin: 0 0 10px; font-size: 13px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+  ul { list-style: none; margin: 0; padding: 0; }
+  li { display: flex; gap: 10px; padding: 7px 0; border-top: 1px solid var(--line); align-items: flex-start; }
+  li:first-child { border-top: none; }
+  li input { margin-top: 3px; width: 16px; height: 16px; accent-color: var(--accent); cursor: pointer; flex: none; }
+  li label { cursor: pointer; }
+  li.done label { color: var(--muted); text-decoration: line-through; }
+  .tag { font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 5px; margin-right: 6px;
+    vertical-align: middle; }
+  .tag.once { background: #2a3550; color: #9cc0ff; }
+  .tag.run  { background: #1f3a2e; color: #7be3b0; }
+  .tag.warn { background: #3a2f1a; color: var(--warn); }
+  code { background: #0d0f14; border: 1px solid var(--line); border-radius: 5px; padding: 1px 5px; font-size: 12.5px; }
+  .full { grid-column: 1 / -1; }
+  .note { background: var(--card); border: 1px solid var(--line); border-left: 3px solid var(--warn);
+    border-radius: 10px; padding: 14px 16px; }
+  .note h3 { margin: 0 0 8px; font-size: 14px; color: var(--warn); }
+  .note ol { margin: 0; padding-left: 18px; }
+  .note li { display: list-item; border: none; padding: 4px 0; }
+  footer { max-width: 980px; margin: 0 auto; padding: 0 24px 60px; color: var(--muted); font-size: 13px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>📦 Store Release — First Submission Checklist</h1>
+  <p class="sub">Flutter → Apple App Store + Google Play. Tick items as you go; progress is saved in your browser.</p>
+</header>
+<div class="bar">
+  <div class="progress"><div id="pbar"></div></div>
+  <span class="pct" id="pct">0%</span>
+  <button class="reset" id="reset">Reset</button>
+</div>
+
+<main id="app">
+  <!-- COMMON -->
+  <section class="col common full">
+    <h2><span class="dot"></span> Prerequisites (both stores)</h2>
+    <div class="group">
+      <ul data-group>
+        <li><input type="checkbox"><label><span class="tag once">ONCE</span>Apple Developer Program membership (paid) — team id like <code>XXXXXXXXXX</code></label></li>
+        <li><input type="checkbox"><label><span class="tag once">ONCE</span>Google Play Developer account + a Google Cloud project for the API</label></li>
+        <li><input type="checkbox"><label><span class="tag once">ONCE</span>Release builds work locally: <code>flutter build ipa</code> / <code>flutter build appbundle</code></label></li>
+        <li><input type="checkbox"><label><span class="tag once">ONCE</span>Final bundle id / applicationId decided (permanent) — e.g. <code>com.example.myapp</code></label></li>
+        <li><input type="checkbox"><label><span class="tag once">ONCE</span>App icon: no-alpha for iOS, adaptive for Android</label></li>
+        <li><input type="checkbox"><label><span class="tag once">ONCE</span>Homebrew ruby + bundler: <code>brew install ruby && gem install bundler</code></label></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- iOS -->
+  <section class="col ios">
+    <h2><span class="dot"></span> Apple App Store</h2>
+    <div class="group">
+      <h3>App Store Connect setup</h3>
+      <ul data-group>
+        <li><input type="checkbox"><label><span class="tag once">ONCE</span>Create ASC API key (App Manager) → note Key ID, Issuer ID, download <code>.p8</code> once</label></li>
+        <li><input type="checkbox"><label><span class="tag warn">FIRST</span>Create app record in web UI (API key can't — 403)</label></li>
+        <li><input type="checkbox"><label><span class="tag once">ONCE</span>Distribution cert + App Store provisioning profile (or Xcode automatic)</label></li>
+      </ul>
+    </div>
+    <div class="group">
+      <h3>Listing content</h3>
+      <ul data-group>
+        <li><input type="checkbox"><label><span class="tag once">ONCE</span>Metadata per locale in <code>ios/fastlane/metadata/&lt;locale&gt;/</code></label></li>
+        <li><input type="checkbox"><label><span class="tag once">ONCE</span>Screenshots per device size in <code>ios/fastlane/screenshots/&lt;locale&gt;/</code></label></li>
+        <li><input type="checkbox"><label><span class="tag once">ONCE</span>App Privacy + Age rating answered in web UI</label></li>
+        <li><input type="checkbox"><label><span class="tag warn">FIRST</span>App Review info (contact + demo account) — create review detail (gotcha #3)</label></li>
+      </ul>
+    </div>
+    <div class="group">
+      <h3>Upload &amp; submit</h3>
+      <ul data-group>
+        <li><input type="checkbox"><label><span class="tag run">RUN</span>Bump <code>version:</code> in pubspec.yaml</label></li>
+        <li><input type="checkbox"><label><span class="tag run">RUN</span>Build + upload binary (no-codesign → exportArchive → altool)</label></li>
+        <li><input type="checkbox"><label><span class="tag run">RUN</span><code>cd ios && bundle exec fastlane release_listing</code></label></li>
+        <li><input type="checkbox"><label><span class="tag run">RUN</span>Attach build, export compliance, Submit for Review</label></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ANDROID -->
+  <section class="col play">
+    <h2><span class="dot"></span> Google Play Store</h2>
+    <div class="group">
+      <h3>Play Console setup</h3>
+      <ul data-group>
+        <li><input type="checkbox"><label><span class="tag once">ONCE</span>Create app in Play Console</label></li>
+        <li><input type="checkbox"><label><span class="tag once">ONCE</span>Service account (Release manager) → download JSON key</label></li>
+        <li><input type="checkbox"><label><span class="tag once">ONCE</span>Upload signing key / opt into Play App Signing</label></li>
+        <li><input type="checkbox"><label><span class="tag warn">FIRST</span>Complete Dashboard tasks (data safety, content rating, target audience, privacy)</label></li>
+      </ul>
+    </div>
+    <div class="group">
+      <h3>Listing content</h3>
+      <ul data-group>
+        <li><input type="checkbox"><label><span class="tag once">ONCE</span>Metadata in <code>android/fastlane/metadata/android/&lt;locale&gt;/</code></label></li>
+        <li><input type="checkbox"><label><span class="tag once">ONCE</span>Graphics: icon, featureGraphic, phone/7"/10" screenshots</label></li>
+        <li><input type="checkbox"><label><span class="tag once">ONCE</span><code>changelogs/&lt;versionCode&gt;.txt</code></label></li>
+      </ul>
+    </div>
+    <div class="group">
+      <h3>Upload &amp; promote</h3>
+      <ul data-group>
+        <li><input type="checkbox"><label><span class="tag run">RUN</span>Bump <code>version:</code> in pubspec.yaml</label></li>
+        <li><input type="checkbox"><label><span class="tag run">RUN</span><code>fastlane validate_metadata</code> (dry run)</label></li>
+        <li><input type="checkbox"><label><span class="tag run">RUN</span><code>fastlane internal</code> → AAB to internal track</label></li>
+        <li><input type="checkbox"><label><span class="tag run">RUN</span>Test, then <code>fastlane promote_to_production</code></label></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- GOTCHAS -->
+  <section class="col full">
+    <div class="note">
+      <h3>⚠ First-release blockers to watch</h3>
+      <ol>
+        <li><b>90771</b> — <code>UIBackgroundModes</code> without a matching capability. Remove the unused mode from Info.plist.</li>
+        <li><b>ITMS-90683</b> — missing usage string (e.g. <code>NSPhotoLibraryUsageDescription</code>). Add it.</li>
+        <li><b>"No data" at fetch_app_store_review_detail</b> — first version has no review detail. Create via spaceship: <code>ver.create_app_store_review_detail(attributes:{demo_account_required:false})</code>.</li>
+        <li><b>Version mismatch</b> — ASC made a <code>1.0</code> version; rename to match the build: <code>ver.update(attributes:{version_string:"1.0.0"})</code>.</li>
+        <li><b>invalid byte sequence in US-ASCII</b> — set <code>LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8</code> before deliver.</li>
+        <li><b>fastlane not found / gh_inspector missing</b> — use Homebrew ruby + <code>bundle exec</code>, not system ruby.</li>
+        <li><b>.p12 MAC verification failed</b> — re-export to legacy format via system LibreSSL.</li>
+        <li><b>Play first release blocked</b> — all Dashboard tasks must be green; no API shortcut.</li>
+      </ol>
+    </div>
+  </section>
+</main>
+
+<footer>
+  Generated by the <code>store-release</code> skill. All identifiers shown are placeholders — keep real secrets in a gitignored <code>.env.prod</code>.
+</footer>
+
+<script>
+  const KEY = "store-release-checklist-v1";
+  const boxes = [...document.querySelectorAll('input[type=checkbox]')];
+  boxes.forEach((b, i) => b.dataset.idx = i);
+  const saved = JSON.parse(localStorage.getItem(KEY) || "[]");
+  saved.forEach(i => { if (boxes[i]) boxes[i].checked = true; });
+
+  function refresh() {
+    const done = boxes.filter(b => b.checked).length;
+    const pct = Math.round(done / boxes.length * 100);
+    document.getElementById('pbar').style.width = pct + '%';
+    document.getElementById('pct').textContent = pct + '%';
+    boxes.forEach(b => b.closest('li').classList.toggle('done', b.checked));
+    localStorage.setItem(KEY, JSON.stringify(boxes.filter(b => b.checked).map(b => +b.dataset.idx)));
+  }
+  boxes.forEach(b => b.addEventListener('change', refresh));
+  document.getElementById('reset').addEventListener('click', () => {
+    boxes.forEach(b => b.checked = false); refresh();
+  });
+  refresh();
+</script>
+</body>
+</html>
