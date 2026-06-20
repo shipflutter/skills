@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Store Listing Preview — App Store + Google Play mockup</title>
+<style>
+  :root{
+    --apple-blue:#0b7bff; --play-green:#01875f; --ink:#1d1d1f; --muted:#6e6e73;
+    --line:#e3e3e6; --bg:#f5f5f7; --card:#fff; --ok:#1a9c54; --bad:#d23b3b;
+    --brand1:#2fb46e; --brand2:#157a48;
+    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
+  img{display:block}
+  /* ---- control bar (our own chrome) ---- */
+  .ctl{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.9);backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--line);padding:10px 18px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+  .ctl .brand{font-weight:700;font-size:14px}
+  .ctl .brand span{color:var(--muted);font-weight:500}
+  .spacer{flex:1}
+  .seg{display:inline-flex;background:#ececf0;border-radius:9px;padding:3px}
+  .seg button{background:transparent;border:0;border-radius:7px;padding:6px 13px;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer}
+  .seg button.active{background:#fff;color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.12)}
+  .seg.play button.active{color:var(--play-green)}
+  .seg.store button.active{color:var(--apple-blue)}
+  .toggle{font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;border:1px solid var(--line);
+    background:#fff;border-radius:8px;padding:6px 12px}
+  .toggle.on{color:var(--ink);border-color:#bcbcc2}
+  .stage{max-width:1180px;margin:0 auto;padding:24px 18px 90px}
+  .err{padding:60px;text-align:center;color:var(--muted)}
+  code{background:#ececf0;padding:2px 7px;border-radius:6px;font-size:12.5px}
+
+  /* ============ APP STORE ============ */
+  .as{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 10px 40px rgba(0,0,0,.06)}
+  .as-banner{background:radial-gradient(120% 120% at 80% -20%,rgba(255,255,255,.35),rgba(255,255,255,0) 60%),
+    linear-gradient(135deg,var(--brand1),var(--brand2));padding:34px 34px 30px;color:#fff}
+  .as-id{display:flex;gap:24px;align-items:flex-start}
+  .as-id .ic{width:128px;height:128px;border-radius:28px;box-shadow:0 8px 24px rgba(0,0,0,.25);flex-shrink:0}
+  .as-id h1{margin:0;font-size:30px;font-weight:800;letter-spacing:-.02em}
+  .as-id .tag{font-size:16px;font-weight:600;opacity:.95;margin-top:4px}
+  .as-id .meta-line{font-size:13px;opacity:.85;margin-top:14px}
+  .as-actions{display:flex;gap:12px;align-items:center;margin-top:14px}
+  .get{background:#fff;color:#0a6b3c;border:0;border-radius:24px;font-weight:800;font-size:15px;padding:8px 30px;cursor:default}
+  .as-share{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.2);display:grid;place-items:center;color:#fff;font-size:16px}
+  .as-meta{display:flex;align-items:stretch;border-bottom:1px solid var(--line);overflow-x:auto}
+  .as-meta .col{flex:1;min-width:120px;padding:18px 8px;text-align:center;border-right:1px solid var(--line)}
+  .as-meta .col:last-child{border-right:0}
+  .as-meta .k{font-size:11px;font-weight:700;letter-spacing:.4px;color:var(--muted);text-transform:uppercase}
+  .as-meta .v{font-size:18px;font-weight:800;margin-top:6px}
+  .as-meta .s{font-size:11px;color:var(--muted);margin-top:4px}
+  .as-meta .stars{color:var(--muted);font-size:12px;letter-spacing:2px;margin-top:4px}
+  .sec{padding:26px 34px;border-bottom:1px solid var(--line)}
+  .sec:last-child{border-bottom:0}
+  .sec h2{margin:0 0 16px;font-size:22px;font-weight:800;letter-spacing:-.01em}
+  .sec h2 .small{font-size:13px;font-weight:600;color:var(--apple-blue);float:right;margin-top:6px}
+  .play .sec h2 .small{color:var(--play-green)}
+  .gallery{display:flex;gap:16px;overflow-x:auto;padding-bottom:10px;scroll-snap-type:x mandatory}
+  .gallery::-webkit-scrollbar{height:8px}.gallery::-webkit-scrollbar-thumb{background:#d2d2d7;border-radius:8px}
+  .gallery img{height:560px;border-radius:24px;scroll-snap-align:start;box-shadow:0 6px 20px rgba(0,0,0,.10);flex:0 0 auto}
+  .gallery.tab img{height:520px}
+  .subtabs{display:flex;gap:8px;margin:-4px 0 16px}
+  .subtabs button{border:1px solid var(--line);background:#fff;border-radius:20px;padding:6px 15px;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer}
+  .subtabs button.active{color:var(--ink);border-color:#b9b9bf;background:#f0f0f3}
+  .desc{white-space:pre-wrap;line-height:1.62;font-size:15px;color:#333}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{background:#f0f0f3;border-radius:18px;padding:6px 13px;font-size:13px;color:#444}
+
+  /* ============ GOOGLE PLAY ============ */
+  .gp-top{display:flex;align-items:center;gap:26px;padding:6px 4px 22px}
+  .gp-logo{display:flex;align-items:center;gap:9px;font-size:21px;font-weight:600;color:#5f6368}
+  .gp-logo .tri{width:22px;height:24px;background:
+    conic-gradient(from -33deg at 0% 50%,#00e1ff 0deg 90deg,#00d562 90deg 180deg,#ffce00 180deg 270deg,#ff3d00 270deg 360deg);
+    clip-path:polygon(0 0,100% 50%,0 100%)}
+  .gp-tabs{display:flex;gap:22px;font-size:14px;font-weight:600;color:#5f6368}
+  .gp-tabs .on{color:var(--play-green);border-bottom:3px solid var(--play-green);padding-bottom:18px;margin-bottom:-22px}
+  .gp-grid{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:42px;align-items:start}
+  @media(max-width:900px){.gp-grid{grid-template-columns:minmax(0,1fr)}}
+  .gp-title{font-size:44px;font-weight:700;letter-spacing:-.5px;margin:0}
+  .gp-dev{color:var(--play-green);font-weight:600;font-size:15px;margin-top:6px}
+  .gp-stats{display:flex;gap:0;margin:22px 0 6px;color:#5f6368}
+  .gp-stats .st{padding-right:22px;margin-right:22px;border-right:1px solid var(--line)}
+  .gp-stats .st:last-child{border-right:0}
+  .gp-stats .a{font-size:14px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:5px;justify-content:center}
+  .gp-stats .b{font-size:12px;margin-top:3px;text-align:center}
+  .gp-install{margin-top:22px;background:var(--play-green);color:#fff;border:0;border-radius:8px;font-size:15px;font-weight:600;padding:11px 36px;cursor:default}
+  .gp-avail{display:flex;align-items:center;gap:8px;color:#5f6368;font-size:13px;margin-top:16px}
+  .gp-side .ic{width:100%;max-width:260px;border-radius:24px;box-shadow:0 10px 30px rgba(0,0,0,.12);margin-bottom:22px}
+  .gp-card{border:1px solid var(--line);border-radius:12px;padding:16px}
+  .gp-card .badge{width:34px;height:34px;border:1px solid #b9b9bf;border-radius:6px;display:grid;place-items:center;font-size:9px;font-weight:800;color:#5f6368;letter-spacing:.3px}
+  .gp-card .row{display:flex;gap:12px;align-items:center}
+  .gp-card .t{font-size:18px;font-weight:600}
+  .gp-card .sub{color:#5f6368;font-size:13px;margin-top:2px}
+  .gp-card a{color:var(--play-green);font-size:13px;font-weight:600;text-decoration:none;display:inline-block;margin-top:10px}
+  .gp-sec{margin-top:34px}
+  .gp-sec h2{font-size:20px;font-weight:600;margin:0 0 14px;display:flex;justify-content:space-between;align-items:center}
+
+  /* ============ Graphics (Play assets) ============ */
+  .gfx{display:grid;grid-template-columns:200px minmax(0,1fr);gap:22px;align-items:start}
+  @media(max-width:680px){.gfx{grid-template-columns:minmax(0,1fr)}}
+  .gfx .card{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--card)}
+  .gfx .card .hd{display:flex;justify-content:space-between;align-items:center;gap:8px;
+    padding:11px 14px;border-bottom:1px solid var(--line)}
+  .gfx .card .hd .t{font-size:14px;font-weight:700}
+  .gfx .card .hd .t .req{color:var(--bad);margin-left:2px}
+  .gfx .card .hd .pill{font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px}
+  .gfx .card .hd .pill.ok{background:rgba(26,156,84,.13);color:var(--ok)}
+  .gfx .card .hd .pill.bad{background:rgba(210,59,59,.12);color:var(--bad)}
+  .gfx .card .body{padding:16px;display:flex;flex-direction:column;align-items:center;gap:10px;
+    background:repeating-conic-gradient(#fafafa 0% 25%,#f0f0f3 0% 50%) 50%/18px 18px}
+  .gfx .card.icon .body img{width:128px;height:128px;border-radius:28px;box-shadow:0 8px 22px rgba(0,0,0,.14)}
+  .gfx .card.feat .body img{width:100%;max-width:560px;border-radius:10px;box-shadow:0 8px 22px rgba(0,0,0,.12)}
+  .gfx .card .spec{font-size:12px;color:var(--muted);text-align:center;line-height:1.5}
+  .gfx .card .miss{font-size:13px;color:var(--bad);padding:30px 16px;text-align:center}
+
+  /* ============ ASO panel ============ */
+  .aso{margin-top:24px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 22px}
+  .aso h3{margin:0 0 12px;font-size:13px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted)}
+  .aso .arow{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--line);font-size:13px}
+  .aso .arow:last-child{border:0}
+  .aso .lbl{color:var(--muted)}
+  .aso .val{font-weight:600;text-align:right;max-width:62%}
+  .count{font-variant-numeric:tabular-nums;font-size:12px;margin-left:8px;padding:1px 7px;border-radius:8px}
+  .count.ok{background:rgba(26,156,84,.13);color:var(--ok)}
+  .count.bad{background:rgba(210,59,59,.12);color:var(--bad)}
+  .hidden{display:none}
+
+  /* ============ JSON editor ============ */
+  .editor{max-width:1180px;margin:0 auto;padding:18px 18px 90px}
+  .editor .bar{display:flex;gap:10px;align-items:center;margin-bottom:12px}
+  .editor textarea{width:100%;height:72vh;min-height:420px;tab-size:2;
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;line-height:1.55;
+    border:1px solid var(--line);border-radius:12px;padding:16px;background:#fff;color:var(--ink);resize:vertical;
+    box-shadow:0 6px 24px rgba(0,0,0,.05)}
+  .editor textarea:focus{outline:none;border-color:var(--brand1);box-shadow:0 0 0 3px rgba(47,180,110,.15)}
+  .editor .msg{font-size:13px;font-weight:600}
+  .editor .msg.ok{color:var(--ok)} .editor .msg.bad{color:var(--bad)}
+  .btn{font-size:13px;font-weight:600;border:1px solid var(--line);background:#fff;border-radius:8px;
+    padding:7px 14px;cursor:pointer;color:var(--ink)}
+  .btn:hover{border-color:#b9b9bf}
+  .btn.primary{background:var(--brand2);border-color:var(--brand2);color:#fff}
+  .btn.primary:hover{background:#0f6b3e}
+
+  /* ============ drag & drop images ============ */
+  .dz-hint{font-size:12px;font-weight:600;color:var(--muted);display:inline-flex;align-items:center;gap:5px}
+  .drop-overlay{position:fixed;inset:0;z-index:200;background:rgba(21,122,72,.18);backdrop-filter:blur(3px);
+    border:3px dashed var(--brand2);display:none;align-items:center;justify-content:center;pointer-events:none}
+  .drop-overlay.show{display:flex}
+  .drop-overlay .box{background:#fff;border-radius:16px;padding:30px 44px;box-shadow:0 20px 60px rgba(0,0,0,.22);
+    text-align:center;font-size:16px;font-weight:700;color:var(--ink)}
+  .drop-overlay .box .big{font-size:42px;margin-bottom:10px}
+  .drop-overlay .box small{display:block;color:var(--muted);font-weight:500;margin-top:10px;font-size:13px;max-width:340px}
+  .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);z-index:210;background:var(--ink);color:#fff;
+    padding:12px 20px;border-radius:10px;font-size:13px;font-weight:600;box-shadow:0 10px 30px rgba(0,0,0,.28);
+    opacity:0;transition:opacity .25s,transform .25s;pointer-events:none;max-width:80vw}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(-4px)}
+
+  /* ============ release checklist ============ */
+  .checklist{max-width:920px;margin:0 auto;padding:18px 18px 90px}
+  .cl-head{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+  .cl-head h2{margin:0;font-size:20px;font-weight:800}
+  .cl-bar{flex:1;height:9px;background:#ececf0;border-radius:6px;overflow:hidden}
+  .cl-bar>div{height:100%;width:0;background:linear-gradient(90deg,var(--brand1),var(--brand2));transition:width .25s}
+  .cl-pct{font-size:13px;font-weight:700;color:var(--muted);min-width:40px;text-align:right;font-variant-numeric:tabular-nums}
+  .cl-grp{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin-bottom:14px;box-shadow:0 6px 24px rgba(0,0,0,.04)}
+  .cl-grp>h3{margin:0 0 4px;font-size:13px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)}
+  .cl-grp ul{list-style:none;margin:0;padding:0}
+  .cl-grp li{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-top:1px solid var(--line)}
+  .cl-grp li:first-of-type{border-top:0}
+  .cl-grp li input{margin-top:3px;width:16px;height:16px;accent-color:var(--brand2);cursor:pointer;flex:none}
+  .cl-grp li label{cursor:pointer;font-size:14px;line-height:1.5}
+  .cl-grp li.done label{color:var(--muted);text-decoration:line-through}
+  .cl-tag{font-size:10px;font-weight:800;padding:1px 7px;border-radius:6px;margin-right:7px;vertical-align:middle;white-space:nowrap}
+  .cl-tag.web{background:#fdebd0;color:#9c6510}
+  .cl-tag.dec{background:#fde2e2;color:#b3261e}
+  .cl-tag.api{background:#d6f0e2;color:#0f6b3e}
+  .cl-note{font-size:12.5px;color:var(--muted);margin:-4px 0 16px}
+
+  /* ============ inline UI editing ============ */
+  body.inline [contenteditable]{outline:1.5px dashed rgba(47,180,110,.55);outline-offset:3px;border-radius:4px;
+    transition:outline-color .15s;min-width:18px;cursor:text}
+  body.inline [contenteditable]:hover{outline-color:var(--brand2)}
+  body.inline [contenteditable]:focus{outline:2px solid var(--brand2);background:rgba(47,180,110,.07)}
+  body.inline [contenteditable]:empty:before{content:attr(data-ph);color:var(--muted);opacity:.6}
+  .inline-hint{font-size:12px;font-weight:600;color:var(--brand2)}
+  /* editable screenshots */
+  .shot{position:relative;flex:0 0 auto}
+  .shot-ctl{position:absolute;top:8px;right:8px;display:none;gap:6px}
+  body.inline .gallery .shot-ctl{display:flex}
+  .shot-ctl button{width:30px;height:30px;border:0;border-radius:50%;background:rgba(0,0,0,.62);color:#fff;
+    font-size:14px;font-weight:700;cursor:pointer;display:grid;place-items:center;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+  .shot-ctl button:hover{background:#000}
+  .shot-add{flex:0 0 auto;align-self:center;width:120px;height:200px;border:2px dashed var(--line);
+    border-radius:18px;background:#fafafa;color:var(--muted);font-size:34px;font-weight:300;cursor:pointer;
+    display:none;align-items:center;justify-content:center}
+  body.inline .gallery .shot-add{display:flex}
+  body.inline .as-id .ic,body.inline .gp-side .ic,body.inline .gfx .card .body img{cursor:pointer}
+  body.inline .as-id .ic:hover,body.inline .gp-side .ic:hover{outline:3px solid #fff;outline-offset:2px}
+</style>
+</head>
+<body>
+<div class="ctl">
+  <div class="brand">Store Listing Preview <span>· App Store + Google Play</span></div>
+  <div class="spacer"></div>
+  <div class="seg store" id="storeSeg">
+    <button data-store="appstore" class="active">App Store</button>
+    <button data-store="googleplay">Google Play</button>
+  </div>
+  <div class="seg" id="localeSeg"></div>
+  <button class="toggle" id="asoToggle">ASO checks</button>
+  <button class="toggle" id="inlineBtn">Edit on page</button>
+  <button class="toggle" id="checklistBtn">Release checklist</button>
+  <button class="toggle" id="editToggle">Edit JSON</button>
+  <button class="toggle" id="exportBtn">Export data</button>
+  <button class="toggle" id="loadBtn">Load JSON…</button>
+  <button class="toggle" id="loadImgBtn">Load images…</button>
+  <span class="dz-hint">⤵ or drag images / a folder anywhere</span>
+  <input type="file" id="fileInput" accept="application/json,.json" class="hidden">
+  <input type="file" id="imgInput" accept="image/*" multiple webkitdirectory class="hidden">
+  <input type="file" id="imgInputFlat" accept="image/*" multiple class="hidden">
+  <input type="file" id="imgPick" accept="image/*" multiple class="hidden">
+</div>
+<div class="stage" id="app"><div class="err">Loading demo listing…</div></div>
+<div class="editor hidden" id="editor">
+  <div class="bar">
+    <button class="btn primary" id="applyBtn">Apply &amp; preview</button>
+    <button class="btn" id="formatBtn">Format</button>
+    <button class="btn" id="downloadBtn">Download listing.json</button>
+    <button class="btn" id="resetBtn">Reset to saved</button>
+    <span class="spacer"></span>
+    <span class="msg" id="editMsg"></span>
+  </div>
+  <textarea id="jsonText" spellcheck="false" placeholder="Load or paste listing.json here…"></textarea>
+</div>
+<div class="checklist hidden" id="checklist"></div>
+<div class="drop-overlay" id="dropOverlay"><div class="box"><div class="big">🖼️</div>Drop images or a folder
+  <small>Auto-sorted by name &amp; aspect ratio into iPhone · iPad · phone · tablet · app icon · feature graphic</small></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const LIM = {
+  appstore:{name:30,subtitle:30,keywords:100,promotionalText:170,description:4000,whatsNew:4000},
+  googleplay:{title:30,shortDescription:80,fullDescription:4000,changelog:500}
+};
+let DATA=null, SAVED=null, store='appstore', locale='en-US', shotTab='phone', showAso=false, mode='preview', inlineEdit=false;
+
+const esc=s=>(s||'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+const cnt=(s,max)=>{const n=[...(s||'')].length;return `<span class="count ${n<=max?'ok':'bad'}">${n}/${max}</span>`;};
+const ICON='../store-assets/app-icon-1024.png';
+
+// editable-attribute helper: in inline mode, makes an element contenteditable + tags it with a DATA path
+const ea=(path,ph='')=>inlineEdit?` contenteditable="true" data-edit="${path}" data-ph="${esc(ph)}" spellcheck="false"`:'';
+function getPath(o,p){return p.split('.').reduce((a,k)=>a==null?a:a[k],o);}
+function setPath(o,p,v){const k=p.split('.');let n=o;for(let i=0;i<k.length-1;i++){if(n[k[i]]==null)n[k[i]]={};n=n[k[i]];}n[k[k.length-1]]=v;}
+
+function gallery(list,cls='',cat=''){
+  const imgs=(list||[]).map((s,i)=>{
+    const img=`<img loading="lazy" src="${s.file}" alt="${esc(s.label)}">`;
+    if(!inlineEdit||!cat) return img;
+    return `<div class="shot">${img}<div class="shot-ctl">
+      <button data-act="rep" data-cat="${cat}" data-i="${i}" title="Replace image">⤴</button>
+      <button data-act="del" data-cat="${cat}" data-i="${i}" title="Remove image">✕</button></div></div>`;
+  }).join('');
+  const add=(inlineEdit&&cat)?`<button class="shot-add" data-act="add" data-cat="${cat}" title="Add image(s)">＋</button>`:'';
+  return `<div class="gallery ${cls}">${imgs}${add}</div>`;
+}
+
+/* ---------------- App Store ---------------- */
+function viewAppStore(a,L){
+  const langs=a.locales.length, primary=a.locales[0].split('-')[0].toUpperCase();
+  const icon=a.icon||ICON, dev=esc(a.developer||'FightTech'), rating=esc(a.rating||'4.8'), age=esc(a.age||'4+');
+  const kw=L.appstore.keywords||'';
+  return `<div class="as">
+    <div class="as-banner">
+      <div class="as-id">
+        <img class="ic" src="${icon}" alt=""${inlineEdit?' data-act="icon"':''}>
+        <div>
+          <h1${ea(`locales.${locale}.appstore.name`,'App name')}>${esc(L.appstore.name)}</h1>
+          <div class="tag"${ea(`locales.${locale}.appstore.subtitle`,'Subtitle')}>${esc(L.appstore.subtitle)}</div>
+          <div class="meta-line">Free · Designed for iPhone &amp; iPad</div>
+          <div class="as-actions"><button class="get">GET</button><div class="as-share">↗</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="as-meta">
+      <div class="col"><div class="k">Rating</div><div class="v"${ea('app.rating','4.8')}>${rating}</div><div class="stars">★★★★★</div></div>
+      <div class="col"><div class="k">Age</div><div class="v"${ea('app.age','4+')}>${age}</div><div class="s">Years</div></div>
+      <div class="col"><div class="k">Category</div><div class="v">#1</div><div class="s"${ea('app.appStoreCategory','Category')}>${esc(a.appStoreCategory)}</div></div>
+      <div class="col"><div class="k">Developer</div><div class="v">👤</div><div class="s"${ea('app.developer','Developer')}>${dev}</div></div>
+      <div class="col"><div class="k">Language</div><div class="v">${primary}</div><div class="s">+${langs-1} more</div></div>
+      <div class="col"><div class="k">Version</div><div class="v"${ea('app.versionName','1.0.0')}>${esc(a.versionName)}</div><div class="s">iOS</div></div>
+    </div>
+    <div class="sec"><h2>iPhone${gallery(DATA.screenshots.iphone,'','iphone')}</h2></div>
+    <div class="sec"><h2>iPad${gallery(DATA.screenshots.ipad,'tab','ipad')}</h2></div>
+    <div class="sec"><h2>Promotional text</h2><div class="desc"${ea(`locales.${locale}.appstore.promotionalText`,'Promotional text')}>${esc(L.appstore.promotionalText)}</div></div>
+    <div class="sec"><h2>Description</h2><div class="desc"${ea(`locales.${locale}.fullDescription`,'Description')}>${esc(L.fullDescription)}</div></div>
+    <div class="sec"><h2>What’s New <span class="small">Version ${esc(a.versionName)}</span></h2><div class="desc"${ea(`locales.${locale}.whatsNew`,'What’s new')}>${esc(L.whatsNew)}</div></div>
+    <div class="sec"><h2>Keywords</h2>${inlineEdit
+      ? `<div class="desc" data-edit="locales.${locale}.appstore.keywords" contenteditable="true" data-ph="comma,separated,keywords" spellcheck="false">${esc(kw)}</div>`
+      : `<div class="chips">${kw.split(',').map(k=>`<span class="chip">${esc(k)}</span>`).join('')}</div>`}</div>
+  </div>`;
+}
+
+/* ---------------- Graphics (Play assets) ---------------- */
+function gfxCard(kind,title,g){
+  const ok = g && g.status==='uploaded' && g.file;
+  const pill = ok ? `<span class="pill ok">Uploaded</span>` : `<span class="pill bad">Needed</span>`;
+  const act=inlineEdit?` data-act="gfx" data-gfx="${kind}" title="Replace ${esc(title)}"`:'';
+  const body = (g && g.file)
+    ? `<img src="${g.file}" alt="${esc(title)}"${act}>
+       <div class="spec">${esc(g.size||'')}${g.size?' · ':''}${esc(g.spec||'')}</div>`
+    : (inlineEdit
+        ? `<button class="shot-add" style="display:flex;width:140px;height:90px"${act}>＋</button>`
+        : `<div class="miss">No image set — add <code>file</code> in graphics.${kind}</div>`);
+  return `<div class="card ${kind==='featureGraphic'?'feat':'icon'}">
+    <div class="hd"><span class="t">${esc(title)}<span class="req">*</span></span>${pill}</div>
+    <div class="body">${body}</div>
+  </div>`;
+}
+function graphicsBlock(){
+  const g = DATA.graphics || {};
+  return `<div class="gp-sec"><h2>Graphics</h2>
+    <div class="gfx">
+      ${gfxCard('appIcon','App icon',g.appIcon)}
+      ${gfxCard('featureGraphic','Feature graphic',g.featureGraphic)}
+    </div>
+  </div>`;
+}
+
+/* ---------------- Google Play ---------------- */
+function viewPlay(a,L){
+  const list = shotTab==='tablet'?DATA.screenshots.tablet:DATA.screenshots.phone;
+  const icon=a.icon||ICON, dev=esc(a.developer||'FightTech'), rating=esc(a.rating||'4.8'), downloads=esc(a.downloads||'100+'), ageShort=esc(a.ageShort||'3+');
+  return `<div class="gp">
+    <div class="gp-top">
+      <div class="gp-logo"><span class="tri"></span>Google Play</div>
+      <div class="gp-tabs"><span>Games</span><span class="on">Apps</span><span>Books</span><span>Kids</span></div>
+    </div>
+    <div class="gp-grid">
+      <div class="gp-left">
+        <h1 class="gp-title"${ea(`locales.${locale}.googleplay.title`,'App title')}>${esc(L.googleplay.title)}</h1>
+        <div class="gp-dev"${ea('app.developer','Developer')}>${dev}</div>
+        <div class="gp-stats">
+          <div class="st"><div class="a"><span${ea('app.rating','4.8')}>${rating}</span> ★</div><div class="b">reviews</div></div>
+          <div class="st"><div class="a"${ea('app.downloads','100+')}>${downloads}</div><div class="b">Downloads</div></div>
+          <div class="st"><div class="a">${ageShort}</div><div class="b">Rated for ${ageShort}</div></div>
+        </div>
+        <button class="gp-install">Install</button>
+        <div class="gp-avail">📱 This app is available for all of your devices</div>
+
+        <div class="gp-sec">
+          <h2>Screenshots</h2>
+          <div class="subtabs">
+            <button data-tab="phone" class="${shotTab==='phone'?'active':''}">Phone (${DATA.screenshots.phone.length})</button>
+            <button data-tab="tablet" class="${shotTab==='tablet'?'active':''}">Tablet (${DATA.screenshots.tablet.length})</button>
+          </div>
+          ${gallery(list, shotTab==='tablet'?'tab':'', shotTab)}
+        </div>
+
+        ${graphicsBlock()}
+
+        <div class="gp-sec"><h2>About this app</h2><div class="desc"${ea(`locales.${locale}.fullDescription`,'Description')}>${esc(L.fullDescription)}</div></div>
+        <div class="gp-sec"><h2>What’s new</h2><div class="desc"${ea(`locales.${locale}.whatsNew`,'What’s new')}>${esc(L.whatsNew)}</div></div>
+      </div>
+      <div class="gp-side">
+        <img class="ic" src="${icon}" alt=""${inlineEdit?' data-act="icon"':''}>
+        <div class="gp-card">
+          <div class="row"><div class="badge">${ageShort}</div><div><div class="t">Rated for ${ageShort}</div><div class="sub">${esc(a.contentAdvisory||'Shares Location')}</div></div></div>
+          <a href="#">Learn more</a>
+        </div>
+        <div class="gp-card" style="margin-top:16px">
+          <div class="t" style="font-size:15px">Package</div>
+          <div class="sub"><code>${a.androidPackage}</code></div>
+          <div class="t" style="font-size:15px;margin-top:12px">Short description</div>
+          <div class="sub"${ea(`locales.${locale}.googleplay.shortDescription`,'Short description')}>${esc(L.googleplay.shortDescription)}</div>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ---------------- ASO checks ---------------- */
+function asoPanel(a,L){
+  const rows = store==='appstore' ? [
+    ['Name', esc(L.appstore.name)+cnt(L.appstore.name,LIM.appstore.name)],
+    ['Subtitle', esc(L.appstore.subtitle)+cnt(L.appstore.subtitle,LIM.appstore.subtitle)],
+    ['Keywords', cnt(L.appstore.keywords,LIM.appstore.keywords)],
+    ['Promo text', cnt(L.appstore.promotionalText,LIM.appstore.promotionalText)],
+    ['Description', cnt(L.fullDescription,LIM.appstore.description)],
+    ['What’s New', cnt(L.whatsNew,LIM.appstore.whatsNew)],
+    ['Bundle ID', `<code>${a.iosBundleId}</code>`],
+  ] : [
+    ['Title', esc(L.googleplay.title)+cnt(L.googleplay.title,LIM.googleplay.title)],
+    ['Short desc', esc(L.googleplay.shortDescription)+cnt(L.googleplay.shortDescription,LIM.googleplay.shortDescription)],
+    ['Full desc', cnt(L.fullDescription,LIM.googleplay.fullDescription)],
+    ['Changelog', cnt(L.whatsNew,LIM.googleplay.changelog)],
+    ['Package', `<code>${a.androidPackage}</code>`],
+  ];
+  return `<div class="aso ${showAso?'':'hidden'}"><h3>ASO · ${store==='appstore'?'App Store':'Google Play'} fields (${L.displayName})</h3>
+    ${rows.map(([k,v])=>`<div class="arow"><span class="lbl">${k}</span><span class="val">${v}</span></div>`).join('')}</div>`;
+}
+
+function render(){
+  if(!DATA.locales[locale]) locale=Object.keys(DATA.locales)[0];
+  const a=DATA.app, L=DATA.locales[locale];
+  document.querySelector('.ctl .brand').innerHTML=`${esc(a.name||'App')} <span>· store listing preview</span>`;
+  document.body.classList.toggle('play', store==='googleplay');
+  const ls=document.getElementById('localeSeg');
+  ls.className='seg'+(store==='googleplay'?' play':' store');
+  ls.innerHTML=Object.keys(DATA.locales).map(k=>`<button data-loc="${k}" class="${k===locale?'active':''}">${DATA.locales[k].displayName}</button>`).join('');
+  ls.querySelectorAll('button').forEach(b=>b.onclick=()=>{locale=b.dataset.loc;render();});
+  document.getElementById('storeSeg').className='seg store'+(store==='googleplay'?' play':'');
+  document.getElementById('asoToggle').classList.toggle('on',showAso);
+  document.getElementById('inlineBtn').classList.toggle('on',inlineEdit);
+  document.body.classList.toggle('inline', inlineEdit);
+
+  const root=document.getElementById('app');
+  root.innerHTML=(store==='appstore'?viewAppStore(a,L):viewPlay(a,L))+asoPanel(a,L);
+  root.querySelectorAll('.subtabs button').forEach(b=>b.onclick=()=>{shotTab=b.dataset.tab;render();});
+  // inline UI editing: write text edits straight back into DATA (no re-render → keeps caret)
+  root.querySelectorAll('[data-edit]').forEach(el=>el.addEventListener('input',()=>{
+    setPath(DATA, el.dataset.edit, el.innerText.replace(/ /g,' ')); updateAso();
+  }));
+  // image edit/replace/remove/add + icon + feature graphic
+  root.querySelectorAll('[data-act]').forEach(el=>el.onclick=()=>imgAction(el.dataset));
+}
+function updateAso(){
+  if(!showAso) return;
+  const node=document.querySelector('.aso'); if(!node) return;
+  const tmp=document.createElement('div'); tmp.innerHTML=asoPanel(DATA.app, DATA.locales[locale]);
+  if(tmp.firstElementChild) node.replaceWith(tmp.firstElementChild);
+}
+
+document.querySelectorAll('#storeSeg button').forEach(b=>b.onclick=()=>{
+  store=b.dataset.store;document.querySelectorAll('#storeSeg button').forEach(x=>x.classList.toggle('active',x===b));render();});
+document.getElementById('asoToggle').onclick=()=>{showAso=!showAso;render();};
+
+/* ---------------- JSON load / edit / preview ---------------- */
+const $=id=>document.getElementById(id);
+function setMsg(t,kind){const m=$('editMsg');m.textContent=t||'';m.className='msg '+(kind||'');}
+
+function setMode(m){
+  mode=m;
+  $('editor').classList.toggle('hidden', m!=='edit');
+  $('app').classList.toggle('hidden', m==='edit');
+  const t=$('editToggle');
+  t.textContent = m==='edit' ? 'Preview mode' : 'Edit JSON';
+  t.classList.toggle('on', m==='edit');
+  // store/locale/ASO controls only make sense in preview
+  ['storeSeg','localeSeg','asoToggle'].forEach(id=>$(id).style.display = m==='edit' ? 'none' : '');
+  if(m==='edit'){ if(!$('jsonText').value.trim()) $('jsonText').value=JSON.stringify(DATA,null,2); }
+  else render();
+}
+
+function applyJson(){
+  try{
+    DATA=JSON.parse($('jsonText').value);
+    setMsg('✓ Applied','ok');
+    setMode('preview');
+    return true;
+  }catch(e){ setMsg('✗ Invalid JSON: '+e.message,'bad'); return false; }
+}
+
+$('editToggle').onclick=()=>{
+  if(mode==='edit'){ applyJson(); }                       // “Preview mode” → apply & show current
+  else { $('jsonText').value=JSON.stringify(DATA,null,2); setMsg('',''); setMode('edit'); }
+};
+$('applyBtn').onclick=applyJson;
+$('formatBtn').onclick=()=>{
+  try{ $('jsonText').value=JSON.stringify(JSON.parse($('jsonText').value),null,2); setMsg('✓ Formatted','ok'); }
+  catch(e){ setMsg('✗ Invalid JSON: '+e.message,'bad'); }
+};
+$('resetBtn').onclick=()=>{ $('jsonText').value=JSON.stringify(SAVED,null,2); setMsg('↺ Reset to saved listing.json','ok'); };
+$('downloadBtn').onclick=()=>{
+  let txt=$('jsonText').value;
+  try{ txt=JSON.stringify(JSON.parse(txt),null,2); }catch(_){}
+  const blob=new Blob([txt],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob); a.download='listing.json'; a.click();
+  URL.revokeObjectURL(a.href);
+};
+$('loadBtn').onclick=()=>$('fileInput').click();
+$('fileInput').onchange=e=>{
+  const f=e.target.files[0]; if(!f) return;
+  const rd=new FileReader();
+  rd.onload=()=>{
+    if(mode!=='edit') setMode('edit');
+    $('jsonText').value=rd.result;
+    try{ JSON.parse(rd.result); setMsg('Loaded “'+f.name+'” — review, then Apply & preview','ok'); }
+    catch(err){ setMsg('Loaded “'+f.name+'” but JSON is invalid: '+err.message,'bad'); }
+  };
+  rd.readAsText(f);
+  e.target.value='';
+};
+
+/* ---------------- Drag & drop images (auto-load screenshots) ---------------- */
+const dz=$('dropOverlay'), toastEl=$('toast');
+function toast(msg){toastEl.textContent=msg;toastEl.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>toastEl.classList.remove('show'),3400);}
+
+// Decide which gallery a dropped image belongs to: filename hints first, then aspect ratio.
+function classify(name,w,h){
+  const n=(name||'').toLowerCase();
+  if(/feature|banner/.test(n)) return 'featureGraphic';
+  if(/icon|logo|appicon/.test(n)) return 'appIcon';
+  if(/ipad/.test(n)) return 'ipad';
+  if(/tablet/.test(n)) return 'tablet';
+  if(/iphone/.test(n)) return 'iphone';
+  if(/phone|android|pixel/.test(n)) return 'phone';
+  if(!w||!h) return 'phone';
+  const r=w/h;
+  if(r>1.3) return 'featureGraphic';                       // wide landscape
+  if(r>0.85&&r<1.18&&Math.max(w,h)<=1280) return 'appIcon';// small square
+  return r>=0.58 ? 'tablet' : 'phone';                     // portrait: tablet is "wider", phone "taller"
+}
+function readImage(file){
+  return new Promise(res=>{
+    const url=URL.createObjectURL(file), im=new Image();
+    im.onload=()=>res({url,w:im.naturalWidth,h:im.naturalHeight,name:file.name});
+    im.onerror=()=>res({url,w:0,h:0,name:file.name});
+    im.src=url;
+  });
+}
+// Recursively collect image files from a dropped directory entry.
+function walkEntry(entry,out){
+  return new Promise(resolve=>{
+    if(entry.isFile){ entry.file(f=>{ if(/^image\//.test(f.type)||/\.(png|jpe?g|webp|svg|gif|heic)$/i.test(f.name)) out.push(f); resolve(); },()=>resolve()); }
+    else if(entry.isDirectory){
+      const rd=entry.createReader(), all=[];
+      const batch=()=>rd.readEntries(ents=>{
+        if(!ents.length){ Promise.all(all.map(e=>walkEntry(e,out))).then(resolve); return; }
+        all.push(...ents); batch();
+      },()=>resolve());
+      batch();
+    } else resolve();
+  });
+}
+async function filesFromDrop(dt){
+  const items=dt&&dt.items?[...dt.items]:[];
+  const entries=items.map(it=>it.webkitGetAsEntry&&it.webkitGetAsEntry()).filter(Boolean);
+  if(entries.length){ const out=[]; await Promise.all(entries.map(e=>walkEntry(e,out))); return out; }
+  return [...((dt&&dt.files)||[])].filter(f=>/^image\//.test(f.type)||/\.(png|jpe?g|webp|svg|gif|heic)$/i.test(f.name));
+}
+async function loadImageFiles(files){
+  if(!DATA){ toast('Listing not loaded yet'); return; }
+  files=[...files].filter(f=>/^image\//.test(f.type)||/\.(png|jpe?g|webp|svg|gif|heic)$/i.test(f.name));
+  if(!files.length){ toast('No images found in the drop'); return; }
+  const metas=(await Promise.all(files.map(readImage)))
+    .sort((a,b)=>a.name.localeCompare(b.name,undefined,{numeric:true}));
+  const buckets={iphone:[],ipad:[],phone:[],tablet:[]};
+  let icon=null, feature=null;
+  for(const m of metas){
+    const cat=classify(m.name,m.w,m.h);
+    const shot={file:m.url,label:m.name.replace(/\.[^.]+$/,''),size:(m.w&&m.h)?`${m.w}×${m.h}`:''};
+    if(cat==='appIcon') icon=m;
+    else if(cat==='featureGraphic') feature=m;
+    else if(cat==='iphone'||cat==='phone'){ buckets.iphone.push(shot); buckets.phone.push(shot); } // phone shots show in both stores
+    else { buckets.ipad.push(shot); buckets.tablet.push(shot); }                                    // tablet/ipad shots show in both
+  }
+  DATA.screenshots=DATA.screenshots||{iphone:[],ipad:[],phone:[],tablet:[]};
+  const parts=[];
+  ['iphone','ipad','phone','tablet'].forEach(k=>{ if(buckets[k].length) DATA.screenshots[k]=buckets[k]; });
+  if(buckets.iphone.length) parts.push(`${buckets.iphone.length} phone`);
+  if(buckets.ipad.length) parts.push(`${buckets.ipad.length} tablet`);
+  if(icon){ DATA.app.icon=icon.url; DATA.graphics=DATA.graphics||{};
+    DATA.graphics.appIcon={status:'uploaded',file:icon.url,size:(icon.w&&icon.h)?`${icon.w}×${icon.h}`:'',spec:'App icon'}; parts.push('icon'); }
+  if(feature){ DATA.graphics=DATA.graphics||{};
+    DATA.graphics.featureGraphic={status:'uploaded',file:feature.url,size:(feature.w&&feature.h)?`${feature.w}×${feature.h}`:'',spec:'Feature graphic'}; parts.push('feature graphic'); }
+  if(mode==='edit') setMode('preview'); else render();
+  toast(`Loaded ${metas.length} image${metas.length>1?'s':''}${parts.length?' → '+parts.join(', '):''}`);
+}
+
+$('loadImgBtn').onclick=()=>$('imgInputFlat').click();
+$('imgInputFlat').onchange=e=>{ loadImageFiles(e.target.files); e.target.value=''; };
+$('imgInput').onchange=e=>{ loadImageFiles(e.target.files); e.target.value=''; };
+
+['dragenter','dragover'].forEach(ev=>document.addEventListener(ev,e=>{
+  if(e.dataTransfer&&[...(e.dataTransfer.types||[])].includes('Files')){ e.preventDefault(); dz.classList.add('show'); }
+}));
+document.addEventListener('dragleave',e=>{ if(e.clientX<=0||e.clientY<=0||e.relatedTarget===null) dz.classList.remove('show'); });
+document.addEventListener('drop',e=>{
+  if(e.dataTransfer&&[...(e.dataTransfer.types||[])].includes('Files')){
+    e.preventDefault(); dz.classList.remove('show');
+    filesFromDrop(e.dataTransfer).then(loadImageFiles);
+  }
+});
+
+/* ---------------- Release checklist ---------------- */
+const CHECKLIST=[
+  ['Accounts & signing',[
+    ['Apple Developer Program active; team id noted'],
+    ['Google Play Developer account active'],
+    ['App Store Connect API key created; .p8 saved to ~/.appstoreconnect/private_keys/','api'],
+    ['Google Play service-account JSON (role: Release manager) in .env.prod','api'],
+    ['iOS distribution cert + App Store provisioning profile (or Xcode automatic)'],
+    ['Android keystore available; Play App Signing enabled'],
+    ['All secrets gitignored — nothing committed to the app repo'],
+  ]],
+  ['App records (one-time)',[
+    ['App Store Connect app record created (API key cannot — 403)','web'],
+    ['Play Console app created','web'],
+    ['Bundle id / applicationId final (permanent once published)'],
+  ]],
+  ['Listing content',[
+    ['iOS metadata per locale in ios/fastlane/metadata/<locale>/','api'],
+    ['Android metadata per locale in android/fastlane/metadata/android/<locale>/','api'],
+    ['iOS screenshots: iPhone 6.9"/6.7" (APP_IPHONE_67) + iPad 12.9" (APP_IPAD_PRO_3GEN_129)'],
+    ['Android graphics: icon, feature graphic, phone + 7"/10" tablet shots'],
+    ['Copy within each store’s character limits (use ASO checks)'],
+    ['Re-verify screenshots aren’t flagged “missing” (assets can show a count yet fail to finalize)'],
+  ]],
+  ['Build',[
+    ['version: bumped in pubspec.yaml'],
+    ['iOS binary built + uploaded (no-codesign archive → exportArchive → altool)','api'],
+    ['iOS build reaches state VALID (processing 5–30 min — poll before attaching)'],
+    ['iOS build attached to the version; version string == CFBundleShortVersionString','api'],
+    ['Android AAB uploaded to a track (fastlane internal)','api'],
+  ]],
+  ['App Store version requirements (the “Submit” blockers)',[
+    ['Copyright set on the version','api'],
+    ['Content Rights declaration set','api','dec'],
+    ['Age Rating questionnaire — all descriptors None → 4+ (needs ageAssurance too)','api','dec'],
+    ['App Privacy data-collection answers published','web','dec'],
+    ['Pricing set (e.g. Free)','web'],
+    ['Export compliance answered (ITSAppUsesNonExemptEncryption in Info.plist)'],
+  ]],
+  ['Submit',[
+    ['iOS: create review submission → add version → submit_for_review','api'],
+    ['iOS: version state moves to WAITING_FOR_REVIEW'],
+    ['Android: every Play Dashboard task green (data safety, content rating, audience, privacy)','web'],
+    ['Android: promote tested internal build to production','api'],
+  ]],
+  ['Known first-submission rejections',[
+    ['90771 — UIBackgroundModes without a matching capability → remove unused mode'],
+    ['ITMS-90683 — missing usage string (e.g. NSPhotoLibraryUsageDescription) → add it'],
+    ['“No data” at fetch_app_store_review_detail → create review detail via spaceship'],
+    ['invalid byte sequence in US-ASCII → export LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8'],
+    ['fastlane/gh_inspector missing → use Homebrew ruby + bundle exec'],
+  ]],
+];
+const CL_KEY='store-release-checklist-v1';
+const TAGLBL={web:'WEB UI',dec:'DECLARATION',api:'API'};
+let showChecklist=false;
+function clState(){ try{return JSON.parse(localStorage.getItem(CL_KEY)||'{}');}catch(_){return {};} }
+function clSave(s){ try{localStorage.setItem(CL_KEY,JSON.stringify(s));}catch(_){}}
+function renderChecklist(){
+  const saved=clState(); let total=0, done=0;
+  const groups=CHECKLIST.map((g,gi)=>{
+    const items=g[1].map((it,ii)=>{
+      const id='c'+gi+'_'+ii; total++; const on=!!saved[id]; if(on)done++;
+      const tags=it.slice(1).map(t=>`<span class="cl-tag ${t}">${TAGLBL[t]}</span>`).join('');
+      return `<li class="${on?'done':''}"><input type="checkbox" id="${id}" ${on?'checked':''}>
+        <label for="${id}">${tags}${esc(it[0])}</label></li>`;
+    }).join('');
+    return `<div class="cl-grp"><h3>${esc(g[0])}</h3><ul>${items}</ul></div>`;
+  }).join('');
+  const pct=total?Math.round(done/total*100):0;
+  document.getElementById('checklist').innerHTML=`
+    <div class="cl-head"><h2>Release checklist</h2>
+      <div class="cl-bar"><div style="width:${pct}%"></div></div><span class="cl-pct">${pct}%</span>
+      <button class="btn" id="clReset">Reset</button></div>
+    <div class="cl-note">First App Store + Google Play submission. <span class="cl-tag api">API</span> = scriptable ·
+      <span class="cl-tag web">WEB UI</span> = console only · <span class="cl-tag dec">DECLARATION</span> = don’t fabricate, ask the owner. Progress saved in this browser.</div>
+    ${groups}`;
+  const cl=document.getElementById('checklist');
+  cl.querySelectorAll('input[type=checkbox]').forEach(b=>b.onchange=()=>{
+    const s=clState(); s[b.id]=b.checked; clSave(s);
+    b.closest('li').classList.toggle('done',b.checked);
+    clProgress();           // update in place — don't rebuild (keeps scroll position)
+  });
+  document.getElementById('clReset').onclick=()=>{ clSave({}); renderChecklist(); };
+}
+function clProgress(){
+  const cl=document.getElementById('checklist');
+  const boxes=cl.querySelectorAll('input[type=checkbox]');
+  const done=[...boxes].filter(b=>b.checked).length;
+  const pct=boxes.length?Math.round(done/boxes.length*100):0;
+  cl.querySelector('.cl-bar>div').style.width=pct+'%';
+  cl.querySelector('.cl-pct').textContent=pct+'%';
+}
+function setChecklist(on){
+  showChecklist=on;
+  document.getElementById('checklist').classList.toggle('hidden',!on);
+  document.getElementById('checklistBtn').classList.toggle('on',on);
+  if(on){
+    $('app').classList.add('hidden'); $('editor').classList.add('hidden');
+    ['storeSeg','localeSeg','asoToggle','editToggle'].forEach(id=>$(id).style.display='none');
+    renderChecklist();
+  }else{
+    ['storeSeg','localeSeg','asoToggle','editToggle'].forEach(id=>$(id).style.display='');
+    setMode(mode==='edit'?'edit':'preview');
+  }
+}
+$('checklistBtn').onclick=()=>setChecklist(!showChecklist);
+
+/* ---------------- Inline UI edit + image replace + export ---------------- */
+let pickTarget=null;
+function imgAction(d){
+  const act=d.act;
+  if(act==='del'){ DATA.screenshots[d.cat].splice(+d.i,1); render(); return; }
+  if(act==='rep')      pickTarget={kind:'shot',cat:d.cat,idx:+d.i,multi:false};
+  else if(act==='add') pickTarget={kind:'shot',cat:d.cat,idx:-1,multi:true};
+  else if(act==='icon')pickTarget={kind:'icon',multi:false};
+  else if(act==='gfx') pickTarget={kind:'gfx',gfx:d.gfx,multi:false};
+  else return;
+  $('imgPick').multiple=!!pickTarget.multi;
+  $('imgPick').click();
+}
+$('imgPick').onchange=async e=>{
+  const files=[...e.target.files]; e.target.value=''; if(!files.length||!pickTarget) return;
+  const metas=await Promise.all(files.map(readImage));
+  const t=pickTarget; pickTarget=null;
+  const dim=m=>(m.w&&m.h)?`${m.w}×${m.h}`:'';
+  if(t.kind==='shot'){
+    const shots=metas.map(m=>({file:m.url,label:m.name.replace(/\.[^.]+$/,''),size:dim(m)}));
+    DATA.screenshots=DATA.screenshots||{}; DATA.screenshots[t.cat]=DATA.screenshots[t.cat]||[];
+    if(t.idx>=0) DATA.screenshots[t.cat].splice(t.idx,1,shots[0]);
+    else DATA.screenshots[t.cat].push(...shots);
+  } else if(t.kind==='icon'){
+    DATA.app.icon=metas[0].url; DATA.graphics=DATA.graphics||{};
+    DATA.graphics.appIcon={status:'uploaded',file:metas[0].url,size:dim(metas[0]),spec:'App icon'};
+  } else if(t.kind==='gfx'){
+    const m=metas[0]; DATA.graphics=DATA.graphics||{};
+    DATA.graphics[t.gfx]={status:'uploaded',file:m.url,size:dim(m),spec:t.gfx==='appIcon'?'App icon':'Feature graphic'};
+    if(t.gfx==='appIcon') DATA.app.icon=m.url;
+  }
+  render();
+  if(typeof toast==='function') toast('Image updated');
+};
+
+$('inlineBtn').onclick=()=>{
+  inlineEdit=!inlineEdit;
+  if(inlineEdit){ if(showChecklist) setChecklist(false); if(mode!=='preview') setMode('preview'); }
+  render();
+  if(inlineEdit&&typeof toast==='function') toast('Edit on page: click any text to edit · click an image to replace');
+};
+
+$('exportBtn').onclick=()=>{
+  const txt=JSON.stringify(DATA,null,2);
+  const blob=new Blob([txt],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob); a.download='listing.json'; a.click();
+  URL.revokeObjectURL(a.href);
+  if(typeof toast==='function')
+    toast('Exported listing.json'+(/blob:/.test(txt)?' — note: dropped/replaced images are session-only blob URLs':''));
+};
+
+fetch('listing.json').then(r=>r.json()).then(d=>{DATA=d;SAVED=JSON.parse(JSON.stringify(d));render();}).catch(e=>{
+  document.getElementById('app').innerHTML=`<div class="err"><p>Could not load <code>listing.json</code> (browsers block <code>file://</code> fetch).</p>
+  <p>Serve it: <code>python3 -m http.server 8092 --directory resources/marketing</code> then open <code>/submit-store/index.html</code></p></div>`;
+  console.error(e);
+});
+</script>
+</body>
+</html>

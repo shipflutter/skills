@@ -1,0 +1,92 @@
+# Fastlane configuration — iOS / App Store Connect (TEMPLATE)
+#
+# Handles STORE METADATA + SCREENSHOTS only. Building/signing/uploading the binary
+# is done WITHOUT fastlane (see the appdist skill's deploy.sh). Keep the two
+# separate so a metadata refresh never needs a rebuild.
+#
+# Auth: App Store Connect API key. Export before running (or via prod.sh):
+#   export ASC_KEY_ID=XXXXXXXXXX
+#   export ASC_ISSUER_ID=00000000-0000-0000-0000-000000000000
+#   export ASC_KEY_P8=$HOME/.appstoreconnect/private_keys/AuthKey_XXXXXXXXXX.p8
+#
+# Usage:
+#   cd ios
+#   bundle exec fastlane upload_metadata      # text only, no screenshots, no binary
+#   bundle exec fastlane upload_screenshots   # screenshots only
+#   bundle exec fastlane release_listing      # metadata + screenshots (no binary)
+
+default_platform(:ios)
+
+# Replace with your real values (or keep them in ENV / .env.prod).
+APP_IDENTIFIER = ENV.fetch("BUNDLE_ID", "com.example.myapp")
+APP_NAME       = ENV.fetch("APP_NAME", "My App")
+TEAM_ID        = ENV.fetch("TEAM_ID", "XXXXXXXXXX")
+APP_VERSION    = ENV.fetch("APP_VERSION", "1.0.0")
+APP_SKU        = ENV.fetch("APP_SKU", "my-app-sku")
+
+def asc_api_key
+  app_store_connect_api_key(
+    key_id: ENV.fetch("ASC_KEY_ID", "XXXXXXXXXX"),
+    issuer_id: ENV.fetch("ASC_ISSUER_ID", "00000000-0000-0000-0000-000000000000"),
+    key_filepath: ENV["ASC_KEY_P8"],
+    in_house: false
+  )
+end
+
+platform :ios do
+  desc "Create the App Store Connect app record (one-time, before first upload)"
+  lane :create_app do
+    # NOTE: API keys often cannot create app records (403). If this fails, create
+    # the app manually in the App Store Connect web UI (My Apps -> New App).
+    produce(
+      api_key: asc_api_key,
+      app_identifier: APP_IDENTIFIER,
+      app_name: APP_NAME,
+      language: "English (U.S.)",
+      app_version: APP_VERSION,
+      sku: APP_SKU,
+      team_id: TEAM_ID,
+      platform: "ios"
+    )
+  end
+
+  desc "Upload App Store listing text only (no screenshots, no binary)"
+  lane :upload_metadata do
+    deliver(
+      api_key: asc_api_key,
+      metadata_path: "./fastlane/metadata",
+      skip_binary_upload: true,
+      skip_screenshots: true,
+      overwrite_screenshots: false,
+      force: true,
+      precheck_include_in_app_purchases: false,
+      run_precheck_before_submit: false
+    )
+  end
+
+  desc "Upload App Store screenshots only"
+  lane :upload_screenshots do
+    deliver(
+      api_key: asc_api_key,
+      screenshots_path: "./fastlane/screenshots",
+      skip_binary_upload: true,
+      skip_metadata: true,
+      overwrite_screenshots: true,
+      force: true,
+      run_precheck_before_submit: false
+    )
+  end
+
+  desc "Upload metadata + screenshots (no binary)"
+  lane :release_listing do
+    deliver(
+      api_key: asc_api_key,
+      metadata_path: "./fastlane/metadata",
+      screenshots_path: "./fastlane/screenshots",
+      skip_binary_upload: true,
+      overwrite_screenshots: true,
+      force: true,
+      run_precheck_before_submit: false
+    )
+  end
+end

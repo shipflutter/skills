@@ -1,0 +1,79 @@
+# Fastlane configuration — Android / Google Play (TEMPLATE)
+#
+# Usage:
+#   cd android
+#   export SUPPLY_JSON_KEY=/absolute/path/to/play-store-service-account.json
+#   bundle exec fastlane validate_metadata   # dry-run, no upload
+#   bundle exec fastlane internal            # build AAB + upload to internal track
+#   bundle exec fastlane metadata            # update store listing + screenshots only
+#   bundle exec fastlane promote_to_production
+#
+# versionName / versionCode come from pubspec.yaml via Flutter — bump `version:`
+# in pubspec.yaml before a release build.
+
+default_platform(:android)
+
+# ---- Paths ---------------------------------------------------------------
+FLUTTER_ROOT  = File.expand_path("../..", __dir__)   # repo root (parent of android/)
+AAB_OUTPUT    = File.join(FLUTTER_ROOT, "build/app/outputs/bundle/release/app-release.aab")
+DEFAULT_TRACK = ENV.fetch("PLAYSTORE_TRACK", "internal")
+
+platform :android do
+  desc "Build a signed release AAB with Flutter"
+  lane :build_aab do
+    Dir.chdir(FLUTTER_ROOT) do
+      sh("flutter", "clean")
+      sh("flutter", "pub", "get")
+      sh("flutter", "build", "appbundle", "--release")
+    end
+    UI.user_error!("AAB not found at #{AAB_OUTPUT}") unless File.exist?(AAB_OUTPUT)
+    UI.success("Built #{AAB_OUTPUT}")
+  end
+
+  desc "Validate metadata & screenshots against Google Play (no upload)"
+  lane :validate_metadata do
+    upload_to_play_store(
+      track: DEFAULT_TRACK,
+      validate_only: true,
+      skip_upload_aab: true,
+      skip_upload_apk: true,
+      skip_upload_changelogs: true, # changelogs need a versionCode; not in a metadata-only run
+      metadata_path: "./fastlane/metadata/android"
+    )
+  end
+
+  desc "Update Play Store listing (metadata + screenshots), no binary"
+  lane :metadata do
+    upload_to_play_store(
+      track: DEFAULT_TRACK,
+      skip_upload_aab: true,
+      skip_upload_apk: true,
+      skip_upload_changelogs: true,
+      metadata_path: "./fastlane/metadata/android"
+    )
+  end
+
+  desc "Build and upload to the internal testing track (draft)"
+  lane :internal do
+    build_aab
+    upload_to_play_store(
+      track: "internal",
+      aab: AAB_OUTPUT,
+      release_status: "draft",
+      metadata_path: "./fastlane/metadata/android"
+    )
+  end
+
+  desc "Promote the internal build to production (use with care)"
+  lane :promote_to_production do
+    upload_to_play_store(
+      track: "internal",
+      track_promote_to: "production",
+      skip_upload_aab: true,
+      skip_upload_apk: true,
+      skip_upload_metadata: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true
+    )
+  end
+end
