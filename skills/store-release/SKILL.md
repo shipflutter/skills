@@ -52,6 +52,7 @@ cd android && bundle install && bundle exec fastlane internal
 | File | Purpose |
 |------|---------|
 | `references/first-release-checklist.md` | The full step-by-step setup + submission checklist for both stores, with the first-release gotchas. **Read this first.** |
+| `references/submission-checklist.md` | Actionable, tickable task list of every step to submit (with the real App Store version blockers: age rating, app privacy, pricing, content rights, copyright, build attach + submit). |
 | `references/prompts.md` | Ready-to-paste prompts for an AI agent to drive each release step. |
 | `references/fastlane-gotchas.md` | Ruby/bundler/locale/spaceship fixes for the errors that block a first upload. |
 | `templates/ios/Fastfile` | iOS `deliver` lanes: `create_app`, `upload_metadata`, `upload_screenshots`, `release_listing`. |
@@ -60,6 +61,7 @@ cd android && bundle install && bundle exec fastlane internal
 | `templates/*/Gemfile`, `templates/*/Appfile` | Pinned fastlane + app identifiers (placeholders). |
 | `assets/.env.example` | All env vars with **dummy** values. Copy to `.env.prod` and fill in; never commit. |
 | `guide/index.html` | Standalone interactive checklist page you can open in a browser. |
+| `store-preview/` | JSON-driven App Store + Google Play listing **preview tool** (ships with dummy demo data): layout toggle, locales, ASO character checks, on-page inline editing of all text/images, drag-&-drop image loading, Export data, and a built-in Release checklist. Run with `python3 -m http.server` from that folder. |
 
 ## Golden rules
 

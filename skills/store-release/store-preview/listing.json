@@ -1,0 +1,155 @@
+{
+  "_demo": "DUMMY sample data for the store-listing preview. Load it via the top-bar 'Load JSON…' button in ../index.html. Paths are relative to submit-store/. The es-ES subtitle is intentionally over the 30-char limit to demonstrate the ASO red counter.",
+  "app": {
+    "name": "PulseFit: Habit Coach",
+    "androidPackage": "com.demo.pulsefit",
+    "iosBundleId": "com.demo.pulsefit",
+    "versionName": "1.4.0",
+    "versionCode": 42,
+    "icon": "assets/app-icon.svg",
+    "developer": "Acme Demo Labs",
+    "rating": "4.7",
+    "downloads": "50K+",
+    "age": "4+",
+    "ageShort": "3+",
+    "contentAdvisory": "In-app purchases",
+    "defaultLocale": "en-US",
+    "locales": [
+      "en-US",
+      "vi",
+      "es-ES"
+    ],
+    "playCategory": "Health & Fitness",
+    "appStoreCategory": "Health & Fitness",
+    "appStoreSecondaryCategory": "Lifestyle",
+    "contentRating": "Everyone / 4+",
+    "promoVideo": "https://youtube.com/shorts/demo",
+    "privacyNote": "Demo listing — no real data collected. Sample content for previewing the store page.",
+    "appleAppId": "0000000000",
+    "appleTeamId": "DEMO000000"
+  },
+  "limits": {
+    "appstore": {
+      "name": 30,
+      "subtitle": 30,
+      "keywords": 100,
+      "promotionalText": 170,
+      "description": 4000,
+      "whatsNew": 4000
+    },
+    "googleplay": {
+      "title": 30,
+      "shortDescription": 80,
+      "fullDescription": 4000,
+      "changelog": 500
+    }
+  },
+  "locales": {
+    "en-US": {
+      "displayName": "English (US)",
+      "appstore": {
+        "name": "PulseFit: Habit Coach",
+        "subtitle": "Workouts, habits & coaching",
+        "keywords": "fitness,workout,habit,tracker,coach,running,steps,gym,routine,streak,health,goals",
+        "promotionalText": "Build daily habits that stick. Guided workouts, live coaching and a streak tracker that keeps you moving — sample demo listing for the preview tool."
+      },
+      "googleplay": {
+        "title": "PulseFit: Habit Coach",
+        "shortDescription": "Guided workouts, habit streaks and a personal coach in your pocket."
+      },
+      "fullDescription": "PulseFit is a sample demo app used to showcase the store-listing preview tool. Replace this copy with your real listing.\n\nWHY PULSEFIT\n• Build streaks: daily habits and a heatmap keep you consistent.\n• Guided workouts: short routines for any level, no equipment needed.\n• Live coaching: real-time form cues while you move.\n\nWHAT YOU CAN DO\n• Today view — one tap to start your next habit or workout.\n• Workouts — strength, cardio and mobility sessions by goal.\n• Live coaching — count reps and pace with on-screen guidance.\n• Progress — charts, personal records and weekly summaries.\n• Challenges — join friends and climb the weekly leaderboard.\n\nPERSONALIZE\n• Light/dark mode and multiple accent themes.\n• Interface available in English, Vietnamese and Spanish.\n\nThis is placeholder text. Everything here is dummy data for demoing the App Store / Google Play preview page.",
+      "whatsNew": "Welcome to PulseFit (demo)!\n• Today view with one-tap habits\n• Guided workouts by goal\n• Live rep + pace coaching\n• Progress charts and personal records\n• Weekly challenges and leaderboard\n• Light/dark mode, EN/VI/ES interface"
+    },
+    "vi": {
+      "displayName": "Tiếng Việt",
+      "appstore": {
+        "name": "PulseFit: HLV thói quen",
+        "subtitle": "Tập luyện, thói quen & HLV",
+        "keywords": "thể dục,tập luyện,thói quen,theo dõi,huấn luyện,chạy bộ,bước chân,gym,streak,sức khỏe",
+        "promotionalText": "Xây thói quen mỗi ngày. Bài tập có hướng dẫn, huấn luyện trực tiếp và theo dõi streak giúp bạn vận động đều — dữ liệu mẫu để demo công cụ preview."
+      },
+      "googleplay": {
+        "title": "PulseFit: HLV thói quen",
+        "shortDescription": "Bài tập có hướng dẫn, streak thói quen và HLV cá nhân ngay trên máy."
+      },
+      "fullDescription": "PulseFit là ứng dụng demo mẫu dùng để giới thiệu công cụ xem trước trang store. Hãy thay nội dung này bằng listing thật của bạn.\n\nVÌ SAO CHỌN PULSEFIT\n• Giữ streak: thói quen mỗi ngày và biểu đồ nhiệt giúp bạn đều đặn.\n• Bài tập có hướng dẫn: routine ngắn cho mọi trình độ, không cần dụng cụ.\n• Huấn luyện trực tiếp: gợi ý tư thế ngay khi bạn tập.\n\nBẠN CÓ THỂ LÀM GÌ\n• Màn Today — một chạm để bắt đầu thói quen hoặc bài tập kế tiếp.\n• Bài tập — sức mạnh, cardio và linh hoạt theo mục tiêu.\n• Huấn luyện trực tiếp — đếm rep và nhịp độ với hướng dẫn trên màn hình.\n• Tiến độ — biểu đồ, kỷ lục cá nhân và tổng kết tuần.\n• Thử thách — rủ bạn bè và leo bảng xếp hạng tuần.\n\nCÁ NHÂN HÓA\n• Chế độ sáng/tối và nhiều màu nhấn.\n• Giao diện tiếng Anh, tiếng Việt và tiếng Tây Ban Nha.\n\nĐây là nội dung mẫu — toàn bộ là dữ liệu giả để demo trang preview App Store / Google Play.",
+      "whatsNew": "Chào mừng đến PulseFit (demo)!\n• Màn Today với thói quen một chạm\n• Bài tập có hướng dẫn theo mục tiêu\n• Huấn luyện rep + nhịp độ trực tiếp\n• Biểu đồ tiến độ và kỷ lục cá nhân\n• Thử thách và bảng xếp hạng tuần\n• Chế độ sáng/tối, giao diện EN/VI/ES"
+    },
+    "es-ES": {
+      "displayName": "Español",
+      "appstore": {
+        "name": "PulseFit: Coach de hábitos",
+        "subtitle": "Entrenos, hábitos y coaching diario",
+        "keywords": "fitness,entrenamiento,hábito,seguimiento,coach,correr,pasos,gimnasio,rutina,racha,salud",
+        "promotionalText": "Crea hábitos diarios que perduran. Entrenos guiados, coaching en vivo y un contador de rachas que te mantiene en marcha — datos de demo para la vista previa."
+      },
+      "googleplay": {
+        "title": "PulseFit: Coach hábitos",
+        "shortDescription": "Entrenos guiados, rachas de hábitos y un coach personal en tu bolsillo."
+      },
+      "fullDescription": "PulseFit es una app de demostración para mostrar la herramienta de vista previa de la ficha de la tienda. Sustituye este texto por tu ficha real.\n\nPOR QUÉ PULSEFIT\n• Crea rachas: hábitos diarios y un mapa de calor te mantienen constante.\n• Entrenos guiados: rutinas cortas para cualquier nivel, sin equipo.\n• Coaching en vivo: indicaciones de técnica mientras te mueves.\n\nQUÉ PUEDES HACER\n• Vista Hoy — empieza tu próximo hábito o entreno con un toque.\n• Entrenos — fuerza, cardio y movilidad por objetivo.\n• Coaching en vivo — cuenta repeticiones y ritmo en pantalla.\n• Progreso — gráficas, récords personales y resúmenes semanales.\n• Retos — únete a amigos y sube en la clasificación semanal.\n\nPERSONALIZA\n• Modo claro/oscuro y varios colores de acento.\n• Interfaz en inglés, vietnamita y español.\n\nEsto es texto de marcador de posición: todo son datos ficticios para la demo.",
+      "whatsNew": "¡Bienvenido a PulseFit (demo)!\n• Vista Hoy con hábitos de un toque\n• Entrenos guiados por objetivo\n• Coaching de repeticiones y ritmo en vivo\n• Gráficas de progreso y récords personales\n• Retos y clasificación semanal\n• Modo claro/oscuro, interfaz EN/VI/ES"
+    }
+  },
+  "screenshots": {
+    "phone": [
+      { "file": "assets/phone-01.svg", "label": "Today", "size": "1080×2400" },
+      { "file": "assets/phone-02.svg", "label": "Workouts", "size": "1080×2400" },
+      { "file": "assets/phone-03.svg", "label": "Live coaching", "size": "1080×2400" },
+      { "file": "assets/phone-04.svg", "label": "Progress", "size": "1080×2400" },
+      { "file": "assets/phone-05.svg", "label": "Challenges", "size": "1080×2400" }
+    ],
+    "tablet": [
+      { "file": "assets/tablet-01.svg", "label": "Today", "size": "1600×2560" },
+      { "file": "assets/tablet-02.svg", "label": "Live coaching", "size": "1600×2560" },
+      { "file": "assets/tablet-03.svg", "label": "Progress", "size": "1600×2560" }
+    ],
+    "iphone": [
+      { "file": "assets/iphone-01.svg", "label": "Today", "size": "1320×2868" },
+      { "file": "assets/iphone-02.svg", "label": "Workouts", "size": "1320×2868" },
+      { "file": "assets/iphone-03.svg", "label": "Live coaching", "size": "1320×2868" },
+      { "file": "assets/iphone-04.svg", "label": "Progress", "size": "1320×2868" }
+    ],
+    "ipad": [
+      { "file": "assets/ipad-01.svg", "label": "Today", "size": "2064×2752" },
+      { "file": "assets/ipad-02.svg", "label": "Workouts", "size": "2064×2752" },
+      { "file": "assets/ipad-03.svg", "label": "Progress", "size": "2064×2752" }
+    ],
+    "_note": "Dummy SVG placeholders generated by gen-dummy.mjs — no real screenshots."
+  },
+  "graphics": {
+    "appIcon": {
+      "status": "uploaded",
+      "spec": "Play 512×512 PNG · App Store 1024×1024 PNG (no alpha)",
+      "file": "assets/app-icon.svg",
+      "size": "512×512"
+    },
+    "featureGraphic": {
+      "status": "uploaded",
+      "spec": "Play 1024×500 PNG/JPG",
+      "file": "assets/feature-graphic.svg",
+      "size": "1024×500"
+    }
+  },
+  "aso": {
+    "primaryKeywords": [
+      "habit tracker",
+      "guided workouts",
+      "fitness coach",
+      "streak tracker",
+      "running"
+    ],
+    "longTail": [
+      "daily habit streak app",
+      "no equipment home workouts",
+      "live rep counting coach",
+      "weekly fitness challenges"
+    ],
+    "notes": [
+      "Dummy ASO notes — title front-loads the brand + 'Habit Coach' hook.",
+      "es-ES subtitle is deliberately over 30 chars (35) to show the ASO over-limit (red) state.",
+      "Keyword field uses no spaces after commas to maximise the 100-char budget.",
+      "Swap in real copy + screenshots before submitting."
+    ]
+  }
+}

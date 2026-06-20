@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1320 2868" width="1320" height="2868" role="img" aria-label="Progress">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f6f6fb"/><stop offset="1" stop-color="#eef0f8"/>
+    </linearGradient>
+    <linearGradient id="hero" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#5b5bd6"/><stop offset="1" stop-color="#3a3aa3"/>
+    </linearGradient>
+  </defs>
+  <rect width="1320" height="2868" fill="url(#bg)"/>
+  <!-- status bar -->
+  <text x="92" y="143" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="46" font-weight="700" fill="#1d1d23">9:41</text>
+  <rect x="1082.8" y="100" width="145.2" height="29.04" rx="10.56" fill="#1d1d23" opacity="0.55"/>
+  <!-- caption / page title -->
+  <text x="92" y="301" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="73" font-weight="800" fill="#1d1d23">Progress</text>
+  <!-- hero -->
+  <rect x="92" y="373" width="1136" height="631" rx="92" fill="url(#hero)"/>
+  <circle cx="1136" cy="625.4" r="315.5" fill="#ffffff" opacity="0.10"/>
+  <rect x="184" y="549.6800000000001" width="568" height="88.34" rx="8" fill="#ffffff" opacity="0.9"/>
+  <rect x="184" y="688.5" width="386.24" height="63.1" rx="8" fill="#ffffff" opacity="0.55"/>
+  <rect x="184" y="789.46" width="946.5" height="138.82" rx="75.72" fill="#ff8a3d"/>
+  
+      <rect x="92" y="1119" width="1136" height="215" rx="60" fill="#ffffff" stroke="#ececf2"/>
+      <circle cx="210.25" cy="1226.5" r="64.5" fill="#ff8a3d" opacity="0.18"/>
+      <rect x="317.75" y="1183.5" width="340.8" height="34.4" rx="6" fill="#d7d7e2"/>
+      <rect x="317.75" y="1243.7" width="511.2" height="25.8" rx="6" fill="#e9e9f1"/>
+      <rect x="92" y="1406" width="1136" height="215" rx="60" fill="#ffffff" stroke="#ececf2"/>
+      <circle cx="210.25" cy="1513.5" r="64.5" fill="#ff8a3d" opacity="0.18"/>
+      <rect x="317.75" y="1470.5" width="482.8" height="34.4" rx="6" fill="#d7d7e2"/>
+      <rect x="317.75" y="1530.7" width="511.2" height="25.8" rx="6" fill="#e9e9f1"/>
+      <rect x="92" y="1693" width="1136" height="215" rx="60" fill="#ffffff" stroke="#ececf2"/>
+      <circle cx="210.25" cy="1800.5" r="64.5" fill="#ff8a3d" opacity="0.18"/>
+      <rect x="317.75" y="1757.5" width="624.8000000000001" height="34.4" rx="6" fill="#d7d7e2"/>
+      <rect x="317.75" y="1817.7" width="511.2" height="25.8" rx="6" fill="#e9e9f1"/>
+      <rect x="92" y="1980" width="1136" height="215" rx="60" fill="#ffffff" stroke="#ececf2"/>
+      <circle cx="210.25" cy="2087.5" r="64.5" fill="#ff8a3d" opacity="0.18"/>
+      <rect x="317.75" y="2044.5" width="340.8" height="34.4" rx="6" fill="#d7d7e2"/>
+      <rect x="317.75" y="2104.7" width="511.2" height="25.8" rx="6" fill="#e9e9f1"/>
+  <!-- pager dots -->
+  <g><circle cx="580.8" cy="2696" r="11.879999999999999" fill="#8a8a99" opacity="0.5"/><circle cx="633.5999999999999" cy="2696" r="11.879999999999999" fill="#8a8a99" opacity="0.5"/><circle cx="686.4" cy="2696" r="11.879999999999999" fill="#8a8a99" opacity="0.5"/><circle cx="739.1999999999999" cy="2696" r="17.16" fill="#5b5bd6" opacity="1"/></g>
+  <!-- watermark -->
+  <text x="660" y="2796" text-anchor="middle" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="34" font-weight="700" fill="#8a8a99" opacity="0.7">DEMO · sample screenshot</text>
+</svg>
