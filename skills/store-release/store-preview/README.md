@@ -4,6 +4,9 @@ A single-file, JSON-driven mockup of how an app looks on the **Apple App Store**
 and **Google Play** store pages — review listing copy, screenshots and graphics
 before you submit. Ships with **dummy demo data** ("PulseFit") so it runs as-is.
 
+> **🔗 Live demo:** **https://fighttechvn.github.io/app_marketing/**
+> (deployed from [fighttechvn/app_marketing](https://github.com/fighttechvn/app_marketing) via GitHub Pages)
+
 ## What you need to run
 
 | Input | Required? | Notes |
@@ -73,4 +76,22 @@ node gen-dummy.mjs   # rewrites assets/{phone,iphone,tablet,ipad}-NN.svg + icon 
 }
 ```
 
-> Live reference deployment: https://fighttechvn.github.io/mobilestore/
+## Deploy your own preview
+
+The whole tool is static (`index.html` + `listing.json` + `assets/`), so any
+static host works. Live demo is published to GitHub Pages from
+[fighttechvn/app_marketing](https://github.com/fighttechvn/app_marketing):
+
+```bash
+# from this folder — push the static site to the app_marketing repo
+git init -b main && git add index.html listing.json assets gen-dummy.mjs README.md
+git commit -m "Deploy store-listing preview"
+git remote add origin https://github.com/fighttechvn/app_marketing.git
+git push -u origin main
+# then enable Pages (main / root):
+gh api -X POST repos/fighttechvn/app_marketing/pages -f 'source[branch]=main' -f 'source[path]=/'
+```
+
+→ served at **https://fighttechvn.github.io/app_marketing/**
+
+> Older reference deployment: https://fighttechvn.github.io/mobilestore/
