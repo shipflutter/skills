@@ -1,43 +1,78 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1320 2868" width="1320" height="2868" role="img" aria-label="Progress">
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#f6f6fb"/><stop offset="1" stop-color="#eef0f8"/>
-    </linearGradient>
-    <linearGradient id="hero" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#5b5bd6"/><stop offset="1" stop-color="#3a3aa3"/>
-    </linearGradient>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6f6fb"/><stop offset="1" stop-color="#eef0f8"/></linearGradient>
+    <linearGradient id="hero" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5b5bd6"/><stop offset="1" stop-color="#3a3aa3"/></linearGradient>
+    <linearGradient id="warm" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff9d57"/><stop offset="1" stop-color="#ff8a3d"/></linearGradient>
   </defs>
   <rect width="1320" height="2868" fill="url(#bg)"/>
-  <!-- status bar -->
-  <text x="92" y="143" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="46" font-weight="700" fill="#1d1d23">9:41</text>
-  <rect x="1082.8" y="100" width="145.2" height="29.04" rx="10.56" fill="#1d1d23" opacity="0.55"/>
-  <!-- caption / page title -->
-  <text x="92" y="301" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="73" font-weight="800" fill="#1d1d23">Progress</text>
-  <!-- hero -->
-  <rect x="92" y="373" width="1136" height="631" rx="92" fill="url(#hero)"/>
-  <circle cx="1136" cy="625.4" r="315.5" fill="#ffffff" opacity="0.10"/>
-  <rect x="184" y="549.6800000000001" width="568" height="88.34" rx="8" fill="#ffffff" opacity="0.9"/>
-  <rect x="184" y="688.5" width="386.24" height="63.1" rx="8" fill="#ffffff" opacity="0.55"/>
-  <rect x="184" y="789.46" width="946.5" height="138.82" rx="75.72" fill="#ff8a3d"/>
-  
-      <rect x="92" y="1119" width="1136" height="215" rx="60" fill="#ffffff" stroke="#ececf2"/>
-      <circle cx="210.25" cy="1226.5" r="64.5" fill="#ff8a3d" opacity="0.18"/>
-      <rect x="317.75" y="1183.5" width="340.8" height="34.4" rx="6" fill="#d7d7e2"/>
-      <rect x="317.75" y="1243.7" width="511.2" height="25.8" rx="6" fill="#e9e9f1"/>
-      <rect x="92" y="1406" width="1136" height="215" rx="60" fill="#ffffff" stroke="#ececf2"/>
-      <circle cx="210.25" cy="1513.5" r="64.5" fill="#ff8a3d" opacity="0.18"/>
-      <rect x="317.75" y="1470.5" width="482.8" height="34.4" rx="6" fill="#d7d7e2"/>
-      <rect x="317.75" y="1530.7" width="511.2" height="25.8" rx="6" fill="#e9e9f1"/>
-      <rect x="92" y="1693" width="1136" height="215" rx="60" fill="#ffffff" stroke="#ececf2"/>
-      <circle cx="210.25" cy="1800.5" r="64.5" fill="#ff8a3d" opacity="0.18"/>
-      <rect x="317.75" y="1757.5" width="624.8000000000001" height="34.4" rx="6" fill="#d7d7e2"/>
-      <rect x="317.75" y="1817.7" width="511.2" height="25.8" rx="6" fill="#e9e9f1"/>
-      <rect x="92" y="1980" width="1136" height="215" rx="60" fill="#ffffff" stroke="#ececf2"/>
-      <circle cx="210.25" cy="2087.5" r="64.5" fill="#ff8a3d" opacity="0.18"/>
-      <rect x="317.75" y="2044.5" width="340.8" height="34.4" rx="6" fill="#d7d7e2"/>
-      <rect x="317.75" y="2104.7" width="511.2" height="25.8" rx="6" fill="#e9e9f1"/>
-  <!-- pager dots -->
-  <g><circle cx="580.8" cy="2696" r="11.879999999999999" fill="#8a8a99" opacity="0.5"/><circle cx="633.5999999999999" cy="2696" r="11.879999999999999" fill="#8a8a99" opacity="0.5"/><circle cx="686.4" cy="2696" r="11.879999999999999" fill="#8a8a99" opacity="0.5"/><circle cx="739.1999999999999" cy="2696" r="17.16" fill="#5b5bd6" opacity="1"/></g>
-  <!-- watermark -->
-  <text x="660" y="2796" text-anchor="middle" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="34" font-weight="700" fill="#8a8a99" opacity="0.7">DEMO · sample screenshot</text>
+  <g transform="translate(0.00 126.22) scale(1.22222)">
+  <rect width="1080" height="2140" fill="url(#bg)"/>
+  <text x="76" y="120" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="38" font-weight="700" fill="#1d1d23">9:41</text>
+  <rect x="885.2" y="84" width="118.8" height="23.76" rx="8.64" fill="#1d1d23" opacity="0.55"/>
+  <circle cx="820" cy="96" r="12" fill="#1d1d23" opacity="0.55"/>
+  <circle cx="852" cy="96" r="12" fill="#1d1d23" opacity="0.55"/>
+  <text x="76" y="252" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="64" font-weight="800" fill="#1d1d23">Progress</text>
+  <rect x="76" y="312" width="288" height="220" rx="44" fill="#ffffff" stroke="#ececf2"/>
+  <text x="220" y="420" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="58" font-weight="800" fill="#5b5bd6" text-anchor="middle">18</text>
+  <text x="220" y="478" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="30" font-weight="500" fill="#8a8a99" text-anchor="middle">Workouts</text>
+  <rect x="396" y="312" width="288" height="220" rx="44" fill="#ffffff" stroke="#ececf2"/>
+  <text x="540" y="420" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="58" font-weight="800" fill="#5b5bd6" text-anchor="middle">240</text>
+  <text x="540" y="478" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="30" font-weight="500" fill="#8a8a99" text-anchor="middle">Minutes</text>
+  <rect x="716" y="312" width="288" height="220" rx="44" fill="#ffffff" stroke="#ececf2"/>
+  <text x="860" y="420" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="58" font-weight="800" fill="#5b5bd6" text-anchor="middle">9,820</text>
+  <text x="860" y="478" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="30" font-weight="500" fill="#8a8a99" text-anchor="middle">Calories</text>
+  <rect x="76" y="580" width="928" height="620" rx="52" fill="#ffffff" stroke="#ececf2"/>
+  <text x="124" y="668" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="40" font-weight="800" fill="#1d1d23">This week</text>
+  <text x="956" y="668" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="30" font-weight="600" fill="#ff8a3d" text-anchor="end">+18%</text>
+  <rect x="124" y="750" width="64" height="360" rx="32" fill="#e9e9f1"/>
+  <rect x="124" y="930" width="64" height="180" rx="32" fill="#5b5bd6"/>
+  <text x="156" y="1160" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="30" font-weight="600" fill="#8a8a99" text-anchor="middle">M</text>
+  <rect x="252" y="750" width="64" height="360" rx="32" fill="#e9e9f1"/>
+  <rect x="252" y="822" width="64" height="288" rx="32" fill="#5b5bd6"/>
+  <text x="284" y="1160" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="30" font-weight="600" fill="#8a8a99" text-anchor="middle">T</text>
+  <rect x="380" y="750" width="64" height="360" rx="32" fill="#e9e9f1"/>
+  <rect x="380" y="984" width="64" height="126" rx="32" fill="#5b5bd6"/>
+  <text x="412" y="1160" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="30" font-weight="600" fill="#8a8a99" text-anchor="middle">W</text>
+  <rect x="508" y="750" width="64" height="360" rx="32" fill="#e9e9f1"/>
+  <rect x="508" y="768" width="64" height="342" rx="32" fill="#ff8a3d"/>
+  <text x="540" y="1160" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="30" font-weight="600" fill="#8a8a99" text-anchor="middle">T</text>
+  <rect x="636" y="750" width="64" height="360" rx="32" fill="#e9e9f1"/>
+  <rect x="636" y="894" width="64" height="216" rx="32" fill="#5b5bd6"/>
+  <text x="668" y="1160" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="30" font-weight="600" fill="#8a8a99" text-anchor="middle">F</text>
+  <rect x="764" y="750" width="64" height="360" rx="32" fill="#e9e9f1"/>
+  <rect x="764" y="1020" width="64" height="90" rx="32" fill="#5b5bd6"/>
+  <text x="796" y="1160" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="30" font-weight="600" fill="#8a8a99" text-anchor="middle">S</text>
+  <rect x="892" y="750" width="64" height="360" rx="32" fill="#e9e9f1"/>
+  <rect x="892" y="858" width="64" height="252" rx="32" fill="#5b5bd6"/>
+  <text x="924" y="1160" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="30" font-weight="600" fill="#8a8a99" text-anchor="middle">S</text>
+  <text x="76" y="1300" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="40" font-weight="800" fill="#1d1d23">Personal records</text>
+  <rect x="76" y="1356" width="928" height="140" rx="40" fill="#ffffff" stroke="#ececf2"/>
+  <circle cx="154" cy="1426" r="40" fill="#fff5ee"/>
+  <circle cx="154" cy="1426" r="16" fill="#ff8a3d"/>
+  <text x="226" y="1440" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="38" font-weight="600" fill="#1d1d23">5K run</text>
+  <text x="964" y="1440" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="40" font-weight="800" fill="#5b5bd6" text-anchor="end">24:18</text>
+  <rect x="76" y="1524" width="928" height="140" rx="40" fill="#ffffff" stroke="#ececf2"/>
+  <circle cx="154" cy="1594" r="40" fill="#fff5ee"/>
+  <circle cx="154" cy="1594" r="16" fill="#ff8a3d"/>
+  <text x="226" y="1608" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="38" font-weight="600" fill="#1d1d23">Plank hold</text>
+  <text x="964" y="1608" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="40" font-weight="800" fill="#5b5bd6" text-anchor="end">3:40</text>
+  <rect x="76" y="1692" width="928" height="140" rx="40" fill="#ffffff" stroke="#ececf2"/>
+  <circle cx="154" cy="1762" r="40" fill="#fff5ee"/>
+  <circle cx="154" cy="1762" r="16" fill="#ff8a3d"/>
+  <text x="226" y="1776" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="38" font-weight="600" fill="#1d1d23">Push-ups</text>
+  <text x="964" y="1776" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="40" font-weight="800" fill="#5b5bd6" text-anchor="end">42 reps</text>
+  <text x="540" y="1920" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="26" font-weight="700" fill="#8a8a99" text-anchor="middle" opacity="0.65">DEMO · sample screenshot</text>
+  <rect x="0" y="1940" width="1080" height="200" rx="0" fill="#ffffff"/>
+  <line x1="0" y1="1940" x2="1080" y2="1940" stroke="#ececf2" stroke-width="2"/>
+  <circle cx="108" cy="2010" r="26" fill="#e9e9f1"/>
+  <text x="108" y="2080" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="30" font-weight="500" fill="#8a8a99" text-anchor="middle">Today</text>
+  <circle cx="324" cy="2010" r="26" fill="#e9e9f1"/>
+  <text x="324" y="2080" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="30" font-weight="500" fill="#8a8a99" text-anchor="middle">Train</text>
+  <circle cx="540" cy="2010" r="26" fill="#e9e9f1"/>
+  <text x="540" y="2080" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="30" font-weight="500" fill="#8a8a99" text-anchor="middle">Coach</text>
+  <circle cx="756" cy="2010" r="26" fill="#5b5bd6"/>
+  <text x="756" y="2080" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="30" font-weight="700" fill="#5b5bd6" text-anchor="middle">Stats</text>
+  <circle cx="972" cy="2010" r="26" fill="#e9e9f1"/>
+  <text x="972" y="2080" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="30" font-weight="500" fill="#8a8a99" text-anchor="middle">You</text>
+  </g>
 </svg>

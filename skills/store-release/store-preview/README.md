@@ -4,14 +4,37 @@ A single-file, JSON-driven mockup of how an app looks on the **Apple App Store**
 and **Google Play** store pages — review listing copy, screenshots and graphics
 before you submit. Ships with **dummy demo data** ("PulseFit") so it runs as-is.
 
+## What you need to run
+
+| Input | Required? | Notes |
+|-------|-----------|-------|
+| A static web server | ✅ | `python3` (3.x) **or** `node` — only to serve files over http. |
+| `index.html` | ✅ | The single-file app. |
+| `listing.json` | ✅ | Listing data the page loads on startup (bundled dummy "PulseFit"). |
+| `assets/*.svg` | ✅ | Icon, feature graphic and screenshots referenced by `listing.json`. |
+| `node` (≥ 18) | optional | Only to **regenerate** the dummy screenshots with `gen-dummy.mjs`. |
+| Env vars / secrets | ❌ none | This tool is fully client-side — no API keys, `.env`, or network access. |
+
+> The store credentials in `../assets/.env.example` are for the **fastlane**
+> upload half of this skill, **not** for this preview tool.
+
 ## Run
 
 ```bash
 cd store-preview
-python3 -m http.server 8092
+python3 -m http.server 8092      # or: npx serve -l 8092 .
 # open http://localhost:8092/
 ```
 (Browsers block `fetch()` over `file://`, so serve it over http.)
+
+### Regenerate the dummy screenshots
+
+The bundled screenshots/icon/feature graphic in `assets/` are generated — edit
+the content or layout in `gen-dummy.mjs`, then:
+
+```bash
+node gen-dummy.mjs   # rewrites assets/{phone,iphone,tablet,ipad}-NN.svg + icon + feature graphic
+```
 
 ## Features
 
