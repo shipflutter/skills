@@ -1,43 +1,59 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2064 2752" width="2064" height="2752" role="img" aria-label="Today">
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#f6f6fb"/><stop offset="1" stop-color="#eef0f8"/>
-    </linearGradient>
-    <linearGradient id="hero" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#5b5bd6"/><stop offset="1" stop-color="#3a3aa3"/>
-    </linearGradient>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6f6fb"/><stop offset="1" stop-color="#eef0f8"/></linearGradient>
+    <linearGradient id="hero" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5b5bd6"/><stop offset="1" stop-color="#3a3aa3"/></linearGradient>
+    <linearGradient id="warm" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff9d57"/><stop offset="1" stop-color="#ff8a3d"/></linearGradient>
   </defs>
   <rect width="2064" height="2752" fill="url(#bg)"/>
-  <!-- status bar -->
-  <text x="144" y="138" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="72" font-weight="700" fill="#1d1d23">9:41</text>
-  <rect x="1692.96" y="96" width="227.04" height="45.407999999999994" rx="16.512" fill="#1d1d23" opacity="0.55"/>
-  <!-- caption / page title -->
-  <text x="144" y="289" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="114" font-weight="800" fill="#1d1d23">Today</text>
-  <!-- hero -->
-  <rect x="144" y="358" width="1776" height="605" rx="144" fill="url(#hero)"/>
-  <circle cx="1776" cy="600" r="302.5" fill="#ffffff" opacity="0.10"/>
-  <rect x="288" y="527.4" width="888" height="84.7" rx="8" fill="#ffffff" opacity="0.9"/>
-  <rect x="288" y="660.5" width="603.84" height="60.5" rx="8" fill="#ffffff" opacity="0.55"/>
-  <rect x="288" y="757.3" width="907.5" height="133.1" rx="72.6" fill="#ff8a3d"/>
-  
-      <rect x="144" y="1073" width="1776" height="206" rx="58" fill="#ffffff" stroke="#ececf2"/>
-      <circle cx="257.3" cy="1176" r="61.8" fill="#5b5bd6" opacity="0.18"/>
-      <rect x="360.3" y="1134.8" width="532.8" height="32.96" rx="6" fill="#d7d7e2"/>
-      <rect x="360.3" y="1192.48" width="799.2" height="24.72" rx="6" fill="#e9e9f1"/>
-      <rect x="144" y="1348" width="1776" height="206" rx="58" fill="#ffffff" stroke="#ececf2"/>
-      <circle cx="257.3" cy="1451" r="61.8" fill="#5b5bd6" opacity="0.18"/>
-      <rect x="360.3" y="1409.8" width="754.8" height="32.96" rx="6" fill="#d7d7e2"/>
-      <rect x="360.3" y="1467.48" width="799.2" height="24.72" rx="6" fill="#e9e9f1"/>
-      <rect x="144" y="1623" width="1776" height="206" rx="58" fill="#ffffff" stroke="#ececf2"/>
-      <circle cx="257.3" cy="1726" r="61.8" fill="#5b5bd6" opacity="0.18"/>
-      <rect x="360.3" y="1684.8" width="976.8000000000001" height="32.96" rx="6" fill="#d7d7e2"/>
-      <rect x="360.3" y="1742.48" width="799.2" height="24.72" rx="6" fill="#e9e9f1"/>
-      <rect x="144" y="1898" width="1776" height="206" rx="58" fill="#ffffff" stroke="#ececf2"/>
-      <circle cx="257.3" cy="2001" r="61.8" fill="#5b5bd6" opacity="0.18"/>
-      <rect x="360.3" y="1959.8" width="532.8" height="32.96" rx="6" fill="#d7d7e2"/>
-      <rect x="360.3" y="2017.48" width="799.2" height="24.72" rx="6" fill="#e9e9f1"/>
-  <!-- pager dots -->
-  <g><circle cx="949.44" cy="2587" r="26.831999999999997" fill="#5b5bd6" opacity="1"/><circle cx="1032" cy="2587" r="18.575999999999997" fill="#8a8a99" opacity="0.5"/><circle cx="1114.56" cy="2587" r="18.575999999999997" fill="#8a8a99" opacity="0.5"/></g>
-  <!-- watermark -->
-  <text x="1032" y="2683" text-anchor="middle" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="54" font-weight="700" fill="#8a8a99" opacity="0.7">DEMO · sample screenshot</text>
+  <g transform="translate(262.81 0.00) scale(1.42443)">
+  <rect width="1080" height="1932" fill="url(#bg)"/>
+  <text x="76" y="120" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="38" font-weight="700" fill="#1d1d23">9:41</text>
+  <rect x="885.2" y="84" width="118.8" height="23.76" rx="8.64" fill="#1d1d23" opacity="0.55"/>
+  <circle cx="820" cy="96" r="12" fill="#1d1d23" opacity="0.55"/>
+  <circle cx="852" cy="96" r="12" fill="#1d1d23" opacity="0.55"/>
+  <text x="76" y="168" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="34" font-weight="600" fill="#8a8a99">Good morning</text>
+  <text x="76" y="252" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="64" font-weight="800" fill="#1d1d23">Hi, Alex</text>
+  <rect x="76" y="312" width="928" height="460" rx="64" fill="url(#hero)"/>
+  <circle cx="900" cy="470" r="230" fill="#ffffff" opacity="0.10"/>
+  <text x="132" y="470" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="130" font-weight="800" fill="#ffffff">12</text>
+  <text x="132" y="540" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="38" font-weight="600" fill="#ffffff" opacity="0.92">day streak</text>
+  <text x="132" y="624" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="30" font-weight="500" fill="#ffffff" opacity="0.78">You’re on fire — keep it up!</text>
+  <circle cx="132" cy="700" r="22" fill="#ff8a3d"/>
+  <circle cx="196" cy="700" r="22" fill="#ff8a3d"/>
+  <circle cx="260" cy="700" r="22" fill="#ff8a3d"/>
+  <circle cx="324" cy="700" r="22" fill="#ff8a3d"/>
+  <circle cx="388" cy="700" r="22" fill="#ff8a3d"/>
+  <circle cx="452" cy="700" r="22" fill="#ffffff" opacity="0.35"/>
+  <circle cx="516" cy="700" r="22" fill="#ffffff" opacity="0.35"/>
+  <text x="76" y="880" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="40" font-weight="800" fill="#1d1d23">Today’s habits</text>
+  <text x="1004" y="880" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="32" font-weight="600" fill="#5b5bd6" text-anchor="end">3 / 4</text>
+  <rect x="76" y="940" width="928" height="150" rx="44" fill="#ffffff" stroke="#ececf2"/>
+  <circle cx="156" cy="1015" r="44" fill="#ff8a3d"/>
+  <path d="M134 1016 l16 18 l30 -36" fill="none" stroke="#fff" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="236" y="1028" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="38" font-weight="600" fill="#8a8a99">Morning run · 5 km</text>
+  <rect x="76" y="1118" width="928" height="150" rx="44" fill="#ffffff" stroke="#ececf2"/>
+  <circle cx="156" cy="1193" r="44" fill="#ff8a3d"/>
+  <path d="M134 1194 l16 18 l30 -36" fill="none" stroke="#fff" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="236" y="1206" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="38" font-weight="600" fill="#8a8a99">Drink 2 L water</text>
+  <rect x="76" y="1296" width="928" height="150" rx="44" fill="#ffffff" stroke="#ececf2"/>
+  <circle cx="156" cy="1371" r="44" fill="#ff8a3d"/>
+  <path d="M134 1372 l16 18 l30 -36" fill="none" stroke="#fff" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="236" y="1384" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="38" font-weight="600" fill="#8a8a99">Meditate · 10 min</text>
+  <rect x="76" y="1474" width="928" height="150" rx="44" fill="#ffffff" stroke="#ececf2"/>
+  <circle cx="156" cy="1549" r="44" fill="#ffffff" stroke="#e9e9f1" stroke-width="6"/>
+  <text x="236" y="1562" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="38" font-weight="600" fill="#1d1d23">Evening stretch</text>
+  <text x="540" y="1712" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="26" font-weight="700" fill="#8a8a99" text-anchor="middle" opacity="0.65">DEMO · sample screenshot</text>
+  <rect x="0" y="1732" width="1080" height="200" rx="0" fill="#ffffff"/>
+  <line x1="0" y1="1732" x2="1080" y2="1732" stroke="#ececf2" stroke-width="2"/>
+  <circle cx="108" cy="1802" r="26" fill="#5b5bd6"/>
+  <text x="108" y="1872" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="30" font-weight="700" fill="#5b5bd6" text-anchor="middle">Today</text>
+  <circle cx="324" cy="1802" r="26" fill="#e9e9f1"/>
+  <text x="324" y="1872" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="30" font-weight="500" fill="#8a8a99" text-anchor="middle">Train</text>
+  <circle cx="540" cy="1802" r="26" fill="#e9e9f1"/>
+  <text x="540" y="1872" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="30" font-weight="500" fill="#8a8a99" text-anchor="middle">Coach</text>
+  <circle cx="756" cy="1802" r="26" fill="#e9e9f1"/>
+  <text x="756" y="1872" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="30" font-weight="500" fill="#8a8a99" text-anchor="middle">Stats</text>
+  <circle cx="972" cy="1802" r="26" fill="#e9e9f1"/>
+  <text x="972" y="1872" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="30" font-weight="500" fill="#8a8a99" text-anchor="middle">You</text>
+  </g>
 </svg>
