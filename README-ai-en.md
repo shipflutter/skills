@@ -129,6 +129,57 @@ Requirements:
 - Run format/analyze and report changed files.
 ```
 
+## 6. Generate the full product docs (add-feat + add-srs)
+
+```text
+Use the add-feat and add-srs skills to analyze this project and create the full product documentation using the latest templates.
+
+1. ANALYZE FIRST. Map the product end to end (frontend, backend/API, data model, build/deploy).
+   Group the functionality into epics EP01, EP02, … each with a kebab-case slug (e.g. ep01-auth).
+   List the epics before writing files.
+
+2. FOR EVERY EPIC create (under resources/, following skills/add-feat/assets/templates/):
+   - resources/user-story/epXX-<slug>.md — stories as "## EPXX.US###: Title", each with:
+     • a "Status:" line (Backlog | To Do | Sprint | In Progress | In Review | Done) — Board column;
+     • an "As a … I want … so that …" line (card description);
+     • an "Acceptance criteria:" bullet list (= task checklist; nested bullets = sub-tasks).
+   - resources/technial-design/epXX-<slug>.md — Technologies, Entry Points (real file paths),
+     Flow (numbered), one Mermaid diagram, an Entities table, Tests.
+   - resources/screens/epXX-<slug>-screen.md — first heading = screen name; one ASCII wireframe in a
+     fenced code block (box-drawing ┌─┐│└┘├┤┬┴); "## Components", "## States", "## Events".
+     Write events as "EventName -> description" (or →) referencing the target screen by FILE ID
+     (e.g. "… -> navigate to ep02-…-screen") or by TITLE KEYWORD so the Flow view draws arrows;
+     add a return event on the target screen for two-way connectors.
+   - one resources/feature-brief.md — product brief + epic catalog table.
+
+3. COMPILE THE SRS. Write resources/srs.md: purpose, scope, requirements summary, user-story index,
+   use cases, a "## Screens / UI Surfaces" section (leave it EMPTY for the script to inject),
+   data/entity model with a Mermaid ER diagram, external interfaces/API, NFRs, risks, and a
+   traceability matrix (FR → epic → stories → design → screen → verification).
+
+4. RENDER. Ensure resources/srs.sh exists (copy the latest from
+   examples/flutter-poc-auth/resources/srs.sh and rebrand the sidebar title), run ./resources/srs.sh
+   to generate srs-index.html at the project root, and verify all three views:
+   📄 Docs (TOC + injected screens) · 🔀 Flow (one card per screen, arrows from ## Events) ·
+   🗂️ Board (one card per story, placed by Status:).
+
+Keep box-drawing characters intact inside fenced code blocks, keep everything local (no external
+renderers), and keep resources/srs.md as the single editable source of truth.
+
+Tip: to derive starter docs from an existing Flutter feature tree, run
+scripts/add_feat.sh gen-tdd <slug> EPXX first, then refine the generated files.
+```
+
+Deliverables checklist (complete when every box is ticked):
+
+- [ ] `resources/feature-brief.md` — brief + epic catalog table.
+- [ ] `resources/user-story/epXX-<slug>.md` per epic — `## EPXX.US###` stories with `Status:`, an `As a …` line, and `Acceptance criteria:` (nested bullets = sub-tasks).
+- [ ] `resources/technial-design/epXX-<slug>.md` per epic — Technologies · Entry Points · Flow · **Mermaid** · Entities · Tests.
+- [ ] `resources/screens/epXX-<slug>-screen.md` per screen — ASCII wireframe + `## Components/States/Events`; events `EventName -> …` referencing the target screen so Flow draws arrows.
+- [ ] `resources/srs.md` — all sections + `## Screens / UI Surfaces` (placeholder) + Mermaid **ER** + traceability matrix.
+- [ ] `resources/srs.sh` (latest) + `srs-index.html` generated via `./resources/srs.sh`.
+- [ ] Verify in `srs-index.html`: **📄 Docs** injects screens · **🔀 Flow** shows arrows from `## Events` · **🗂️ Board** places cards by `Status:`, click a card for description + tasks · box-drawing preserved, no leftover markers.
+
 ## Technical notes
 
 - Use `flutter test integration_test` for normal integration tests that do not need a screenshot-saving driver.
