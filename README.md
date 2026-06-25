@@ -228,6 +228,21 @@ full product documentation using the latest templates.
 Keep box-drawing characters intact inside fenced code blocks, keep everything local (no external
 renderers), and keep resources/srs.md as the single editable source of truth.
 
+5. DELIVERABLES CHECKLIST — the work is done only when every item is true; report it back ticked:
+   [ ] resources/feature-brief.md — brief + epic catalog table.
+   [ ] resources/user-story/epXX-<slug>.md per epic — "## EPXX.US###" stories with a Status: line,
+       an "As a …" line, and an "Acceptance criteria:" list (nested bullets = sub-tasks).
+   [ ] resources/technial-design/epXX-<slug>.md per epic — Technologies, Entry Points, Flow,
+       a Mermaid diagram, an Entities table, Tests.
+   [ ] resources/screens/epXX-<slug>-screen.md per screen — ASCII wireframe + ## Components/States/Events;
+       events "EventName -> …" referencing the target screen so the Flow view draws arrows.
+   [ ] resources/srs.md — all sections + "## Screens / UI Surfaces" placeholder + Mermaid ER +
+       a traceability matrix.
+   [ ] resources/srs.sh (latest) present, and srs-index.html generated via ./resources/srs.sh.
+   [ ] Verify in srs-index.html: Docs injects the screens · Flow shows arrows from ## Events ·
+       Board places one card per story by Status: (click a card → description + tasks) ·
+       box-drawing characters preserved · no leftover injection markers.
+
 Tip: to derive starter docs from an existing Flutter feature tree, run
 scripts/add_feat.sh gen-tdd <slug> EPXX first, then refine the generated files.
 ```
