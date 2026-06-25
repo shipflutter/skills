@@ -182,27 +182,55 @@ Live demo: <https://shipflutter.github.io/vibe/srs.html>
 
 ## Sample prompt — generate the full product docs
 
-Paste this prompt into Claude Code (with the `add-feat` and `add-srs` skills installed) to make the agent analyze a codebase and produce the **complete document set** — feature brief, user stories, technical design, screen layouts, and a rendered SRS with the **Docs · Flow · Board** views — using the latest templates.
+Copy the prompt below into Claude Code (use the **Copy** button on the code block) to make the agent analyze a codebase and produce the **complete document set** — feature brief, user stories, technical design, screen layouts, and a rendered SRS with the **Docs · Flow · Board** views — using the latest templates. It is self-contained: it installs the skills first, so one copy is all you need.
 
-> Use the **add-feat** and **add-srs** skills from the `shipflutter/skills` repo (https://github.com/shipflutter/skills) to analyze this project and create the full product documentation.
->
-> **0. Install the skills first** (skip if already available). Either install the Claude Code plugin — `/plugin marketplace add shipflutter/skills` then `/plugin install shipflutter-skills@shipflutter` — or copy them into the project: `npx skills add shipflutter/skills --skill add-feat -a claude-code --copy` and `npx skills add shipflutter/skills --skill add-srs -a claude-code --copy`.
->
-> **1. Analyze first.** Map the product end to end (frontend, backend/API, data model, build/deploy). Group the functionality into epics `EP01, EP02, …`, each with a kebab-case slug (e.g. `ep01-auth`). List the epics before writing files.
->
-> **2. For every epic, create — under `resources/` and following the latest templates in `skills/add-feat/assets/templates/`:**
-> - `resources/user-story/epXX-<slug>.md` — stories as `## EPXX.US###: Title`, each with a `Status:` line (`Backlog | To Do | Sprint | In Progress | In Review | Done`), an `As a … I want … so that …` line, and an `Acceptance criteria:` bullet list (nested bullets = sub-tasks).
-> - `resources/technial-design/epXX-<slug>.md` — Technologies, Entry Points (real file paths), Flow (numbered), a **Mermaid** flow diagram, an Entities table, and Tests.
-> - `resources/screens/epXX-<slug>-screen.md` — first heading = screen name; one fenced ASCII wireframe (box-drawing `┌─┐│└┘├┤┬┴`); `## Components`, `## States`, `## Events`. Write events as `EventName -> description` (or `→`) and reference the target screen **by file id** (e.g. `… -> navigate to ep02-…-screen`) or **by title keyword** so the **Flow** view draws the arrows; add a return event on the target for two-way connectors.
-> - A single `resources/feature-brief.md` — product brief + the epic catalog table.
->
-> **3. Compile the SRS.** Write `resources/srs.md` (purpose, scope, requirements summary, user-story index, use cases, a `## Screens / UI Surfaces` section — leave it for the script to inject — data/entity model with a Mermaid ER diagram, external interfaces/API, NFRs, risks, and a traceability matrix linking FR → epic → stories → design → screen → verification).
->
-> **4. Render.** Ensure `resources/srs.sh` exists (copy the latest from `examples/flutter-poc-auth/resources/srs.sh` and rebrand the sidebar title), then run `./resources/srs.sh` to generate `srs-index.html` at the project root and verify all three views work: **📄 Docs** (TOC + injected screens), **🔀 Flow** (one card per screen, arrows from `## Events`), **🗂️ Board** (one card per story, placed by `Status:`).
->
-> Keep box-drawing characters intact inside fenced code blocks, keep everything local (no external renderers), and keep `resources/srs.md` as the single editable source of truth.
+```text
+Use the add-feat and add-srs skills from the shipflutter/skills repo
+(https://github.com/shipflutter/skills) to analyze this project and create the
+full product documentation using the latest templates.
 
-> Tip: to derive starter docs from an existing Flutter feature tree, run `scripts/add_feat.sh gen-tdd <slug> EPXX` first, then refine the generated files.
+0. INSTALL THE SKILLS FIRST (skip if already available). Install the plugin in Claude Code:
+   /plugin marketplace add shipflutter/skills
+   /plugin install shipflutter-skills@shipflutter
+   Or copy them into the project:
+   npx skills add shipflutter/skills --skill add-feat -a claude-code --copy
+   npx skills add shipflutter/skills --skill add-srs -a claude-code --copy
+
+1. ANALYZE FIRST. Map the product end to end (frontend, backend/API, data model, build/deploy).
+   Group the functionality into epics EP01, EP02, … each with a kebab-case slug (e.g. ep01-auth).
+   List the epics before writing files.
+
+2. FOR EVERY EPIC create (under resources/, following skills/add-feat/assets/templates/):
+   - resources/user-story/epXX-<slug>.md — stories as "## EPXX.US###: Title", each with:
+     • a "Status:" line (Backlog | To Do | Sprint | In Progress | In Review | Done) — Board column;
+     • an "As a … I want … so that …" line (card description);
+     • an "Acceptance criteria:" bullet list (= task checklist; nested bullets = sub-tasks).
+   - resources/technial-design/epXX-<slug>.md — Technologies, Entry Points (real file paths),
+     Flow (numbered), one Mermaid diagram, an Entities table, Tests.
+   - resources/screens/epXX-<slug>-screen.md — first heading = screen name; one ASCII wireframe in a
+     fenced code block (box-drawing ┌─┐│└┘├┤┬┴); "## Components", "## States", "## Events".
+     Write events as "EventName -> description" (or →) referencing the target screen by FILE ID
+     (e.g. "… -> navigate to ep02-…-screen") or by TITLE KEYWORD so the Flow view draws arrows;
+     add a return event on the target screen for two-way connectors.
+   - one resources/feature-brief.md — product brief + epic catalog table.
+
+3. COMPILE THE SRS. Write resources/srs.md: purpose, scope, requirements summary, user-story index,
+   use cases, a "## Screens / UI Surfaces" section (leave it EMPTY for the script to inject),
+   data/entity model with a Mermaid ER diagram, external interfaces/API, NFRs, risks, and a
+   traceability matrix (FR → epic → stories → design → screen → verification).
+
+4. RENDER. Ensure resources/srs.sh exists (copy the latest from
+   examples/flutter-poc-auth/resources/srs.sh and rebrand the sidebar title), run ./resources/srs.sh
+   to generate srs-index.html at the project root, and verify all three views:
+   📄 Docs (TOC + injected screens) · 🔀 Flow (one card per screen, arrows from ## Events) ·
+   🗂️ Board (one card per story, placed by Status:).
+
+Keep box-drawing characters intact inside fenced code blocks, keep everything local (no external
+renderers), and keep resources/srs.md as the single editable source of truth.
+
+Tip: to derive starter docs from an existing Flutter feature tree, run
+scripts/add_feat.sh gen-tdd <slug> EPXX first, then refine the generated files.
+```
 
 ### Deliverables checklist
 
