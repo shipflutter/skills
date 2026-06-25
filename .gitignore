@@ -1,3 +1,10 @@
 .claude
 .codex
 deploy-local.sh
+examples/flutter-poc-auth/pubspec.lock
+examples/flutter-poc-auth/ios/Flutter/Debug.xcconfig
+examples/flutter-poc-auth/ios/Flutter/Release.xcconfig
+examples/flutter-poc-auth/macos/Flutter/Flutter-Debug.xcconfig
+examples/flutter-poc-auth/macos/Flutter/Flutter-Release.xcconfig
+examples/flutter-poc-fingerprint/pubspec.lock
+examples/flutter-poc-test/pubspec.lock
