@@ -1,5 +1,27 @@
 # Changelog
 
+## 0.0.8 - 2026-06-25
+
+### Added
+
+- Added three interactive, data-driven views to the generated `srs-index.html`, switchable from the left sidebar:
+  - **Docs** — the full SRS with a sticky table of contents (existing behavior, now one of three views).
+  - **Flow** — a canvas that renders each screen's real ASCII mockup and connects them with navigation arrows inferred from each screen's `## Events`. Screens auto-order into a path so a hub screen sits between the screens it links to.
+  - **Board** — a sprint kanban with **Backlog / To Do / In Progress / In Review / Done** columns. Cards show the story title and open a dialog with the full description and acceptance-criteria task checklist. A **List** layout adds status filter tags.
+- Bundled the canonical generator at `skills/add-srs/assets/srs.sh` so agents copy it into `resources/srs.sh` instead of re-authoring it.
+- Added a migration prompt for existing projects: `skills/add-srs/references/migrate-to-views.md`.
+- Added a `Sign-up` backlog feature to `examples/flutter-poc-auth` (user story + screen) demonstrating the Backlog column and a three-screen flow.
+
+### Changed
+
+- `add-feat gen-tdd` now scaffolds user stories with a `Status:` line and screen `## Events` with a navigation-target convention, so freshly generated features populate the Board and Flow views automatically.
+- Updated `add-feat` and `add-srs` `SKILL.md`, templates, and references to document the Flow/Board authoring conventions (`EventName -> <target-screen-file-id>` for arrows; `Status:` for board columns).
+- Hardened the Flow event parser to accept both `->` and `→` and to match a target screen by its file id.
+
+### Migration
+
+- Existing projects keep working unchanged. To adopt the new views, run the prompt in `skills/add-srs/references/migrate-to-views.md` (copy the bundled `srs.sh`, add `Status:` lines, add navigation `## Events`, regenerate). Stories without a `Status:` line default to **Done**.
+
 ## 0.0.7 - 2026-05-24
 
 ### Added

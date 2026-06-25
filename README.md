@@ -163,7 +163,22 @@ The command creates:
 - `resources/user-story/ep01-auth.md`
 - `resources/technial-design/ep01-auth.md`
 
-Use `add-srs` after that to compile the generated docs into `resources/srs.md` and render `srs-index.html` through `resources/srs.sh` using the standard two-column Mermaid SRS template.
+Use `add-srs` after that to compile the generated docs into `resources/srs.md` and render `srs-index.html` through `resources/srs.sh`.
+
+### SRS report views — Docs · Flow · Board
+
+The generated `srs-index.html` ships a left-sidebar switcher with three views, all built from the same `resources/` sources:
+
+- **📄 Docs** — the full SRS: purpose, scope, user stories, requirements, use cases, entities, traceability, and every screen's ASCII layout, with a sticky table of contents.
+- **🔀 Flow** — a canvas that renders each screen's real ASCII mockup and connects them with the navigation events from each screen's `## Events`. Screens auto-order into a path so a hub screen (e.g. sign-in) sits between the screens it links to.
+- **🗂️ Board** — a sprint kanban with **Backlog / To Do / In Progress / In Review / Done** columns. Each user story becomes a card placed by its `Status:` line; clicking a card opens its full description and acceptance-criteria task checklist. A **List** layout adds status filter tags to slice the stories.
+
+Two conventions wire these up (emitted by `add-feat gen-tdd`):
+
+- Screen `## Events` written as `EventName -> description` (or `→`) referencing the target screen draw the **Flow** arrows.
+- A `Status:` line under each `## EPXX.US###` story places it on the **Board**.
+
+Live demo: <https://shipflutter.github.io/vibe/srs.html>
 
 ## Device referral fingerprint POC
 
