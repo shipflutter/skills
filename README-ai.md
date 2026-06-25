@@ -132,7 +132,14 @@ Yêu cầu:
 ## 6. Tạo bộ tài liệu sản phẩm đầy đủ (add-feat + add-srs)
 
 ```text
-Dùng skill add-feat và add-srs để phân tích dự án này và tạo bộ tài liệu sản phẩm đầy đủ theo template mới nhất.
+Dùng skill add-feat và add-srs (repo: https://github.com/shipflutter/skills) để phân tích dự án này và tạo bộ tài liệu sản phẩm đầy đủ theo template mới nhất.
+
+0. CÀI SKILL TRƯỚC (bỏ qua nếu đã có). Cài plugin trong Claude Code:
+   /plugin marketplace add shipflutter/skills
+   /plugin install shipflutter-skills@shipflutter
+   Hoặc copy vào project:
+   npx skills add shipflutter/skills --skill add-feat -a claude-code --copy
+   npx skills add shipflutter/skills --skill add-srs -a claude-code --copy
 
 1. PHÂN TÍCH TRƯỚC. Map toàn bộ sản phẩm (frontend, backend/API, data model, build/deploy).
    Gom chức năng thành các epic EP01, EP02, … mỗi epic một slug kebab-case (vd ep01-auth).

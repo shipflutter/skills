@@ -184,7 +184,9 @@ Live demo: <https://shipflutter.github.io/vibe/srs.html>
 
 Paste this prompt into Claude Code (with the `add-feat` and `add-srs` skills installed) to make the agent analyze a codebase and produce the **complete document set** — feature brief, user stories, technical design, screen layouts, and a rendered SRS with the **Docs · Flow · Board** views — using the latest templates.
 
-> Use the **add-feat** and **add-srs** skills to analyze this project and create the full product documentation.
+> Use the **add-feat** and **add-srs** skills from the `shipflutter/skills` repo (https://github.com/shipflutter/skills) to analyze this project and create the full product documentation.
+>
+> **0. Install the skills first** (skip if already available). Either install the Claude Code plugin — `/plugin marketplace add shipflutter/skills` then `/plugin install shipflutter-skills@shipflutter` — or copy them into the project: `npx skills add shipflutter/skills --skill add-feat -a claude-code --copy` and `npx skills add shipflutter/skills --skill add-srs -a claude-code --copy`.
 >
 > **1. Analyze first.** Map the product end to end (frontend, backend/API, data model, build/deploy). Group the functionality into epics `EP01, EP02, …`, each with a kebab-case slug (e.g. `ep01-auth`). List the epics before writing files.
 >
