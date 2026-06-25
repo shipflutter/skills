@@ -132,7 +132,14 @@ Requirements:
 ## 6. Generate the full product docs (add-feat + add-srs)
 
 ```text
-Use the add-feat and add-srs skills to analyze this project and create the full product documentation using the latest templates.
+Use the add-feat and add-srs skills (repo: https://github.com/shipflutter/skills) to analyze this project and create the full product documentation using the latest templates.
+
+0. INSTALL THE SKILLS FIRST (skip if already available). Install the plugin in Claude Code:
+   /plugin marketplace add shipflutter/skills
+   /plugin install shipflutter-skills@shipflutter
+   Or copy them into the project:
+   npx skills add shipflutter/skills --skill add-feat -a claude-code --copy
+   npx skills add shipflutter/skills --skill add-srs -a claude-code --copy
 
 1. ANALYZE FIRST. Map the product end to end (frontend, backend/API, data model, build/deploy).
    Group the functionality into epics EP01, EP02, … each with a kebab-case slug (e.g. ep01-auth).
