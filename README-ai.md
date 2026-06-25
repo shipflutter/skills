@@ -173,6 +173,21 @@ Dùng skill add-feat và add-srs (repo: https://github.com/shipflutter/skills) �
 Giữ nguyên ký tự khung trong fenced code, giữ mọi thứ local (không render ngoài),
 và giữ resources/srs.md là source of truth duy nhất.
 
+5. CHECKLIST DELIVERABLES — chỉ hoàn thành khi mọi mục đều đúng; báo lại đã tick đủ:
+   [ ] resources/feature-brief.md — brief + bảng catalog epic.
+   [ ] resources/user-story/epXX-<slug>.md mỗi epic — story "## EPXX.US###" có dòng Status:,
+       dòng "As a …", và "Acceptance criteria:" (bullet lồng = sub-task).
+   [ ] resources/technial-design/epXX-<slug>.md mỗi epic — Technologies, Entry Points, Flow,
+       1 sơ đồ Mermaid, bảng Entities, Tests.
+   [ ] resources/screens/epXX-<slug>-screen.md mỗi màn hình — wireframe ASCII + ## Components/States/Events;
+       event "EventName -> …" trỏ màn hình đích để Flow vẽ mũi tên.
+   [ ] resources/srs.md — đủ mục + "## Screens / UI Surfaces" (placeholder) + Mermaid ER +
+       bảng traceability.
+   [ ] resources/srs.sh (bản mới nhất) + srs-index.html đã sinh bằng ./resources/srs.sh.
+   [ ] Verify trong srs-index.html: Docs inject screens · Flow có mũi tên từ ## Events ·
+       Board xếp card theo Status: (click card → mô tả + tasks) ·
+       giữ ký tự khung · không còn marker thừa.
+
 Mẹo: muốn tạo doc khởi tạo từ feature tree Flutter có sẵn, chạy
 scripts/add_feat.sh gen-tdd <slug> EPXX trước rồi tinh chỉnh các file sinh ra.
 ```
