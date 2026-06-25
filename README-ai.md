@@ -129,6 +129,57 @@ Yêu cầu:
 - Chạy format/analyze và báo cáo file đã thay đổi.
 ```
 
+## 6. Tạo bộ tài liệu sản phẩm đầy đủ (add-feat + add-srs)
+
+```text
+Dùng skill add-feat và add-srs để phân tích dự án này và tạo bộ tài liệu sản phẩm đầy đủ theo template mới nhất.
+
+1. PHÂN TÍCH TRƯỚC. Map toàn bộ sản phẩm (frontend, backend/API, data model, build/deploy).
+   Gom chức năng thành các epic EP01, EP02, … mỗi epic một slug kebab-case (vd ep01-auth).
+   Liệt kê danh sách epic trước khi ghi file.
+
+2. MỖI EPIC tạo (dưới resources/, bám template trong skills/add-feat/assets/templates/):
+   - resources/user-story/epXX-<slug>.md — story dạng "## EPXX.US###: Title", mỗi story có:
+     • dòng "Status:" (Backlog | To Do | Sprint | In Progress | In Review | Done) — đặt cột Board;
+     • dòng "As a … I want … so that …" (mô tả card);
+     • "Acceptance criteria:" dạng bullet (= task checklist; bullet lồng = sub-task).
+   - resources/technial-design/epXX-<slug>.md — Technologies, Entry Points (đường dẫn file thật),
+     Flow (đánh số), 1 sơ đồ Mermaid, bảng Entities, Tests.
+   - resources/screens/epXX-<slug>-screen.md — heading đầu = tên màn hình; 1 wireframe ASCII trong
+     fenced code (ký tự khung ┌─┐│└┘├┤┬┴); "## Components", "## States", "## Events".
+     Viết event dạng "EventName -> mô tả" (hoặc →) trỏ màn hình đích theo FILE ID
+     (vd "… -> navigate to ep02-…-screen") hoặc theo TỪ KHÓA TIÊU ĐỀ để Flow vẽ mũi tên;
+     thêm event quay lại trên màn hình đích để có mũi tên 2 chiều.
+   - 1 file resources/feature-brief.md — brief sản phẩm + bảng catalog epic.
+
+3. COMPILE SRS. Viết resources/srs.md: purpose, scope, requirements summary, index user-story,
+   use cases, mục "## Screens / UI Surfaces" (để TRỐNG cho script tự inject), data/entity model
+   kèm sơ đồ Mermaid ER, external interfaces/API, NFRs, risks, và bảng traceability
+   (FR → epic → stories → design → screen → verification).
+
+4. RENDER. Đảm bảo có resources/srs.sh (copy bản mới nhất từ
+   examples/flutter-poc-auth/resources/srs.sh, đổi tên tiêu đề sidebar), chạy ./resources/srs.sh
+   để sinh srs-index.html ở thư mục gốc và verify cả 3 view:
+   📄 Docs (TOC + screens đã inject) · 🔀 Flow (mỗi screen 1 card, mũi tên từ ## Events) ·
+   🗂️ Board (mỗi story 1 card, xếp cột theo Status:).
+
+Giữ nguyên ký tự khung trong fenced code, giữ mọi thứ local (không render ngoài),
+và giữ resources/srs.md là source of truth duy nhất.
+
+Mẹo: muốn tạo doc khởi tạo từ feature tree Flutter có sẵn, chạy
+scripts/add_feat.sh gen-tdd <slug> EPXX trước rồi tinh chỉnh các file sinh ra.
+```
+
+Checklist deliverables (hoàn thành khi tick đủ):
+
+- [ ] `resources/feature-brief.md` — brief + bảng catalog epic.
+- [ ] `resources/user-story/epXX-<slug>.md` mỗi epic — story `## EPXX.US###`, có `Status:`, dòng `As a …`, và `Acceptance criteria:` (bullet lồng = sub-task).
+- [ ] `resources/technial-design/epXX-<slug>.md` mỗi epic — Technologies · Entry Points · Flow · **Mermaid** · Entities · Tests.
+- [ ] `resources/screens/epXX-<slug>-screen.md` mỗi màn hình — wireframe ASCII + `## Components/States/Events`; events `EventName -> …` trỏ màn hình đích để Flow vẽ mũi tên.
+- [ ] `resources/srs.md` — đủ mục + `## Screens / UI Surfaces` (placeholder) + Mermaid **ER** + traceability matrix.
+- [ ] `resources/srs.sh` (bản mới nhất) + `srs-index.html` đã sinh bằng `./resources/srs.sh`.
+- [ ] Verify mở `srs-index.html`: **📄 Docs** inject screens · **🔀 Flow** có mũi tên từ `## Events` · **🗂️ Board** xếp cột theo `Status:`, click card xem mô tả + tasks · giữ ký tự khung, không còn marker thừa.
+
 ## Ghi nhớ kỹ thuật
 
 - `flutter test integration_test` phù hợp cho integration test thường, không cần driver lưu ảnh.
