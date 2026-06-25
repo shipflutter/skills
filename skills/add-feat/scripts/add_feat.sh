@@ -60,6 +60,7 @@ gen_tdd() {
 # ${epic_id}: ${feature_title} User Stories
 
 ## ${epic_id}.US001: Open ${feature_title}
+Status: Backlog
 As a user, I want to open the ${feature_title} feature so that I can complete the main workflow.
 
 Acceptance criteria:
@@ -68,6 +69,7 @@ Acceptance criteria:
 - Loading, success, and error states are visible when relevant.
 
 ## ${epic_id}.US002: Submit ${feature_title} data
+Status: Backlog
 As a user, I want to submit valid ${feature_title} data so that the app can process my request.
 
 Acceptance criteria:
@@ -78,6 +80,7 @@ Acceptance criteria:
 - Failure state shows a clear message.
 
 ## ${epic_id}.US003: Preview ${feature_title} with e2e screenshots
+Status: Backlog
 As a developer, I want screenshot e2e coverage for ${feature_title} so that the feature can be visually reviewed.
 
 Acceptance criteria:
@@ -127,10 +130,12 @@ EOF
 - Error: Description
 
 ## Events
-- EventName → Action description
+- SubmitTapped -> validate fields, then call the usecase/service
+- BackTapped -> navigate to <target-screen-file-id>
 
 ## SRS Export
-- `resources/srs.sh` renders this document inside the `Screens / UI Surfaces` section.
+- \`resources/srs.sh\` renders this document inside the \`Screens / UI Surfaces\` section (Docs view).
+- The Flow view draws this screen from the first fenced block and connects it with arrows: write \`## Events\` as \`EventName -> description\` (or \`→\`) and reference the target screen by its file id (this screen is \`${epic_lower}-${feature_slug}-screen\`) or distinctive title words.
 - Keep the wireframe fenced so spacing and box-drawing characters survive HTML export.
 EOF
 

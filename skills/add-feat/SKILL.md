@@ -49,7 +49,9 @@ Use this skill to bootstrap a new feature package in this repository.
 - Keep technical design files in the form `epXX-<feature>.md`.
 - Keep screen layout files in the form `epXX-<feature>-screen.md` under `resources/screens/`.
 - Use ASCII layout documents for screens: box-drawing wireframes plus component and event lists.
-- Keep screen layout docs compatible with `resources/srs.sh`: first heading is the screen name, wireframe lives in a fenced code block, and Components/States/Events use markdown lists.
+- Keep screen layout docs compatible with `resources/srs.sh`: first heading is the screen name, wireframe lives in the first fenced code block, and Components/States/Events use markdown lists.
+- Make screens link in the SRS **Flow** view: write `## Events` as `EventName -> description` (or `→`) and reference the target screen in the description by its file id (e.g. `ep02-forgot-password-screen`) or distinctive title words; add a return event on the target screen for a two-way connector.
+- Make stories appear on the SRS **Board** view: in `resources/user-story/epXX-*.md`, give each `## EPXX.US###` story an optional `Status:` line (`Backlog | To Do | Sprint | In Progress | In Review | Done`, default `Done`); the `As a ...` line is the card description and `Acceptance criteria` bullets become its task checklist.
 - Include explicit flow steps and entities in the technical design.
 - Include unit, widget, integration, and driver/screenshot test coverage before marking implementation complete.
 - Include screenshot e2e runner names based on the user-story id or epic id.

@@ -28,6 +28,7 @@ The POC does not support production token storage, OAuth/OIDC, actual email deli
 | EP02.US001 | Navigate to forgot password from sign-in. | `resources/user-story/ep02-forgot-password.md` |
 | EP02.US002 | Submit email to receive password reset instructions. | `resources/user-story/ep02-forgot-password.md` |
 | EP02.US003 | Preview forgot password through screenshot and e2e report coverage. | `resources/user-story/ep02-forgot-password.md` |
+| EP03.US001 | Dedicated sign-up screen (Backlog). | `resources/user-story/ep03-sign-up.md` |
 
 ## 4. Functional Requirements
 
@@ -46,6 +47,7 @@ The POC does not support production token storage, OAuth/OIDC, actual email deli
 | FR-011 | The e2e runner shall generate `e2e-index.html` with passed/failed step counts and screenshot filters. | EP01.US003, EP02.US003 |
 | FR-012 | The screenshot suite shall save stable PNG artifacts under `screenshots/`. | EP01.US003, EP02.US003 |
 | FR-013 | The SRS runner shall generate `srs-index.html` and render `resources/screens/*.md` under `Screens / UI Surfaces`. | EP01.US003, EP02.US003 |
+| FR-014 | The app should expose a dedicated sign-up screen reachable from sign-in (Backlog). | EP03.US001 |
 
 ## 5. Use Cases
 
@@ -146,6 +148,7 @@ flowchart TD
 | --- | --- | --- |
 | Auth sign-in/sign-up | `resources/screens/ep01-auth-screen.md` | ASCII layout document |
 | Forgot password | `resources/screens/ep02-forgot-password-screen.md` | ASCII layout document |
+| Sign-up (Backlog) | `resources/screens/ep03-sign-up-screen.md` | ASCII layout document |
 | E2E report | `e2e-index.html` | Generated HTML report |
 | SRS report | `srs-index.html` | Generated HTML report |
 
@@ -182,6 +185,8 @@ flowchart TD
 | Auth screen layout | `resources/screens/ep01-auth-screen.md` |
 | Forgot password technical design | `resources/technial-design/ep02-forgot-password.md` |
 | Forgot password screen layout | `resources/screens/ep02-forgot-password-screen.md` |
+| Sign-up user story (Backlog) | `resources/user-story/ep03-sign-up.md` |
+| Sign-up screen layout (Backlog) | `resources/screens/ep03-sign-up-screen.md` |
 
 ## 11. Verification
 

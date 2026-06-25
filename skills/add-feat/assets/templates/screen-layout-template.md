@@ -92,4 +92,13 @@ SRS export expects files in `resources/screens/epXX-<feature>-screen.md` and ren
 ## SRS Export
 - Store screen layout files under `resources/screens/`.
 - Keep the first heading as the screen name; `resources/srs.sh` uses it as the generated subsection title.
-- Keep the wireframe in a fenced code block so HTML export preserves spacing and box-drawing characters.
+- Keep the wireframe in the **first** fenced code block — the SRS **Flow** view renders that block as the screen's node, and the HTML export preserves spacing and box-drawing characters.
+
+## Flow view wiring (`srs-index.html` → Flow)
+The SRS Flow view draws each screen as its ASCII mockup and connects screens with arrows derived from the `## Events` list. To make a navigation arrow appear:
+- Write the event as `EventName -> description` (both `->` and `→` are accepted).
+- Reference the **target screen** in the description, either by its file id (most reliable) or by distinctive words from its title:
+  - By file id: `ForgotPasswordTapped -> navigate to ep02-forgot-password-screen`
+  - By title keyword: `ForgotPasswordTapped -> switch to forgot password screen`
+- Add a return event on the target screen back to this one (e.g. `BackToSignInTapped -> back to ep01-auth-screen`) so the connector shows both directions.
+- Screens with no navigation relationship are still listed; only linked screens get arrows. Screens are auto-ordered so a hub screen sits between the screens it links to.

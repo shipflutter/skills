@@ -54,6 +54,88 @@
     .meta { color: var(--color-muted); font-size: 13px; margin-bottom: 24px; }
     footer { padding: 24px 60px; border-top: 1px solid var(--color-hairline); color: var(--color-muted); font-size: 13px; background: var(--color-canvas); }
     footer code { font-family: var(--font-mono); background: var(--color-surface); padding: 2px 6px; border-radius: 4px; }
+    /* View switcher (Docs / Flow / Board) */
+    .view-switch { display: flex; gap: 6px; margin: 0 0 16px; }
+    .view-switch button { flex: 1; font-family: var(--font-body); font-size: 12px; font-weight: 600; padding: 8px 6px; border: 1px solid var(--color-hairline); background: var(--color-canvas); color: var(--color-muted); border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px; transition: background .15s, color .15s, border-color .15s; }
+    .view-switch button:hover { background: var(--color-surface); color: var(--color-ink); }
+    .view-switch button.active { background: var(--color-primary); color: var(--color-ink); border-color: var(--color-primary); }
+    /* Flow + Board views expand to the full content width */
+    body[data-view="flow"] main, body[data-view="board"] main { max-width: none; }
+    main section > h2:first-child { margin-top: 0; }
+    /* Flow view — canvas of screen mockups joined by navigation arrows */
+    .flow-canvas { display: flex; align-items: center; gap: 0; overflow-x: auto; padding: 28px 24px; background: var(--color-canvas); border: 1px solid var(--color-hairline); border-radius: 12px; margin: 16px 0; }
+    .flow-screen { flex: none; display: flex; flex-direction: column; align-items: center; }
+    .flow-screen .scr-cap { font-family: var(--font-mono); font-size: 12px; color: var(--color-muted); margin-bottom: 10px; text-align: center; max-width: 360px; }
+    .flow-screen pre { margin: 0; background: var(--color-surface); border: 1px solid var(--color-hairline); border-radius: 12px; padding: 16px; font-size: 11px; line-height: 1.3; white-space: pre; color: var(--color-ink); box-shadow: 0 6px 18px rgba(24, 26, 32, .06); }
+    .flow-connector { flex: none; display: flex; flex-direction: column; justify-content: center; gap: 16px; padding: 0 16px; min-width: 150px; }
+    .flow-arrow { display: flex; align-items: center; gap: 6px; font-size: 11px; white-space: nowrap; }
+    .flow-arrow .evt { font-family: var(--font-mono); background: var(--color-surface); border: 1px solid var(--color-hairline); border-radius: 6px; padding: 2px 7px; color: var(--color-ink); }
+    .flow-arrow .line { font-size: 20px; line-height: 1; }
+    .flow-arrow.fwd { color: #2563eb; }
+    .flow-arrow.fwd .line { color: #2563eb; }
+    .flow-arrow.back { color: var(--color-muted); }
+    .flow-legend { display: flex; flex-wrap: wrap; gap: 20px; font-size: 13px; color: var(--color-muted); margin-top: 12px; }
+    .flow-legend span { display: inline-flex; align-items: center; gap: 6px; }
+    .flow-legend .key { font-family: var(--font-mono); color: var(--color-ink); background: var(--color-surface); border: 1px solid var(--color-hairline); border-radius: 4px; padding: 1px 6px; }
+    /* Board / List view */
+    .board-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+    .layout-switch { display: inline-flex; gap: 4px; }
+    .layout-switch button { font-family: var(--font-body); font-size: 12px; font-weight: 600; padding: 5px 12px; border: 1px solid var(--color-hairline); background: var(--color-canvas); color: var(--color-muted); border-radius: 6px; cursor: pointer; }
+    .layout-switch button.active { background: var(--color-ink); color: #fff; border-color: var(--color-ink); }
+    .board { display: flex; gap: 16px; margin-top: 20px; align-items: flex-start; overflow-x: auto; padding-bottom: 8px; }
+    .board-col { flex: 1 1 0; min-width: 240px; background: var(--color-surface); border: 1px solid var(--color-hairline); border-top-width: 3px; border-radius: 12px; padding: 14px; }
+    .board-col[data-status="backlog"] { border-top-color: #94a3b8; }
+    .board-col[data-status="todo"] { border-top-color: #6366f1; }
+    .board-col[data-status="inprogress"] { border-top-color: #f59e0b; }
+    .board-col[data-status="inreview"] { border-top-color: #8b5cf6; }
+    .board-col[data-status="done"] { border-top-color: #16a34a; }
+    /* List layout: a flat list of user stories, no status columns */
+    .list-filter { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0 0; }
+    .filter-tag { font-family: var(--font-body); font-size: 12px; font-weight: 600; padding: 6px 12px; border: 1px solid var(--color-hairline); background: var(--color-canvas); color: var(--color-muted); border-radius: 999px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+    .filter-tag:hover { background: var(--color-surface); color: var(--color-ink); }
+    .filter-tag.active { background: var(--color-ink); color: #fff; border-color: var(--color-ink); }
+    .filter-tag .ft-count { font-size: 11px; opacity: .75; }
+    #board-list { display: flex; flex-direction: column; gap: 8px; margin-top: 16px; }
+    #board-list .story-card { display: flex; align-items: center; gap: 14px; }
+    #board-list .story-head { margin-bottom: 0; flex: none; }
+    #board-list .story-title { flex: 1; margin: 0; }
+    #board-list .story-foot { margin-top: 0; flex: none; white-space: nowrap; }
+    .status-badge { display: none; font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 999px; white-space: nowrap; }
+    #board-list .status-badge { display: inline-block; }
+    .status-badge.st-backlog { background: #eef2f6; color: #475569; }
+    .status-badge.st-todo { background: #e0e7ff; color: #4338ca; }
+    .status-badge.st-inprogress { background: #fef3c7; color: #92400e; }
+    .status-badge.st-inreview { background: #ede9fe; color: #6d28d9; }
+    .status-badge.st-done { background: #dcfce7; color: #166534; }
+    .board-col-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .03em; color: var(--color-muted); margin: 0 0 12px; display: flex; align-items: center; }
+    .col-count { display: inline-block; min-width: 20px; padding: 0 6px; margin-left: 6px; font-size: 11px; font-weight: 700; color: var(--color-muted); background: var(--color-canvas); border: 1px solid var(--color-hairline); border-radius: 999px; text-align: center; }
+    .col-empty { color: var(--color-muted); font-size: 13px; text-align: center; padding: 16px 0; margin: 0; }
+    .board-cards { display: flex; flex-direction: column; gap: 12px; min-height: 8px; }
+    .story-card { background: var(--color-canvas); border: 1px solid var(--color-hairline); border-radius: 10px; padding: 14px; cursor: pointer; transition: box-shadow .15s, transform .15s, border-color .15s; }
+    .story-card:hover { border-color: var(--color-primary); box-shadow: 0 4px 14px rgba(24, 26, 32, .08); transform: translateY(-1px); }
+    .story-card:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+    .story-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 8px; }
+    .story-id { font-family: var(--font-mono); font-size: 12px; font-weight: 600; color: var(--color-muted); }
+    .epic-tag { font-size: 11px; font-weight: 600; color: var(--color-muted); background: var(--color-surface); border: 1px solid var(--color-hairline); border-radius: 6px; padding: 1px 8px; }
+    .story-title { font-size: 14px; margin: 0; color: var(--color-ink); line-height: 1.45; }
+    .story-foot { margin-top: 10px; font-size: 12px; color: var(--color-muted); }
+    .story-foot .task-count { font-weight: 700; color: var(--color-ink); }
+    .story-full { display: none; }
+    .story-desc { font-size: 14px; color: var(--color-muted); margin: 0 0 14px; }
+    .task-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+    .task { display: flex; align-items: flex-start; gap: 8px; font-size: 14px; line-height: 1.5; }
+    .task .check { flex: none; width: 16px; height: 16px; border-radius: 4px; background: #16a34a; color: #fff; font-size: 11px; line-height: 16px; text-align: center; }
+    .task.task-sub { margin-left: 24px; font-size: 13px; color: var(--color-muted); }
+    .task.task-sub .check { background: var(--color-muted); }
+    /* Story detail dialog */
+    dialog#story-dialog { border: 0; border-radius: 14px; padding: 0; max-width: 660px; width: calc(100% - 40px); box-shadow: 0 24px 60px rgba(0, 0, 0, .25); }
+    dialog#story-dialog::backdrop { background: rgba(24, 26, 32, .45); }
+    .dialog-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 18px 22px; border-bottom: 1px solid var(--color-hairline); }
+    .dialog-head .story-id { display: block; margin-bottom: 4px; }
+    .dialog-head h3 { margin: 0; font-size: 17px; }
+    .dialog-close { border: 0; background: var(--color-surface); width: 30px; height: 30px; border-radius: 8px; cursor: pointer; font-size: 16px; line-height: 1; color: var(--color-muted); flex: none; }
+    .dialog-close:hover { background: var(--color-surface-strong); color: var(--color-ink); }
+    .dialog-body { padding: 18px 22px; max-height: 70vh; overflow-y: auto; }
     @media (max-width: 768px) { .layout { grid-template-columns: 1fr; } aside { position: static; height: auto; border-right: none; border-bottom: 1px solid var(--color-hairline); } main { padding: 24px; } footer { padding: 16px 24px; } }
   </style>
 </head>
@@ -62,9 +144,15 @@
     <aside>
       <h2>Flutter POC Auth</h2>
       <div class="meta">SRS Package</div>
-      <nav><ol id="toc"></ol></nav>
+      <div class="view-switch">
+        <button type="button" data-view="docs" class="active">📄 Docs</button>
+        <button type="button" data-view="flow">🔀 Flow</button>
+        <button type="button" data-view="board">🗂️ Board</button>
+      </div>
+      <nav id="toc-nav"><ol id="toc"></ol></nav>
     </aside>
-    <main id="content">
+    <main>
+      <section id="content">
 <h1 id="software-requirements-specification-flutter-poc-auth">Software Requirements Specification: Flutter POC Auth</h1>
 <h2 id="1-purpose">1. Purpose</h2>
 <p>This SRS documents the Flutter POC auth feature generated with the <code>add-feat</code> and <code>add-srs</code> workflows. The intended outcome is a small, auditable demo for sign-in, sign-up, forgot password, screenshot e2e, and generated report flows with traceability from user stories to tests.</p>
@@ -116,6 +204,11 @@
 <td>EP02.US003</td>
 <td>Preview forgot password through screenshot and e2e report coverage.</td>
 <td><code>resources/user-story/ep02-forgot-password.md</code></td>
+</tr>
+<tr>
+<td>EP03.US001</td>
+<td>Dedicated sign-up screen (Backlog).</td>
+<td><code>resources/user-story/ep03-sign-up.md</code></td>
 </tr>
 </tbody></table>
 <h2 id="4-functional-requirements">4. Functional Requirements</h2>
@@ -189,6 +282,11 @@
 <td>FR-013</td>
 <td>The SRS runner shall generate <code>srs-index.html</code> and render <code>resources/screens/*.md</code> under <code>Screens / UI Surfaces</code>.</td>
 <td>EP01.US003, EP02.US003</td>
+</tr>
+<tr>
+<td>FR-014</td>
+<td>The app should expose a dedicated sign-up screen reachable from sign-in (Backlog).</td>
+<td>EP03.US001</td>
 </tr>
 </tbody></table>
 <h2 id="5-use-cases">5. Use Cases</h2>
@@ -314,6 +412,11 @@ flowchart TD
 <td>ASCII layout document</td>
 </tr>
 <tr>
+<td>Sign-up (Backlog)</td>
+<td><code>resources/screens/ep03-sign-up-screen.md</code></td>
+<td>ASCII layout document</td>
+</tr>
+<tr>
 <td>E2E report</td>
 <td><code>e2e-index.html</code></td>
 <td>Generated HTML report</td>
@@ -430,6 +533,61 @@ flowchart TD
 <li>ForgotPasswordRequested -&gt; validate email, call AuthService.forgotPassword()</li>
 <li>BackToSignInTapped -&gt; switch to sign-in mode</li>
 </ul>
+<h3 id="sign-up-screen-layout">Sign-up Screen Layout</h3>
+<p>Source: <code>resources/screens/ep03-sign-up-screen.md</code></p>
+<h4 id="layout-mode-single-column">Layout Mode: Single-column</h4>
+<pre><code>
+┌──────────────────────────────────────────────┐
+│  AppBar: "Create account"            [back]  │
+├──────────────────────────────────────────────┤
+│                                              │
+│  Create your account                         │
+│  Sign up to start using the POC.             │
+│                                              │
+│  ┌────────────────────────────────────────┐  │
+│  │ [user] Display name                    │  │
+│  │ [Your name...                     ]    │  │
+│  └────────────────────────────────────────┘  │
+│                                              │
+│  ┌────────────────────────────────────────┐  │
+│  │ [mail] Email                           │  │
+│  │ [demo@shipflutter.dev             ]    │  │
+│  └────────────────────────────────────────┘  │
+│                                              │
+│  ┌────────────────────────────────────────┐  │
+│  │ [lock] Password                        │  │
+│  │ [password123                      ]    │  │
+│  └────────────────────────────────────────┘  │
+│                                              │
+│  ┌────────────────────────────────────────┐  │
+│  │          [Create account]              │  │
+│  └────────────────────────────────────────┘  │
+│                                              │
+│  Already have an account? [Sign in]          │
+│                                              │
+└──────────────────────────────────────────────┘
+</code></pre>
+<h4 id="components">Components</h4>
+<ul>
+<li>App bar: <code>Create account</code> with a back action</li>
+<li>Display name field: TextField for the user's name</li>
+<li>Email field: TextField with email keyboard</li>
+<li>Password field: TextField with obscured text</li>
+<li>Submit button: FilledButton labelled <code>Create account</code></li>
+<li>Sign in link: TextButton -&gt; back to sign-in screen</li>
+</ul>
+<h4 id="states">States</h4>
+<ul>
+<li>Initial: Empty form with the submit button disabled until valid</li>
+<li>Loading: Button shows <code>Creating...</code> and is disabled</li>
+<li>Success: Shows the created account summary</li>
+<li>Error: Shows a clear validation error message</li>
+</ul>
+<h4 id="events">Events</h4>
+<ul>
+<li>SignUpRequested -&gt; call AuthService.signUp()</li>
+<li>BackToSignInTapped -&gt; switch back to sign-in screen</li>
+</ul>
 <h2 id="9-non-functional-requirements">9. Non-Functional Requirements</h2>
 <ul>
 <li>The POC must stay local and deterministic.</li>
@@ -525,6 +683,14 @@ flowchart TD
 <td>Forgot password screen layout</td>
 <td><code>resources/screens/ep02-forgot-password-screen.md</code></td>
 </tr>
+<tr>
+<td>Sign-up user story (Backlog)</td>
+<td><code>resources/user-story/ep03-sign-up.md</code></td>
+</tr>
+<tr>
+<td>Sign-up screen layout (Backlog)</td>
+<td><code>resources/screens/ep03-sign-up-screen.md</code></td>
+</tr>
 </tbody></table>
 <h2 id="11-verification">11. Verification</h2>
 <pre><code>
@@ -535,13 +701,244 @@ flutter test
 ./e2e.sh
 ./resources/srs.sh
 </code></pre>
+    </section>
+    <section id="flow-view" hidden>
+<h2>Screen Flow</h2>
+<p class="meta">Each screen shows its real layout; arrows are the navigation events that move between screens.</p>
+<div class="flow-canvas">
+<div class="flow-screen"><div class="scr-cap">Forgot Password Screen Layout</div><pre>┌──────────────────────────────────────────────┐
+│  AppBar: "Forgot Password"            [back] │
+├──────────────────────────────────────────────┤
+│                                              │
+│  Reset your password                         │
+│  Enter your email and we'll send you         │
+│  instructions to reset your password.        │
+│                                              │
+│  ┌────────────────────────────────────────┐  │
+│  │ [mail] Email                           │  │
+│  │ [Enter your email...              ]    │  │
+│  └────────────────────────────────────────┘  │
+│                                              │
+│  ┌────────────────────────────────────────┐  │
+│  │         [Send Reset Link]              │  │
+│  └────────────────────────────────────────┘  │
+│                                              │
+│  Remember your password? [Sign in]           │
+│                                              │
+└──────────────────────────────────────────────┘</pre></div>
+<div class="flow-connector">
+<div class="flow-arrow fwd"><span class="evt">BackToSignInTapped</span><span class="line">&rarr;</span></div>
+<div class="flow-arrow back"><span class="line">&larr;</span><span class="evt">ForgotPasswordTapped</span></div>
+</div>
+<div class="flow-screen"><div class="scr-cap">Auth Sign-in and Sign-up Screen Layout</div><pre>┌──────────────────────────────────────────────┐
+│  AppBar: "Flutter POC Auth"                  │
+├──────────────────────────────────────────────┤
+│                                              │
+│  Auth Demo                                   │
+│  Local deterministic sign-in/sign-up POC     │
+│                                              │
+│  ┌────────────────────────────────────────┐  │
+│  │ [Sign in] [Sign up]                    │  │
+│  └────────────────────────────────────────┘  │
+│                                              │
+│  ┌────────────────────────────────────────┐  │
+│  │ [mail] Email                           │  │
+│  │ [demo@shipflutter.dev             ]    │  │
+│  └────────────────────────────────────────┘  │
+│                                              │
+│  ┌────────────────────────────────────────┐  │
+│  │ [lock] Password                        │  │
+│  │ [password123                      ]    │  │
+│  └────────────────────────────────────────┘  │
+│                                              │
+│  [Forgot password?]                          │
+│                                              │
+│  ┌────────────────────────────────────────┐  │
+│  │          [Sign in]                     │  │
+│  └────────────────────────────────────────┘  │
+│                                              │
+│  Success/error result area                  │
+│                                              │
+└──────────────────────────────────────────────┘</pre></div>
+<div class="flow-connector">
+<div class="flow-arrow fwd"><span class="evt">AuthModeChanged</span><span class="line">&rarr;</span></div>
+<div class="flow-arrow back"><span class="line">&larr;</span><span class="evt">BackToSignInTapped</span></div>
+</div>
+<div class="flow-screen"><div class="scr-cap">Sign-up Screen Layout</div><pre>┌──────────────────────────────────────────────┐
+│  AppBar: "Create account"            [back]  │
+├──────────────────────────────────────────────┤
+│                                              │
+│  Create your account                         │
+│  Sign up to start using the POC.             │
+│                                              │
+│  ┌────────────────────────────────────────┐  │
+│  │ [user] Display name                    │  │
+│  │ [Your name...                     ]    │  │
+│  └────────────────────────────────────────┘  │
+│                                              │
+│  ┌────────────────────────────────────────┐  │
+│  │ [mail] Email                           │  │
+│  │ [demo@shipflutter.dev             ]    │  │
+│  └────────────────────────────────────────┘  │
+│                                              │
+│  ┌────────────────────────────────────────┐  │
+│  │ [lock] Password                        │  │
+│  │ [password123                      ]    │  │
+│  └────────────────────────────────────────┘  │
+│                                              │
+│  ┌────────────────────────────────────────┐  │
+│  │          [Create account]              │  │
+│  └────────────────────────────────────────┘  │
+│                                              │
+│  Already have an account? [Sign in]          │
+│                                              │
+└──────────────────────────────────────────────┘</pre></div>
+</div>
+<div class="flow-legend">
+<span><span class="key">&rarr; Event</span> điều hướng tới màn hình kế tiếp</span>
+<span><span class="key">&larr; Event</span> điều hướng quay lại</span>
+</div>
+    </section>
+    <section id="board-view" hidden>
+<div class="board-head"><h2>Feature Board</h2><div class="layout-switch"><button type="button" data-layout="board" class="active">Board</button><button type="button" data-layout="list">List</button></div></div>
+<p class="meta">User stories across the sprint board. Click a card to see its full description and tasks.</p>
+<div class="board" id="board">
+<section class="board-col" data-status="backlog"><h3 class="board-col-title">Backlog <span class="col-count">0</span></h3><div class="board-cards"></div></section>
+<section class="board-col" data-status="todo"><h3 class="board-col-title">To Do (Sprint) <span class="col-count">0</span></h3><div class="board-cards"></div></section>
+<section class="board-col" data-status="inprogress"><h3 class="board-col-title">In Progress <span class="col-count">0</span></h3><div class="board-cards"></div></section>
+<section class="board-col" data-status="inreview"><h3 class="board-col-title">In Review <span class="col-count">0</span></h3><div class="board-cards"></div></section>
+<section class="board-col" data-status="done"><h3 class="board-col-title">Done <span class="col-count">0</span></h3><div class="board-cards"></div></section>
+</div>
+<div id="list-filter" hidden></div>
+<div id="board-list" hidden></div>
+<div id="story-pool" hidden>
+<article class="story-card" data-status="done" tabindex="0" role="button">
+<div class="story-head"><span class="story-id">EP01.US001</span><span class="epic-tag">EP01: Auth</span><span class="status-badge st-done">Done</span></div>
+<h4 class="story-title">Open Auth</h4>
+<div class="story-foot"><span class="task-count">5</span> tasks</div>
+<div class="story-full">
+<p class="story-desc">As a user, I want to open the Auth POC so that I can sign in or create an account from one entry point.</p>
+<ul class="task-list">
+<li class="task done"><span class="check">✓</span><span><code>AuthPocApp</code> launches <code>AuthPage</code> from <code>lib/main.dart</code>.</span></li>
+<li class="task done"><span class="check">✓</span><span>The sign-in mode is visible by default with email and password fields.</span></li>
+<li class="task done"><span class="check">✓</span><span>The sign-up mode can be selected and reveals the display name field.</span></li>
+<li class="task done"><span class="check">✓</span><span>The first screen renders without layout overflow at the screenshot surface size <code>390x844</code>.</span></li>
+<li class="task done"><span class="check">✓</span><span>The sign-in/sign-up screen layout is documented in <code>resources/screens/ep01-auth-screen.md</code>.</span></li>
+</ul>
+</div>
+</article>
+<article class="story-card" data-status="done" tabindex="0" role="button">
+<div class="story-head"><span class="story-id">EP01.US002</span><span class="epic-tag">EP01: Auth</span><span class="status-badge st-done">Done</span></div>
+<h4 class="story-title">Submit Auth data</h4>
+<div class="story-foot"><span class="task-count">6</span> tasks</div>
+<div class="story-full">
+<p class="story-desc">As a user, I want to submit sign-in or sign-up data so that the app can render the returned account summary.</p>
+<ul class="task-list">
+<li class="task done"><span class="check">✓</span><span>Sign-in submits demo credentials through <code>AuthService.signIn()</code>.</span></li>
+<li class="task done"><span class="check">✓</span><span>Sign-up submits email, password, and display name through <code>AuthService.signUp()</code>.</span></li>
+<li class="task done"><span class="check">✓</span><span>Loading state disables the submit button while the local service resolves.</span></li>
+<li class="task done"><span class="check">✓</span><span>Success state shows <code>User ID</code>, <code>Email</code>, and display name when available.</span></li>
+<li class="task done"><span class="check">✓</span><span>Invalid data from the service renders a clear error message.</span></li>
+<li class="task done"><span class="check">✓</span><span>Unit and widget coverage exists in <code>test/auth_service_test.dart</code> and <code>test/auth_flow_widget_test.dart</code>.</span></li>
+</ul>
+</div>
+</article>
+<article class="story-card" data-status="done" tabindex="0" role="button">
+<div class="story-head"><span class="story-id">EP01.US003</span><span class="epic-tag">EP01: Auth</span><span class="status-badge st-done">Done</span></div>
+<h4 class="story-title">Preview Auth with e2e screenshots</h4>
+<div class="story-foot"><span class="task-count">6</span> tasks</div>
+<div class="story-full">
+<p class="story-desc">As a developer, I want screenshot and e2e report coverage for Auth so that the feature can be visually reviewed and traced in SRS.</p>
+<ul class="task-list">
+<li class="task done"><span class="check">✓</span><span>Screenshot test exists in <code>test/auth_screenshot_test.dart</code>.</span></li>
+<li class="task done"><span class="check">✓</span><span>Screenshot output is saved to <code>screenshots/ep01-auth-sign-in-form.png</code>.</span></li>
+<li class="task done"><span class="check">✓</span><span>E2E runner exists at <code>e2e.sh</code> and runs format, analysis, unit/widget tests, auth screenshot capture, and forgot password screenshot capture.</span></li>
+<li class="task done"><span class="check">✓</span><span><code>e2e.sh</code> generates <code>e2e-index.html</code> with passed/failed step counts, screenshot grid, EP01/EP02 filters, and a link to <code>srs-index.html</code>.</span></li>
+<li class="task done"><span class="check">✓</span><span>Screenshot names are stable and prefixed with <code>ep01-auth</code>.</span></li>
+<li class="task done"><span class="check">✓</span><span>The auth flow, screenshot artifact, e2e report, and SRS report appear in SRS traceability.</span></li>
+</ul>
+</div>
+</article>
+<article class="story-card" data-status="done" tabindex="0" role="button">
+<div class="story-head"><span class="story-id">EP02.US001</span><span class="epic-tag">EP02: Forgot Password</span><span class="status-badge st-done">Done</span></div>
+<h4 class="story-title">Navigate to forgot password</h4>
+<div class="story-foot"><span class="task-count">5</span> tasks</div>
+<div class="story-full">
+<p class="story-desc">As a user, I want to access the forgot password screen from the sign-in page so that I can reset my password if I've forgotten it.</p>
+<ul class="task-list">
+<li class="task done"><span class="check">✓</span><span>"Forgot password?" link is visible on the sign-in screen.</span></li>
+<li class="task done"><span class="check">✓</span><span>Tapping the link navigates to the forgot password screen.</span></li>
+<li class="task done"><span class="check">✓</span><span>The forgot password screen renders without layout overflow.</span></li>
+<li class="task done"><span class="check">✓</span><span>Back button returns to sign-in screen.</span></li>
+<li class="task done"><span class="check">✓</span><span>The forgot password screen layout is documented in <code>resources/screens/ep02-forgot-password-screen.md</code>.</span></li>
+</ul>
+</div>
+</article>
+<article class="story-card" data-status="done" tabindex="0" role="button">
+<div class="story-head"><span class="story-id">EP02.US002</span><span class="epic-tag">EP02: Forgot Password</span><span class="status-badge st-done">Done</span></div>
+<h4 class="story-title">Submit forgot password request</h4>
+<div class="story-foot"><span class="task-count">8</span> tasks</div>
+<div class="story-full">
+<p class="story-desc">As a user, I want to submit my email address to receive password reset instructions.</p>
+<ul class="task-list">
+<li class="task done"><span class="check">✓</span><span>Email field validates format before submission.</span></li>
+<li class="task done"><span class="check">✓</span><span>Submit button is disabled when email is empty or invalid.</span></li>
+<li class="task done"><span class="check">✓</span><span>Submit calls <code>AuthService.forgotPassword()</code> through the page controller action.</span></li>
+<li class="task done"><span class="check">✓</span><span>Service returns deterministic local success or validation error response.</span></li>
+<li class="task done"><span class="check">✓</span><span>Success state shows "Reset link sent to {email}" message.</span></li>
+<li class="task done"><span class="check">✓</span><span>Error state shows clear error message.</span></li>
+<li class="task done"><span class="check">✓</span><span>Loading state disables button and shows "Sending..." text.</span></li>
+<li class="task done"><span class="check">✓</span><span>Unit and widget coverage exists in <code>test/auth_service_test.dart</code> and <code>test/auth_flow_widget_test.dart</code>.</span></li>
+</ul>
+</div>
+</article>
+<article class="story-card" data-status="done" tabindex="0" role="button">
+<div class="story-head"><span class="story-id">EP02.US003</span><span class="epic-tag">EP02: Forgot Password</span><span class="status-badge st-done">Done</span></div>
+<h4 class="story-title">Preview forgot password with e2e screenshots</h4>
+<div class="story-foot"><span class="task-count">8</span> tasks</div>
+<div class="story-full">
+<p class="story-desc">As a developer, I want screenshot and e2e report coverage for forgot password so that the feature can be visually reviewed and traced in SRS.</p>
+<ul class="task-list">
+<li class="task done"><span class="check">✓</span><span>Screenshot test exists in <code>test/forgot_password_screenshot_test.dart</code>.</span></li>
+<li class="task done"><span class="check">✓</span><span>Screenshots capture form and success states:</span></li>
+<li class="task done task-sub"><span class="check">✓</span><span><code>screenshots/ep02-forgot-password-form.png</code></span></li>
+<li class="task done task-sub"><span class="check">✓</span><span><code>screenshots/ep02-forgot-password-success.png</code></span></li>
+<li class="task done"><span class="check">✓</span><span>E2E runner <code>e2e.sh</code> includes forgot password screenshot capture.</span></li>
+<li class="task done"><span class="check">✓</span><span><code>e2e-index.html</code> includes an <code>EP02 Forgot Password</code> screenshot filter and links back to <code>srs-index.html</code>.</span></li>
+<li class="task done"><span class="check">✓</span><span>Screenshot names follow convention: <code>ep02-forgot-password-*.png</code>.</span></li>
+<li class="task done"><span class="check">✓</span><span>The flow, screenshot artifacts, e2e report, and SRS report appear in SRS traceability.</span></li>
+</ul>
+</div>
+</article>
+<article class="story-card" data-status="backlog" tabindex="0" role="button">
+<div class="story-head"><span class="story-id">EP03.US001</span><span class="epic-tag">EP03: Sign Up</span><span class="status-badge st-backlog">Backlog</span></div>
+<h4 class="story-title">Dedicated sign-up screen</h4>
+<div class="story-foot"><span class="task-count">6</span> tasks</div>
+<div class="story-full">
+<p class="story-desc">As a new user, I want a dedicated sign-up screen so that I can create an account without switching modes on the sign-in screen.</p>
+<ul class="task-list">
+<li class="task done"><span class="check">✓</span><span>A standalone sign-up screen is reachable from the sign-in screen.</span></li>
+<li class="task done"><span class="check">✓</span><span>The screen collects display name, email, and password.</span></li>
+<li class="task done"><span class="check">✓</span><span>Submitting calls <code>AuthService.signUp()</code> and shows the account summary.</span></li>
+<li class="task done"><span class="check">✓</span><span>Invalid input shows a clear validation error.</span></li>
+<li class="task done"><span class="check">✓</span><span>A "Sign in" link returns to the sign-in screen.</span></li>
+<li class="task done"><span class="check">✓</span><span>The sign-up screen layout is documented in <code>resources/screens/ep03-sign-up-screen.md</code>.</span></li>
+</ul>
+</div>
+</article>
+</div>
+<dialog id="story-dialog">
+<div class="dialog-head"><div><span class="story-id" id="dialog-id"></span><h3 id="dialog-title"></h3></div><button type="button" class="dialog-close" id="dialog-close" aria-label="Close">✕</button></div>
+<div class="dialog-body" id="dialog-body"></div>
+</dialog>
+    </section>
     </main>
   </div>
   <footer>Generated from <code>resources/srs.md</code> by <code>resources/srs.sh</code>.</footer>
   <script>
     mermaid.initialize({ startOnLoad: true, theme: 'default' });
     const toc = document.getElementById('toc');
-    const headings = [...document.querySelectorAll('main h2, main h3')];
+    const headings = [...document.querySelectorAll('#content h2, #content h3')];
     let currentGroup = null;
     headings.forEach((heading) => {
       const item = document.createElement('li');
@@ -581,6 +978,101 @@ flutter test
       });
     }, { rootMargin: '-20% 0px -70% 0px' });
     headings.forEach((heading) => observer.observe(heading));
+
+    // View switching: Docs (TOC) / Flow (screen canvas) / Board (feature board).
+    const views = { docs: 'content', flow: 'flow-view', board: 'board-view' };
+    function setView(view) {
+      Object.entries(views).forEach(([key, id]) => {
+        const el = document.getElementById(id);
+        if (el) el.hidden = key !== view;
+      });
+      document.querySelectorAll('.view-switch button').forEach((btn) =>
+        btn.classList.toggle('active', btn.dataset.view === view));
+      const tocNav = document.getElementById('toc-nav');
+      if (tocNav) tocNav.hidden = view !== 'docs';
+      document.body.dataset.view = view;
+    }
+    document.querySelectorAll('.view-switch button').forEach((btn) =>
+      btn.addEventListener('click', () => setView(btn.dataset.view)));
+    document.body.dataset.view = 'docs';
+
+    // Board cards live in a pool; a layout function moves them into either the
+    // kanban columns (Board) or a single flat list of user stories (List).
+    const board = document.getElementById('board');
+    const boardList = document.getElementById('board-list');
+    const listFilter = document.getElementById('list-filter');
+    const pool = document.getElementById('story-pool');
+    const allCards = pool ? [...pool.children] : [];
+    const STATUSES = [['all', 'All'], ['backlog', 'Backlog'], ['todo', 'To Do'], ['inprogress', 'In Progress'], ['inreview', 'In Review'], ['done', 'Done']];
+    let currentFilter = 'all';
+
+    function applyFilter(key) {
+      currentFilter = key;
+      allCards.forEach((c) => { c.style.display = (key === 'all' || c.dataset.status === key) ? '' : 'none'; });
+      if (listFilter) listFilter.querySelectorAll('.filter-tag').forEach((t) => t.classList.toggle('active', t.dataset.filter === key));
+    }
+    function buildFilter() {
+      if (!listFilter) return;
+      listFilter.innerHTML = '';
+      STATUSES.forEach(([key, label]) => {
+        const count = key === 'all' ? allCards.length : allCards.filter((c) => c.dataset.status === key).length;
+        if (key !== 'all' && count === 0) return;
+        const tag = document.createElement('button');
+        tag.type = 'button';
+        tag.className = 'filter-tag' + (key === currentFilter ? ' active' : '');
+        tag.dataset.filter = key;
+        tag.innerHTML = label + ' <span class="ft-count">' + count + '</span>';
+        tag.addEventListener('click', () => applyFilter(key));
+        listFilter.appendChild(tag);
+      });
+    }
+    function applyLayout(layout) {
+      const list = layout === 'list';
+      if (board) board.hidden = list;
+      if (boardList) boardList.hidden = !list;
+      if (listFilter) listFilter.hidden = !list;
+      if (list && boardList) {
+        allCards.forEach((card) => boardList.appendChild(card));
+        applyFilter(currentFilter);
+      } else if (board) {
+        allCards.forEach((card) => { card.style.display = ''; });
+        board.querySelectorAll('.board-col').forEach((col) => {
+          const wrap = col.querySelector('.board-cards');
+          const cards = allCards.filter((c) => c.dataset.status === col.dataset.status);
+          wrap.innerHTML = '';
+          cards.forEach((card) => wrap.appendChild(card));
+          const count = col.querySelector('.col-count');
+          if (count) count.textContent = cards.length;
+          if (!cards.length) wrap.innerHTML = '<p class="col-empty">—</p>';
+        });
+      }
+      document.querySelectorAll('.layout-switch button').forEach((b) =>
+        b.classList.toggle('active', b.dataset.layout === layout));
+    }
+    if (allCards.length) { buildFilter(); applyLayout('board'); }
+    document.querySelectorAll('.layout-switch button').forEach((btn) =>
+      btn.addEventListener('click', () => applyLayout(btn.dataset.layout)));
+
+    // Story detail dialog: a card shows only its title; clicking opens the rest.
+    const storyDialog = document.getElementById('story-dialog');
+    if (storyDialog) {
+      const openStory = (card) => {
+        document.getElementById('dialog-id').textContent = card.querySelector('.story-id')?.textContent || '';
+        document.getElementById('dialog-title').textContent = card.querySelector('.story-title')?.textContent || '';
+        document.getElementById('dialog-body').innerHTML = card.querySelector('.story-full')?.innerHTML || '';
+        storyDialog.showModal();
+      };
+      allCards.forEach((card) => {
+        card.addEventListener('click', () => openStory(card));
+        card.addEventListener('keydown', (event) => {
+          if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); openStory(card); }
+        });
+      });
+      document.getElementById('dialog-close').addEventListener('click', () => storyDialog.close());
+      storyDialog.addEventListener('click', (event) => {
+        if (event.target === storyDialog) storyDialog.close();
+      });
+    }
   </script>
 </body>
 </html>
