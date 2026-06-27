@@ -2,3 +2,10 @@
 .codex
 deploy-local.sh
 _reference
+examples/flutter-poc-auth/ios/Podfile.lock
+examples/flutter-poc-auth/ios/Flutter/Debug.xcconfig
+examples/flutter-poc-auth/ios/Flutter/Release.xcconfig
+examples/flutter-poc-auth/ios/Runner.xcodeproj/project.pbxproj
+examples/flutter-poc-auth/ios/Runner.xcworkspace/contents.xcworkspacedata
+examples/flutter-poc-auth/macos/Flutter/Flutter-Debug.xcconfig
+examples/flutter-poc-auth/macos/Flutter/Flutter-Release.xcconfig
