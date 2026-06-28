@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Marketing App Banner — static preview</title>
+  <!-- Static preview: the real app-banner.js only renders on a mobile UA, so this
+       page hardcodes the markup + class so you can SEE the layout on desktop.
+       It uses the standalone CSS from ../templates/app-banner.css. -->
+  <link rel="stylesheet" href="../templates/app-banner.css" />
+  <style>
+    body { font-family: -apple-system, system-ui, sans-serif; margin: 0; }
+    .header { position: sticky; top: 0; z-index: 10; display: flex; align-items: center; gap: 8px;
+      padding: 14px 18px; background: var(--ab-bg); border-bottom: 1px solid var(--ab-bd); }
+    .header b { font-size: 18px; color: var(--ab-fg); }
+    main { padding: 24px 18px; color: var(--ab-fg); background: var(--ab-bg); min-height: 200vh; }
+    /* force the icon to a colored block so the demo needs no image asset */
+    .app-banner .ab-icon { background: linear-gradient(135deg, #e8a35a, #e07a44); }
+  </style>
+</head>
+<!-- `has-appbar` would normally be added by the script; here it's hardcoded -->
+<body class="has-appbar">
+  <!-- this is what app-banner.js injects as the first child of <body> -->
+  <div class="app-banner">
+    <img class="ab-icon" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E" alt="" width="40" height="40" />
+    <span class="ab-text"><b>Example App</b><span>Your one-line tagline — free &amp; offline</span></span>
+    <a class="ab-cta" href="#" rel="noopener" target="_blank">Get</a>
+  </div>
+
+  <header class="header"><b>Example App</b></header>
+  <main>
+    <h1>Page content</h1>
+    <p>Scroll: the banner stays pinned, the header parks right beneath it, content never hides under either.</p>
+    <p>On a real phone, <code>app-banner.js</code> injects the banner automatically and points the
+      button at the App Store (iOS) or Google Play (Android). On desktop it renders nothing.</p>
+  </main>
+</body>
+</html>

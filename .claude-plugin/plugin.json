@@ -1,7 +1,7 @@
 {
   "name": "shipflutter-skills",
-  "version": "0.0.8",
-  "description": "Flutter testing and delivery skills for AI coding agents — feature docs, SRS, integration/driver/unit tests, CI/CD app distribution, and privacy-safe device referral attributes.",
+  "version": "0.0.9",
+  "description": "Flutter testing and delivery skills for AI coding agents — feature docs, SRS, integration/driver/unit tests, CI/CD app distribution, privacy-safe device referral attributes, plus web acquisition skills (marketing app banner, universal download link).",
   "author": {
     "name": "shipflutter",
     "url": "https://github.com/shipflutter"
@@ -15,6 +15,11 @@
     "integration-test",
     "flutter-driver",
     "coverage",
-    "app-distribution"
+    "app-distribution",
+    "app-banner",
+    "universal-link",
+    "qr-code",
+    "app-store",
+    "google-play"
   ]
 }
