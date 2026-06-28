@@ -100,6 +100,18 @@ npx skills add shipflutter/skills --skill privacy-safe-device-referral-attribute
 | [`marketing-app-banner`](skills/marketing-app-banner/SKILL.md) | Adds a native-style "Get the app" smart banner pinned to the top of a website or web app, auto-detecting iOS vs Android. | `Add a marketing app-install banner to my landing site that links to the right store.` |
 | [`universal-download-link`](skills/universal-download-link/SKILL.md) | One shared link + QR that auto-detects the OS and opens the right store (App Store / Google Play); desktop gets a chooser. | `Create a universal /get/ download link and a QR that opens the right app store.` |
 
+### Web acquisition skill previews
+
+**`marketing-app-banner`** — a native-style "Get the app" bar pinned above the page header, hidden on desktop:
+
+<img src="skills/marketing-app-banner/examples/preview.png" alt="marketing-app-banner demo" width="380" />
+
+**`universal-download-link`** — one link + QR that auto-detects the OS (interactive demo: platform simulator, live detection, shared QR):
+
+<img src="skills/universal-download-link/examples/preview.png" alt="universal-download-link demo" width="640" />
+
+> Both previews are the skills' own `examples/demo.html` — open that file (no build) to try them live.
+
 ## Repository structure
 
 ```text
