@@ -37,7 +37,7 @@ The repo ships a plugin marketplace (`.claude-plugin/marketplace.json`). In Clau
 /plugin install shipflutter-skills@shipflutter
 ```
 
-This loads all skills (`add-feat`, `add-srs`, `appdist`, `flutter-integration-test`, `flutter-driver-screenshot-test`, `flutter-unit-test-coverage`, `privacy-safe-device-referral-attributes`) into every Claude Code session. Each skill bundles its own `scripts/`, `assets/`, and `references/`, resolved relative to the skill — no extra setup needed.
+This loads all skills (`add-feat`, `add-srs`, `appdist`, `flutter-integration-test`, `flutter-driver-screenshot-test`, `flutter-unit-test-coverage`, `privacy-safe-device-referral-attributes`, `marketing-app-banner`, `universal-download-link`) into every Claude Code session. Each skill bundles its own `scripts/`, `assets/`, and `references/`, resolved relative to the skill — no extra setup needed.
 
 ### Option B — Copy skills into a project (via the `skills` CLI)
 
@@ -97,6 +97,20 @@ npx skills add shipflutter/skills --skill privacy-safe-device-referral-attribute
 | [`flutter-driver-screenshot-test`](skills/flutter-driver-screenshot-test/SKILL.md) | Adds Flutter driver screenshot tests that save PNG files through the host driver process. | `Add e2e screenshot tests for the main screens and save PNG files to screenshots/.` |
 | [`flutter-unit-test-coverage`](skills/flutter-unit-test-coverage/SKILL.md) | Adds Flutter unit/widget coverage reporting with `flutter test --coverage` and optional HTML reports. | `Add a run_test.sh script that generates Flutter unit test coverage and an HTML report.` |
 | [`privacy-safe-device-referral-attributes`](skills/privacy-safe-device-referral-attributes/SKILL.md) | Adds privacy-safe Flutter Android, iOS, Web, and static Web device/referral attribute demos. | `Add a transparent device referral attributes screen without third-party IP lookup or invasive fingerprinting.` |
+| [`marketing-app-banner`](skills/marketing-app-banner/SKILL.md) | Adds a native-style "Get the app" smart banner pinned to the top of a website or web app, auto-detecting iOS vs Android. | `Add a marketing app-install banner to my landing site that links to the right store.` |
+| [`universal-download-link`](skills/universal-download-link/SKILL.md) | One shared link + QR that auto-detects the OS and opens the right store (App Store / Google Play); desktop gets a chooser. | `Create a universal /get/ download link and a QR that opens the right app store.` |
+
+### Web acquisition skill previews
+
+**`marketing-app-banner`** — a native-style "Get the app" bar pinned above the page header, hidden on desktop:
+
+<img src="skills/marketing-app-banner/examples/preview.png" alt="marketing-app-banner demo" width="380" />
+
+**`universal-download-link`** — one link + QR that auto-detects the OS (interactive demo: platform simulator, live detection, shared QR):
+
+<img src="skills/universal-download-link/examples/preview.png" alt="universal-download-link demo" width="640" />
+
+> Both previews are the skills' own `examples/demo.html` — open that file (no build) to try them live.
 
 ## Repository structure
 

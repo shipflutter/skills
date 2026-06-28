@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex" />
+  <title>GoBrain · Universal Download Link — Demo</title>
+  <meta name="description" content="Standalone demo of GoBrain's one-link / one-QR universal app download: auto-detects iOS vs Android and opens the right store." />
+  <!-- =====================================================================
+       STANDALONE DEMO — fully self-contained. No build step, no external CSS
+       or JS, no fonts, no network requests. Open this file directly in any
+       browser. It demonstrates the GoBrain "universal download link" feature
+       (the real page lives at /get/ on the landing site).
+       ===================================================================== -->
+  <style>
+    :root {
+      --bg: #0e0e10; --card: #161618; --card2: #1d1d20; --bd: #28282c;
+      --fg: #ffffff; --mut: #9ca3af; --acc: #ffffff; --accfg: #0e0e10;
+      --ios: #0a84ff; --android: #34c759; --desktop: #f5a623;
+      --r: 14px;
+      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: radial-gradient(1200px 600px at 50% -10%, #1a1a1f 0%, var(--bg) 60%);
+      color: var(--fg); font-family: var(--font); line-height: 1.5;
+      min-height: 100vh; padding: 40px 20px;
+    }
+    .wrap { max-width: 920px; margin: 0 auto; }
+
+    /* header */
+    .top { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+    .logo { width: 40px; height: 40px; flex: none; }
+    .top h1 { font-size: 20px; font-weight: 700; letter-spacing: -.2px; }
+    .top .tag {
+      margin-left: auto; font-size: 12px; font-weight: 700; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--mut);
+      border: 1px solid var(--bd); border-radius: 999px; padding: 5px 12px;
+    }
+    .lede { color: var(--mut); font-size: 16px; max-width: 640px; margin: 14px 0 32px; }
+    .lede b { color: var(--fg); font-weight: 600; }
+
+    /* layout */
+    .grid { display: grid; grid-template-columns: 1.2fr .8fr; gap: 20px; align-items: start; }
+    @media (max-width: 720px) { .grid { grid-template-columns: 1fr; } }
+    .card {
+      background: var(--card); border: 1px solid var(--bd); border-radius: var(--r);
+      padding: 22px; box-shadow: 0 1px 2px rgba(0,0,0,.3);
+    }
+    .card h2 { font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--mut); margin-bottom: 16px; }
+
+    /* simulator */
+    .seg { display: flex; gap: 8px; background: var(--card2); border: 1px solid var(--bd); border-radius: 12px; padding: 6px; }
+    .seg button {
+      flex: 1; border: 0; border-radius: 8px; background: none; color: var(--fg);
+      font-family: var(--font); font-size: 14px; font-weight: 600; padding: 10px 6px;
+      cursor: pointer; transition: background-color .15s; display: flex; flex-direction: column; align-items: center; gap: 4px;
+    }
+    .seg button .ic { font-size: 18px; }
+    .seg button.on { background: var(--acc); color: var(--accfg); }
+
+    .result { margin-top: 18px; border: 1px dashed var(--bd); border-radius: 12px; padding: 16px; background: var(--card2); }
+    .result .step { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--mut); }
+    .result .step + .step { margin-top: 10px; }
+    .result .dot { width: 9px; height: 9px; border-radius: 999px; flex: none; background: var(--mut); }
+    .result.plat-ios .dot { background: var(--ios); } .result.plat-ios .pv { color: var(--ios); }
+    .result.plat-android .dot { background: var(--android); } .result.plat-android .pv { color: var(--android); }
+    .result.plat-desktop .dot { background: var(--desktop); } .result.plat-desktop .pv { color: var(--desktop); }
+    .result .pv { color: var(--fg); font-weight: 700; }
+    .result .url { font-family: var(--mono); font-size: 12.5px; color: var(--fg); word-break: break-all; }
+    .result .arrow { color: var(--fg); font-weight: 700; }
+
+    .you { margin-top: 16px; font-size: 13px; color: var(--mut); }
+    .you b { color: var(--fg); }
+
+    /* qr */
+    .qr-card { text-align: center; }
+    .qr { width: 188px; height: 188px; margin: 0 auto; background: #fff; border-radius: 12px; padding: 12px; }
+    .qr svg { display: block; width: 100%; height: 100%; }
+    .qr-cap { display: block; margin-top: 14px; font-size: 13px; font-weight: 600; color: var(--fg); }
+    .qr-url { display: block; margin-top: 4px; font-family: var(--mono); font-size: 12px; color: var(--mut); }
+    .qr-note { margin-top: 14px; font-size: 12px; color: var(--mut); line-height: 1.6; }
+
+    /* code */
+    .code { margin-top: 20px; }
+    pre {
+      background: var(--card); border: 1px solid var(--bd); border-radius: var(--r);
+      padding: 18px; overflow-x: auto; font-family: var(--mono); font-size: 12.5px; line-height: 1.7; color: #e5e7eb;
+    }
+    pre .k { color: #c792ea; } pre .s { color: #c3e88d; } pre .c { color: #5c6370; } pre .f { color: #82aaff; }
+
+    /* footer */
+    .foot { margin-top: 28px; display: flex; flex-wrap: wrap; align-items: center; gap: 14px; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px; background: var(--acc); color: var(--accfg);
+      border-radius: 10px; padding: 11px 18px; font-weight: 700; font-size: 14px; text-decoration: none;
+    }
+    .btn:active { opacity: .9; }
+    .foot .meta { color: var(--mut); font-size: 12px; margin-left: auto; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <svg class="logo" viewBox="0 0 48 48" aria-hidden="true">
+        <rect width="48" height="48" rx="11" fill="#d8cf3a"/>
+        <rect x="9"  y="9"  width="13" height="13" rx="3" fill="#f4efe3"/>
+        <rect x="26" y="9"  width="13" height="13" rx="3" fill="#e8a35a"/>
+        <rect x="9"  y="26" width="13" height="13" rx="3" fill="#e07a44"/>
+        <rect x="26" y="26" width="13" height="13" rx="3" fill="#e8c84a"/>
+      </svg>
+      <h1>GoBrain · Universal Download Link</h1>
+      <span class="tag">Feature demo</span>
+    </div>
+
+    <p class="lede">
+      <b>One link, one QR code.</b> When a visitor opens
+      <span style="font-family:var(--mono);font-size:14px">gobrain.fighttech.vn/get/</span>
+      (or scans the QR), the page auto-detects their platform and forwards them to the
+      <b>right</b> store — App Store on iOS, Google Play on Android. Desktop visitors get a chooser.
+    </p>
+
+    <div class="grid">
+      <!-- simulator -->
+      <div class="card">
+        <h2>Try the auto-detection</h2>
+        <div class="seg" id="seg">
+          <button data-plat="ios"><span class="ic">🍎</span>iPhone / iPad</button>
+          <button data-plat="android"><span class="ic">🤖</span>Android</button>
+          <button data-plat="desktop"><span class="ic">🖥️</span>Desktop</button>
+        </div>
+
+        <div class="result" id="result">
+          <div class="step"><span class="dot"></span><span>Detected platform: <span class="pv" id="r-plat">—</span></span></div>
+          <div class="step"><span class="arrow">→</span><span id="r-action">—</span></div>
+          <div class="step"><span class="dot" style="background:transparent"></span><span class="url" id="r-url">—</span></div>
+        </div>
+
+        <p class="you">Your device right now is detected as: <b id="you">…</b></p>
+      </div>
+
+      <!-- qr -->
+      <div class="card qr-card">
+        <h2>The shared QR</h2>
+        <div class="qr" role="img" aria-label="QR code for gobrain.fighttech.vn/get/">
+          <svg viewBox="-2 -2 33 33" xmlns="http://www.w3.org/2000/svg"><rect x="-2" y="-2" width="33" height="33" fill="#fff"/><path d="M0,0H1V1H0zM1,0H2V1H1zM2,0H3V1H2zM3,0H4V1H3zM4,0H5V1H4zM5,0H6V1H5zM6,0H7V1H6zM8,0H9V1H8zM9,0H10V1H9zM10,0H11V1H10zM11,0H12V1H11zM12,0H13V1H12zM13,0H14V1H13zM14,0H15V1H14zM15,0H16V1H15zM17,0H18V1H17zM18,0H19V1H18zM22,0H23V1H22zM23,0H24V1H23zM24,0H25V1H24zM25,0H26V1H25zM26,0H27V1H26zM27,0H28V1H27zM28,0H29V1H28zM0,1H1V2H0zM6,1H7V2H6zM9,1H10V2H9zM15,1H16V2H15zM18,1H19V2H18zM22,1H23V2H22zM28,1H29V2H28zM0,2H1V3H0zM2,2H3V3H2zM3,2H4V3H3zM4,2H5V3H4zM6,2H7V3H6zM8,2H9V3H8zM9,2H10V3H9zM11,2H12V3H11zM13,2H14V3H13zM17,2H18V3H17zM19,2H20V3H19zM22,2H23V3H22zM24,2H25V3H24zM25,2H26V3H25zM26,2H27V3H26zM28,2H29V3H28zM0,3H1V4H0zM2,3H3V4H2zM3,3H4V4H3zM4,3H5V4H4zM6,3H7V4H6zM10,3H11V4H10zM11,3H12V4H11zM12,3H13V4H12zM15,3H16V4H15zM16,3H17V4H16zM17,3H18V4H17zM18,3H19V4H18zM20,3H21V4H20zM22,3H23V4H22zM24,3H25V4H24zM25,3H26V4H25zM26,3H27V4H26zM28,3H29V4H28zM0,4H1V5H0zM2,4H3V5H2zM3,4H4V5H3zM4,4H5V5H4zM6,4H7V5H6zM9,4H10V5H9zM15,4H16V5H15zM16,4H17V5H16zM17,4H18V5H17zM18,4H19V5H18zM22,4H23V5H22zM24,4H25V5H24zM25,4H26V5H25zM26,4H27V5H26zM28,4H29V5H28zM0,5H1V6H0zM6,5H7V6H6zM8,5H9V6H8zM9,5H10V6H9zM13,5H14V6H13zM14,5H15V6H14zM16,5H17V6H16zM17,5H18V6H17zM22,5H23V6H22zM28,5H29V6H28zM0,6H1V7H0zM1,6H2V7H1zM2,6H3V7H2zM3,6H4V7H3zM4,6H5V7H4zM5,6H6V7H5zM6,6H7V7H6zM8,6H9V7H8zM10,6H11V7H10zM12,6H13V7H12zM14,6H15V7H14zM16,6H17V7H16zM18,6H19V7H18zM20,6H21V7H20zM22,6H23V7H22zM23,6H24V7H23zM24,6H25V7H24zM25,6H26V7H25zM26,6H27V7H26zM27,6H28V7H27zM28,6H29V7H28zM11,7H12V8H11zM12,7H13V8H12zM13,7H14V8H13zM18,7H19V8H18zM20,7H21V8H20zM0,8H1V9H0zM2,8H3V9H2zM6,8H7V9H6zM7,8H8V9H7zM10,8H11V9H10zM13,8H14V9H13zM15,8H16V9H15zM16,8H17V9H16zM19,8H20V9H19zM23,8H24V9H23zM26,8H27V9H26zM28,8H29V9H28zM1,9H2V10H1zM2,9H3V10H2zM4,9H5V10H4zM8,9H9V10H8zM10,9H11V10H10zM11,9H12V10H11zM16,9H17V10H16zM17,9H18V10H17zM19,9H20V10H19zM20,9H21V10H20zM22,9H23V10H22zM23,9H24V10H23zM27,9H28V10H27zM28,9H29V10H28zM3,10H4V11H3zM4,10H5V11H4zM6,10H7V11H6zM7,10H8V11H7zM11,10H12V11H11zM13,10H14V11H13zM14,10H15V11H14zM16,10H17V11H16zM17,10H18V11H17zM18,10H19V11H18zM19,10H20V11H19zM20,10H21V11H20zM21,10H22V11H21zM22,10H23V11H22zM23,10H24V11H23zM25,10H26V11H25zM26,10H27V11H26zM28,10H29V11H28zM0,11H1V12H0zM2,11H3V12H2zM3,11H4V12H3zM7,11H8V12H7zM10,11H11V12H10zM11,11H12V12H11zM14,11H15V12H14zM15,11H16V12H15zM16,11H17V12H16zM21,11H22V12H21zM25,11H26V12H25zM1,12H2V13H1zM2,12H3V13H2zM3,12H4V13H3zM4,12H5V13H4zM5,12H6V13H5zM6,12H7V13H6zM8,12H9V13H8zM9,12H10V13H9zM11,12H12V13H11zM13,12H14V13H13zM14,12H15V13H14zM16,12H17V13H16zM18,12H19V13H18zM20,12H21V13H20zM22,12H23V13H22zM28,12H29V13H28zM0,13H1V14H0zM1,13H2V14H1zM3,13H4V14H3zM7,13H8V14H7zM8,13H9V14H8zM9,13H10V14H9zM11,13H12V14H11zM12,13H13V14H12zM13,13H14V14H13zM14,13H15V14H14zM17,13H18V14H17zM19,13H20V14H19zM20,13H21V14H20zM22,13H23V14H22zM23,13H24V14H23zM27,13H28V14H27zM28,13H29V14H28zM0,14H1V15H0zM1,14H2V15H1zM2,14H3V15H2zM6,14H7V15H6zM7,14H8V15H7zM8,14H9V15H8zM9,14H10V15H9zM11,14H12V15H11zM12,14H13V15H12zM15,14H16V15H15zM19,14H20V15H19zM21,14H22V15H21zM23,14H24V15H23zM28,14H29V15H28zM1,15H2V16H1zM5,15H6V16H5zM9,15H10V16H9zM11,15H12V16H11zM12,15H13V16H12zM13,15H14V16H13zM15,15H16V16H15zM16,15H17V16H16zM19,15H20V16H19zM20,15H21V16H20zM21,15H22V16H21zM0,16H1V17H0zM1,16H2V17H1zM2,16H3V17H2zM4,16H5V17H4zM5,16H6V17H5zM6,16H7V17H6zM9,16H10V17H9zM10,16H11V17H10zM13,16H14V17H13zM16,16H17V17H16zM19,16H20V17H19zM20,16H21V17H20zM22,16H23V17H22zM23,16H24V17H23zM28,16H29V17H28zM2,17H3V18H2zM3,17H4V18H3zM4,17H5V18H4zM5,17H6V18H5zM7,17H8V18H7zM8,17H9V18H8zM12,17H13V18H12zM15,17H16V18H15zM18,17H19V18H18zM19,17H20V18H19zM20,17H21V18H20zM22,17H23V18H22zM23,17H24V18H23zM26,17H27V18H26zM27,17H28V18H27zM28,17H29V18H28zM0,18H1V19H0zM1,18H2V19H1zM2,18H3V19H2zM3,18H4V19H3zM5,18H6V19H5zM6,18H7V19H6zM8,18H9V19H8zM9,18H10V19H9zM12,18H13V19H12zM13,18H14V19H13zM14,18H15V19H14zM15,18H16V19H15zM16,18H17V19H16zM19,18H20V19H19zM25,18H26V19H25zM28,18H29V19H28zM8,19H9V20H8zM11,19H12V20H11zM14,19H15V20H14zM16,19H17V20H16zM22,19H23V20H22zM23,19H24V20H23zM24,19H25V20H24zM0,20H1V21H0zM1,20H2V21H1zM2,20H3V21H2zM5,20H6V21H5zM6,20H7V21H6zM7,20H8V21H7zM9,20H10V21H9zM11,20H12V21H11zM13,20H14V21H13zM14,20H15V21H14zM15,20H16V21H15zM20,20H21V21H20zM21,20H22V21H21zM22,20H23V21H22zM23,20H24V21H23zM24,20H25V21H24zM25,20H26V21H25zM27,20H28V21H27zM8,21H9V22H8zM10,21H11V22H10zM11,21H12V22H11zM13,21H14V22H13zM14,21H15V22H14zM15,21H16V22H15zM16,21H17V22H16zM17,21H18V22H17zM20,21H21V22H20zM24,21H25V22H24zM25,21H26V22H25zM26,21H27V22H26zM28,21H29V22H28zM0,22H1V23H0zM1,22H2V23H1zM2,22H3V23H2zM3,22H4V23H3zM4,22H5V23H4zM5,22H6V23H5zM6,22H7V23H6zM8,22H9V23H8zM9,22H10V23H9zM11,22H12V23H11zM12,22H13V23H12zM15,22H16V23H15zM20,22H21V23H20zM22,22H23V23H22zM24,22H25V23H24zM28,22H29V23H28zM0,23H1V24H0zM6,23H7V24H6zM9,23H10V24H9zM10,23H11V24H10zM13,23H14V24H13zM16,23H17V24H16zM19,23H20V24H19zM20,23H21V24H20zM24,23H25V24H24zM27,23H28V24H27zM0,24H1V25H0zM2,24H3V25H2zM3,24H4V25H3zM4,24H5V25H4zM6,24H7V25H6zM9,24H10V25H9zM10,24H11V25H10zM11,24H12V25H11zM13,24H14V25H13zM15,24H16V25H15zM16,24H17V25H16zM18,24H19V25H18zM19,24H20V25H19zM20,24H21V25H20zM21,24H22V25H21zM22,24H23V25H22zM23,24H24V25H23zM24,24H25V25H24zM25,24H26V25H25zM27,24H28V25H27zM28,24H29V25H28zM0,25H1V26H0zM2,25H3V26H2zM3,25H4V26H3zM4,25H5V26H4zM6,25H7V26H6zM9,25H10V26H9zM15,25H16V26H15zM16,25H17V26H16zM17,25H18V26H17zM20,25H21V26H20zM24,25H25V26H24zM25,25H26V26H25zM26,25H27V26H26zM28,25H29V26H28zM0,26H1V27H0zM2,26H3V27H2zM3,26H4V27H3zM4,26H5V27H4zM6,26H7V27H6zM8,26H9V27H8zM9,26H10V27H9zM11,26H12V27H11zM14,26H15V27H14zM15,26H16V27H15zM20,26H21V27H20zM21,26H22V27H21zM24,26H25V27H24zM27,26H28V27H27zM28,26H29V27H28zM0,27H1V28H0zM6,27H7V28H6zM9,27H10V28H9zM10,27H11V28H10zM11,27H12V28H11zM15,27H16V28H15zM16,27H17V28H16zM18,27H19V28H18zM20,27H21V28H20zM21,27H22V28H21zM22,27H23V28H22zM23,27H24V28H23zM24,27H25V28H24zM25,27H26V28H25zM0,28H1V29H0zM1,28H2V29H1zM2,28H3V29H2zM3,28H4V29H3zM4,28H5V29H4zM5,28H6V29H5zM6,28H7V29H6zM8,28H9V29H8zM10,28H11V29H10zM11,28H12V29H11zM12,28H13V29H12zM13,28H14V29H13zM14,28H15V29H14zM15,28H16V29H15zM16,28H17V29H16zM20,28H21V29H20zM21,28H22V29H21zM24,28H25V29H24zM25,28H26V29H25zM28,28H29V29H28z" fill="#000"/></svg>
+        </div>
+        <span class="qr-cap">Scan to install</span>
+        <span class="qr-url">gobrain.fighttech.vn/get/</span>
+        <p class="qr-note">Same QR for both platforms — no need to print two codes. The destination decides per-device.</p>
+      </div>
+    </div>
+
+    <div class="code">
+      <h2 style="font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);margin:24px 0 12px">How it works</h2>
+      <pre><span class="c">// Runs in &lt;head&gt;, before paint, so phones never see a flash.</span>
+<span class="k">var</span> ua = navigator.userAgent;
+<span class="k">var</span> isAndroid = <span class="s">/Android/i</span>.<span class="f">test</span>(ua);
+<span class="k">var</span> isIOS = <span class="s">/iPad|iPhone|iPod/i</span>.<span class="f">test</span>(ua) ||
+  (navigator.platform === <span class="s">"MacIntel"</span> &amp;&amp; navigator.maxTouchPoints &gt; 1);
+
+<span class="k">if</span> (isAndroid) location.<span class="f">replace</span>(PLAY_STORE_URL);
+<span class="k">else if</span> (isIOS) location.<span class="f">replace</span>(APP_STORE_URL);
+<span class="c">// else: desktop — show the store chooser instead.</span></pre>
+    </div>
+
+    <div class="foot">
+      <a class="btn" id="open-real" href="https://gobrain.fighttech.vn/get/" target="_blank" rel="noopener">▶ Open the live /get/ page</a>
+      <span class="meta">Standalone demo · no build · no dependencies</span>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      "use strict";
+      var PLAY = "https://play.google.com/store/apps/details?id=vn.fighttech.go2048";
+      var APP_STORE = "https://apps.apple.com/app/id6782550523";
+
+      var INFO = {
+        ios:     { label: "iOS",     action: "Redirects to the App Store",   url: APP_STORE },
+        android: { label: "Android", action: "Redirects to Google Play",     url: PLAY },
+        desktop: { label: "Desktop", action: "Shows the store chooser (no redirect)", url: "— stays on /get/ —" }
+      };
+
+      var seg = document.getElementById("seg");
+      var result = document.getElementById("result");
+      var rPlat = document.getElementById("r-plat");
+      var rAction = document.getElementById("r-action");
+      var rUrl = document.getElementById("r-url");
+
+      function show(plat) {
+        var d = INFO[plat];
+        result.className = "result plat-" + plat;
+        rPlat.textContent = d.label;
+        rAction.textContent = d.action;
+        rUrl.textContent = d.url;
+        var btns = seg.querySelectorAll("button");
+        for (var i = 0; i < btns.length; i++) {
+          btns[i].classList.toggle("on", btns[i].getAttribute("data-plat") === plat);
+        }
+      }
+
+      seg.addEventListener("click", function (e) {
+        var b = e.target.closest("button");
+        if (b) show(b.getAttribute("data-plat"));
+      });
+
+      // Detect the real visitor (same logic as the live /get/ page).
+      var ua = navigator.userAgent || "";
+      var isAndroid = /Android/i.test(ua);
+      var isIOS = /iPad|iPhone|iPod/i.test(ua) ||
+        (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+      var real = isAndroid ? "android" : isIOS ? "ios" : "desktop";
+      document.getElementById("you").textContent = INFO[real].label;
+      show(real); // start on the visitor's actual platform
+    })();
+  </script>
+</body>
+</html>

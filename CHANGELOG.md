@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.0.9 - 2026-06-28
+
+### Added
+
+- **`marketing-app-banner` skill** — a drop-in, dependency-free native-style "Get the app" smart
+  banner pinned to the top of a website or web app. Auto-detects iOS vs Android and links to the
+  right store; hidden on desktop and (with a one-line guard) inside native wrappers. Ships
+  `templates/app-banner.js` (self-injecting CSS), a standalone `templates/app-banner.css`, an SPA /
+  in-app-hub integration guide (`reference/spa-integration.md`), and a static `examples/demo.html`.
+  CSS is iOS-12 / WebKit-605 safe (flex-gap margin fallback, no `inset:` shorthand, safe-area aware).
+- **`universal-download-link` skill** — one shared `/get/` link + QR that auto-detects the OS and
+  forwards to the correct store before paint (`location.replace` in `<head>`), with a desktop
+  chooser. Ships `templates/get-index.html`, an optional soft-redirect for existing download pages
+  (`templates/download-redirect.js`), a `scripts/gen-qr.py` single-path SVG QR generator (verifies
+  the path matches the encoded matrix), `reference/notes.md` (deploy/SEO/in-app-browser notes), and
+  an interactive `examples/demo.html` (platform simulator + live detection + QR).
+- Listed both skills in `README.md`, `skills-table.md`, and the plugin/marketplace manifests.
+
 ## 0.0.8 - 2026-06-25
 
 ### Added
