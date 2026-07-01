@@ -1,0 +1,55 @@
+/* Marketing app-banner styles — standalone variant.
+ *
+ * Use this only if you prefer linking a stylesheet over the CSS that
+ * app-banner.js self-injects (e.g. to theme via your design-system tokens).
+ * Map the --ab-* vars below to your own tokens, then DELETE the style-injection
+ * block in app-banner.js.
+ *
+ * iOS 12 / WebKit 605 safe: no `inset:` shorthand, flex-gap has a margin
+ * fallback, env() wrapped in var().
+ */
+:root {
+  --ab-h: 60px;
+  --ab-bg: #fff;
+  --ab-fg: #1a1a1a;
+  --ab-sub: #6e6e6e;
+  --ab-bd: #e5e7eb;
+  --ab-btn-bg: #1a1a1a;
+  --ab-btn-fg: #fff;
+  --ab-radius: 8px;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ab-bg: #0e0e10; --ab-fg: #fff; --ab-sub: #9ca3af;
+    --ab-bd: #28282c; --ab-btn-bg: #fff; --ab-btn-fg: #0e0e10;
+  }
+}
+
+.app-banner {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000; box-sizing: border-box;
+  display: flex; align-items: center; gap: 12px;
+  height: calc(var(--ab-h) + var(--ab-saa, env(safe-area-inset-top, 0px)));
+  padding: var(--ab-saa, env(safe-area-inset-top, 0px)) 14px 0;
+  background: var(--ab-bg); border-bottom: 1px solid var(--ab-bd);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+.app-banner .ab-icon { width: 40px; height: 40px; border-radius: var(--ab-radius); flex: 0 0 auto; object-fit: cover; box-shadow: 0 1px 2px rgba(0, 0, 0, .12); }
+.app-banner .ab-text { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; line-height: 1.25; }
+.app-banner .ab-text b { font-size: 15px; font-weight: 700; color: var(--ab-fg); }
+.app-banner .ab-text span { font-size: 12px; color: var(--ab-sub); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.app-banner .ab-cta {
+  flex: 0 0 auto; background: var(--ab-btn-bg); color: var(--ab-btn-fg); border-radius: var(--ab-radius);
+  padding: 9px 18px; font-weight: 700; font-size: 14px; text-decoration: none; white-space: nowrap;
+}
+.app-banner .ab-cta:active { opacity: .9; }
+.app-banner .ab-x { border: 0; background: none; color: var(--ab-sub); font-size: 16px; line-height: 1; padding: 4px 6px; cursor: pointer; flex: 0 0 auto; }
+
+/* push the page + a sticky header below the fixed bar */
+body.has-appbar { padding-top: calc(var(--ab-h) + var(--ab-saa, env(safe-area-inset-top, 0px))); }
+body.has-appbar .header,
+body.has-appbar [data-sticky] { top: calc(var(--ab-h) + var(--ab-saa, env(safe-area-inset-top, 0px))); }
+
+/* old-WebKit (iOS 12) has no flex gap → fall back to margins */
+@supports not (inset: 0) {
+  .app-banner > * + * { margin-left: 12px; }
+}

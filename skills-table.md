@@ -64,6 +64,13 @@ Instructions for the AI agent.
 | Flutter Driver Screenshot Test | `.claude/skills/flutter-driver-screenshot-test/` | Adds `flutter drive` screenshot tests that save PNG files on the host machine. | `scripts/e2e.sh` |
 | Privacy-Safe Device Referral Attributes | `.claude/skills/privacy-safe-device-referral-attributes/` | Adds transparent Flutter/Web device and referral attribute POCs without invasive fingerprinting. | N/A |
 
+## Web marketing / acquisition skills
+
+| Skill | Folder | Purpose | Script |
+|---|---|---|---|
+| Marketing App Banner | `.claude/skills/marketing-app-banner/` | Drop-in native-style "Get the app" smart banner pinned to the top of a site or web app; auto-detects iOS vs Android, dark/light + iOS-12-safe CSS. | `templates/app-banner.js` |
+| Universal Download Link | `.claude/skills/universal-download-link/` | One shared `/get/` link + QR that auto-detects the OS and forwards to the right store (App Store / Google Play); desktop chooser. | `scripts/gen-qr.py` |
+
 ## Notes
 
 - Use project skills for repo-specific behavior.
