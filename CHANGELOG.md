@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.0.10 - 2026-10-01
+
+### Added
+
+- **`aso` skill** — App Store Optimization for the Apple App Store and Google Play: audit a
+  listing, research keywords, write and localize metadata, plan creatives and A/B tests, measure.
+  - `ASO-CHECKLIST.md`: a standalone checklist with item IDs and a report template, written so any
+    AI agent can follow it from its raw URL.
+  - `scripts/aso_check.py`: audits fastlane metadata for every locale on both stores. It checks
+    character limits, how full the indexed fields are, App Store keyword-field hygiene, and
+    claim / emoji / caps rules in 15+ languages. It also checks keyword density and placement, and
+    Play icon, feature graphic and screenshot sizes. It exits 1 on errors.
+  - `scripts/keyword_suggest.py`: App Store and Google Play autocomplete per country and language,
+    a–z long-tail expansion, and App Store top-10 openness (no API keys).
+  - References for keyword research, each store's fields and 2025–26 changes (app tags, keyword
+    custom product pages, cross-localization map, Play keyword custom store listings, Android
+    vitals, reporting changes), conversion, other ASO tools / MCP servers, and ready-to-paste
+    prompts.
+- Listed the skill in `README.md`, `skills-table.md` and the plugin / marketplace manifests.
+
 ## 0.0.9 - 2026-06-28
 
 ### Added

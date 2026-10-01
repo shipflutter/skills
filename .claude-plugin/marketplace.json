@@ -6,13 +6,13 @@
   },
   "metadata": {
     "description": "Flutter testing and delivery skills for AI coding agents.",
-    "version": "0.0.9"
+    "version": "0.0.10"
   },
   "plugins": [
     {
       "name": "shipflutter-skills",
       "source": "./",
-      "description": "Flutter skills: feature docs (add-feat), SRS (add-srs), integration/driver/unit tests, CI/CD app distribution (appdist), privacy-safe device referral attributes, plus web acquisition skills: marketing app banner and universal download link (one link + QR, OS auto-detect)."
+      "description": "Flutter skills: feature docs (add-feat), SRS (add-srs), integration/driver/unit tests, CI/CD app distribution (appdist), privacy-safe device referral attributes, plus web acquisition skills: marketing app banner and universal download link (one link + QR, OS auto-detect), and App Store Optimization (aso: metadata audit, keyword research, store listing checklist)."
     }
   ]
 }

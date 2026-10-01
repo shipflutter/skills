@@ -70,6 +70,7 @@ Instructions for the AI agent.
 |---|---|---|---|
 | Marketing App Banner | `.claude/skills/marketing-app-banner/` | Drop-in native-style "Get the app" smart banner pinned to the top of a site or web app; auto-detects iOS vs Android, dark/light + iOS-12-safe CSS. | `templates/app-banner.js` |
 | Universal Download Link | `.claude/skills/universal-download-link/` | One shared `/get/` link + QR that auto-detects the OS and forwards to the right store (App Store / Google Play); desktop chooser. | `scripts/gen-qr.py` |
+| ASO | `.claude/skills/aso/` | App Store + Google Play search optimization: metadata audit (limits, policy, every locale), keyword research from store autocomplete, keyword map, creatives and A/B tests. | `scripts/aso_check.py`, `scripts/keyword_suggest.py` |
 
 ## Notes
 
