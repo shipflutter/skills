@@ -44,6 +44,9 @@ PLAY_CHANGELOG_LIMIT = 500
 # Indexed fields worth filling to the brim: unused characters are lost ranking.
 FILL_TARGET = 0.9
 FILL_FIELDS = {'name.txt', 'subtitle.txt', 'keywords.txt', 'title.txt', 'short_description.txt'}
+# What's New isn't indexed, and a first version has none (deliver skips it): empty is fine until an
+# update, where App Store Connect asks for it.
+EMPTY_OK = {'release_notes.txt'}
 # Apple's reference says the keyword field is "100 bytes", but App Store Connect counts characters:
 # a ja keyword field of 100 characters / 220 UTF-8 bytes was accepted (checked 2026-10-01).
 
@@ -88,7 +91,14 @@ APPLE_MARKS = re.compile(r'\b(iphone|ipad|apple|ios|app store|siri|facetime)\b',
 EMOJI = re.compile('[\U0001F000-\U0001FAFF☀-➿⬀-⯿️]')
 SHOUT = re.compile(r'\b[A-Z]{4,}\b')  # AI, UI, iOS are fine
 REPEAT_PUNCT = re.compile(r'([!?.*~★☆])\1{1,}')
-WORD = re.compile(r"[^\W_][\w'’-]*")
+# Combining marks (Arabic harakat, Indic and Thai vowel signs) belong to the word they sit on.
+MARKS = ('\u0300-\u036f\u0483-\u0489\u0591-\u05c7\u0610-\u061a\u064b-\u065f\u0670\u06d6-\u06ed'
+         '\u0900-\u0dff\u0e31-\u0e4e\u1ab0-\u1aff\u1dc0-\u1dff\u20d0-\u20ff\ufe20-\ufe2f')
+WORD = re.compile(rf"[^\W_][\w{MARKS}'’-]*")
+# Chinese, Japanese and Thai don't put spaces between words, so WORD returns whole phrases there.
+UNSPACED = re.compile('[\u0e00-\u0e7f\u3040-\u30ff\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff]')
+# Vietnamese words are space-separated syllables ("lập trình"): a keyword term with a space is one word.
+SYLLABLE_LANGS = {'vi'}
 
 
 @dataclass
@@ -130,6 +140,8 @@ def length(out: list, loc: str, store: str, file: str, text: str | None, limit: 
     n = count(text or '')
     if n > limit:
         sev, detail = ERROR, f'{n}/{limit}: {n - limit} over the limit'
+    elif n == 0 and file in EMPTY_OK:
+        sev, detail = PASS, 'empty: fine for a first version; App Store Connect asks for it on updates'
     elif n == 0:
         sev, detail = (ERROR if required else WARN), f'empty ({"required" if required else "optional"})'
     elif file in FILL_FIELDS and n < FILL_TARGET * limit:
@@ -165,7 +177,8 @@ def check_ios(d: Path, base: dict | None) -> list[Check]:
          'singular and plural both present; Apple matches plurals, keep one')
     rule(out, loc, S, 'keyword-wasted-words', [w for w in kw_words if w in IOS_WASTED_KEYWORDS], WARN,
          'keywords.txt', '"app", device names and "free" add nothing')
-    rule(out, loc, S, 'keyword-multiword', [k for k in kws if len(k.split()) > 1], WARN, 'keywords.txt',
+    multi = [] if loc.split('-')[0] in SYLLABLE_LANGS else [k for k in kws if len(k.split()) > 1]
+    rule(out, loc, S, 'keyword-multiword', multi, WARN, 'keywords.txt',
          'allowed, but Apple combines single words across name+subtitle+keywords, so phrases waste characters')
     rule(out, loc, S, 'subtitle-repeats-name', [w for w in words(sub) if w in set(words(name))], WARN,
          'subtitle.txt', 'subtitle should add new keywords')
@@ -220,12 +233,15 @@ def check_play(d: Path, base: dict | None) -> list[Check]:
     rule(out, loc, S, 'repeated-punctuation', [m.group(0) for m in REPEAT_PUNCT.finditer(f'{title} {short}')], ERROR,
          'title/short_description')
     w = words(full)
+    # In unspaced scripts count the spaced words (Latin terms) plus ~2 characters per word for the rest.
+    unspaced = len(UNSPACED.findall(full))
+    total = len([x for x in w if not UNSPACED.search(x)]) + unspaced / 2 if unspaced else len(w)
     stuffed = []
-    if len(w) >= 100:
+    if total >= 100:
         freq: dict[str, int] = {}
         for x in w:
             freq[x] = freq.get(x, 0) + 1
-        stuffed = [f'{k} {100 * n / len(w):.1f}%' for k, n in freq.items() if n / len(w) > 0.03 and len(k) > 2]
+        stuffed = [f'{k} {100 * n / total:.1f}%' for k, n in freq.items() if n / total > 0.03 and len(k) > 2]
     rule(out, loc, S, 'keyword-stuffing', stuffed, WARN, 'full_description.txt', 'a word above ~3% density')
     low = full.lower()
     rule(out, loc, S, 'title-keywords-in-description', [x for x in words(title) if full and x not in low], WARN,

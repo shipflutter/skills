@@ -11,7 +11,9 @@
   - `scripts/aso_check.py`: audits fastlane metadata for every locale on both stores. It checks
     character limits, how full the indexed fields are, App Store keyword-field hygiene, and
     claim / emoji / caps rules in 15+ languages. It also checks keyword density and placement, and
-    Play icon, feature graphic and screenshot sizes. It exits 1 on errors.
+    Play icon, feature graphic and screenshot sizes. It exits 1 on errors. It handles languages
+    without spaces (Chinese, Japanese, Thai), Vietnamese multi-syllable terms, Arabic and Indic
+    combining marks, and an empty What's New on a first version.
   - `scripts/keyword_suggest.py`: App Store and Google Play autocomplete per country and language,
     a–z long-tail expansion, and App Store top-10 openness (no API keys).
   - References for keyword research, each store's fields and 2025–26 changes (app tags, keyword
