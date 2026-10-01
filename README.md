@@ -37,7 +37,7 @@ The repo ships a plugin marketplace (`.claude-plugin/marketplace.json`). In Clau
 /plugin install shipflutter-skills@shipflutter
 ```
 
-This loads all skills (`add-feat`, `add-srs`, `appdist`, `flutter-integration-test`, `flutter-driver-screenshot-test`, `flutter-unit-test-coverage`, `privacy-safe-device-referral-attributes`, `marketing-app-banner`, `universal-download-link`) into every Claude Code session. Each skill bundles its own `scripts/`, `assets/`, and `references/`, resolved relative to the skill — no extra setup needed.
+This loads all skills (`add-feat`, `add-srs`, `appdist`, `flutter-integration-test`, `flutter-driver-screenshot-test`, `flutter-unit-test-coverage`, `privacy-safe-device-referral-attributes`, `marketing-app-banner`, `universal-download-link`, `aso`) into every Claude Code session. Each skill bundles its own `scripts/`, `assets/`, and `references/`, resolved relative to the skill — no extra setup needed.
 
 ### Option B — Copy skills into a project (via the `skills` CLI)
 
@@ -84,6 +84,7 @@ npx skills add shipflutter/skills --skill flutter-driver-screenshot-test -a clau
 npx skills add shipflutter/skills --skill appdist -a claude-code --copy
 npx skills add shipflutter/skills --skill flutter-unit-test-coverage -a claude-code --copy
 npx skills add shipflutter/skills --skill privacy-safe-device-referral-attributes -a claude-code --copy
+npx skills add shipflutter/skills --skill aso -a claude-code --copy
 ```
 
 ## Available Skills
@@ -99,6 +100,7 @@ npx skills add shipflutter/skills --skill privacy-safe-device-referral-attribute
 | [`privacy-safe-device-referral-attributes`](skills/privacy-safe-device-referral-attributes/SKILL.md) | Adds privacy-safe Flutter Android, iOS, Web, and static Web device/referral attribute demos. | `Add a transparent device referral attributes screen without third-party IP lookup or invasive fingerprinting.` |
 | [`marketing-app-banner`](skills/marketing-app-banner/SKILL.md) | Adds a native-style "Get the app" smart banner pinned to the top of a website or web app, auto-detecting iOS vs Android. | `Add a marketing app-install banner to my landing site that links to the right store.` |
 | [`universal-download-link`](skills/universal-download-link/SKILL.md) | One shared link + QR that auto-detects the OS and opens the right store (App Store / Google Play); desktop gets a chooser. | `Create a universal /get/ download link and a QR that opens the right app store.` |
+| [`aso`](skills/aso/SKILL.md) | App Store Optimization for both stores: audit fastlane metadata against limits and policy, keyword research from store autocomplete, localized rewrites, screenshots and A/B tests. Public checklist: [`ASO-CHECKLIST.md`](skills/aso/ASO-CHECKLIST.md). | `Use the aso skill to audit my store listing and fix every error.` |
 
 ### Web acquisition skill previews
 
