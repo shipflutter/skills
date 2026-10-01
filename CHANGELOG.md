@@ -8,6 +8,9 @@
   listing, research keywords, write and localize metadata, plan creatives and A/B tests, measure.
   - `ASO-CHECKLIST.md`: a standalone checklist with item IDs and a report template, written so any
     AI agent can follow it from its raw URL.
+  - `i18n/ASO-CHECKLIST.<lang>.md`: the checklist in Vietnamese, Japanese, Korean, Simplified and
+    Traditional Chinese, Arabic, French, Spanish, Turkish, Indonesian, Thai and Hindi. Item IDs,
+    limits, numbers and code are the same as in English, which stays the reference.
   - `scripts/aso_check.py`: audits fastlane metadata for every locale on both stores. It checks
     character limits, how full the indexed fields are, App Store keyword-field hygiene, and
     claim / emoji / caps rules in 15+ languages. It also checks keyword density and placement, and

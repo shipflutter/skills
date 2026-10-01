@@ -10,7 +10,8 @@ chosen** (icon, screenshots, ratings → conversion rate, which feeds rankings b
 works on a **keyword map**: one row per locale × field saying which terms that field owns.
 
 The single source of truth for *what good looks like* is
-[`ASO-CHECKLIST.md`](ASO-CHECKLIST.md). Read it before changing any listing.
+[`ASO-CHECKLIST.md`](ASO-CHECKLIST.md). Read it before changing any listing. Translations in 12 languages
+live in [`i18n/`](i18n/), with the same item IDs; the English file is the reference.
 
 ## Branches
 
@@ -87,6 +88,7 @@ metric to read on the follow-up date.
 | File | Use |
 |---|---|
 | [`ASO-CHECKLIST.md`](ASO-CHECKLIST.md) | The full checklist (also the public link to hand any agent). |
+| [`i18n/ASO-CHECKLIST.<lang>.md`](i18n/) | The checklist in vi, ja, ko, zh-Hans, zh-Hant, ar, fr, es, tr, id, th, hi (same IDs). |
 | `scripts/aso_check.py` | Limits + policy audit over fastlane metadata, both stores, every locale. |
 | `scripts/keyword_suggest.py` | App Store + Google Play autocomplete, a–z long-tail, App Store top-10 openness. |
 | [`references/keyword-research.md`](references/keyword-research.md) | Sources, scoring, keyword-map template. |

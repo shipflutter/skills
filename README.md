@@ -100,7 +100,7 @@ npx skills add shipflutter/skills --skill aso -a claude-code --copy
 | [`privacy-safe-device-referral-attributes`](skills/privacy-safe-device-referral-attributes/SKILL.md) | Adds privacy-safe Flutter Android, iOS, Web, and static Web device/referral attribute demos. | `Add a transparent device referral attributes screen without third-party IP lookup or invasive fingerprinting.` |
 | [`marketing-app-banner`](skills/marketing-app-banner/SKILL.md) | Adds a native-style "Get the app" smart banner pinned to the top of a website or web app, auto-detecting iOS vs Android. | `Add a marketing app-install banner to my landing site that links to the right store.` |
 | [`universal-download-link`](skills/universal-download-link/SKILL.md) | One shared link + QR that auto-detects the OS and opens the right store (App Store / Google Play); desktop gets a chooser. | `Create a universal /get/ download link and a QR that opens the right app store.` |
-| [`aso`](skills/aso/SKILL.md) | App Store Optimization for both stores: audit fastlane metadata against limits and policy, keyword research from store autocomplete, localized rewrites, screenshots and A/B tests. Public checklist: [`ASO-CHECKLIST.md`](skills/aso/ASO-CHECKLIST.md). | `Use the aso skill to audit my store listing and fix every error.` |
+| [`aso`](skills/aso/SKILL.md) | App Store Optimization for both stores: audit fastlane metadata against limits and policy, keyword research from store autocomplete, localized rewrites, screenshots and A/B tests. Public checklist: [`ASO-CHECKLIST.md`](skills/aso/ASO-CHECKLIST.md), also in [12 languages](skills/aso/i18n/). | `Use the aso skill to audit my store listing and fix every error.` |
 
 ### Web acquisition skill previews
 

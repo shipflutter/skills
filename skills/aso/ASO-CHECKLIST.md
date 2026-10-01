@@ -7,6 +7,19 @@ Part of the [`aso` skill](https://github.com/shipflutter/skills/tree/develop/ski
 - View: <https://github.com/shipflutter/skills/blob/develop/skills/aso/ASO-CHECKLIST.md>
 - Raw (for agents): <https://raw.githubusercontent.com/shipflutter/skills/develop/skills/aso/ASO-CHECKLIST.md>
 - Install the full skill: `npx skills add shipflutter/skills --skill aso`
+- Translations (same item IDs; this English file is the reference):
+  [Tiếng Việt](i18n/ASO-CHECKLIST.vi.md) ·
+  [日本語](i18n/ASO-CHECKLIST.ja.md) ·
+  [한국어](i18n/ASO-CHECKLIST.ko.md) ·
+  [简体中文](i18n/ASO-CHECKLIST.zh-Hans.md) ·
+  [繁體中文](i18n/ASO-CHECKLIST.zh-Hant.md) ·
+  [العربية](i18n/ASO-CHECKLIST.ar.md) ·
+  [Français](i18n/ASO-CHECKLIST.fr.md) ·
+  [Español](i18n/ASO-CHECKLIST.es.md) ·
+  [Türkçe](i18n/ASO-CHECKLIST.tr.md) ·
+  [Bahasa Indonesia](i18n/ASO-CHECKLIST.id.md) ·
+  [ไทย](i18n/ASO-CHECKLIST.th.md) ·
+  [हिन्दी](i18n/ASO-CHECKLIST.hi.md)
 
 ---
 
