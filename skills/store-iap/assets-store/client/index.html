@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Assets Store - Premium AI Skills</title>
+    <meta name="description" content="A premium skill marketplace with SePay-ready checkout architecture.">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="Assets Store home">
+        <span class="brand-mark">A</span>
+        <span>AssetsStore</span>
+      </a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="store.html">Store</a>
+        <a href="#catalog">Catalog</a>
+        <a href="#premium">Premium</a>
+        <a href="#payment">SePay flow</a>
+        <a href="#support">Support</a>
+      </nav>
+      <div class="nav-actions">
+        <a class="nav-cta" href="store.html">Mo Store</a>
+        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Toggle light and dark mode">Dark</button>
+      </div>
+    </header>
+
+    <main id="top" class="page-shell">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow">Cho Premium Skill</p>
+          <h1 id="hero-title">Ban AI skills voi luong thanh toan dang tin cay.</h1>
+          <p class="hero-lede">San thuong mai tinh cho cac goi ky nang premium, thiet ke voi luong chuyen khoan SePay, mo hinh xac nhan webhook va tuong tac HTML/CSS/JS tinh te.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="store.html">Mo Store</a>
+            <a class="button button-primary" href="#catalog">Duyet ky nang</a>
+            <a class="button button-secondary" href="#payment">Xem luong thanh toan</a>
+          </div>
+        </div>
+        <aside class="hero-product" aria-label="Featured premium bundle">
+          <div class="product-orbit"></div>
+          <div class="product-card featured-card">
+            <span class="card-kicker">Noi bat</span>
+            <h2>Agent Commerce Kit</h2>
+            <p>Checkout UX, entitlement rules, webhook reconciliation, and launch copy for premium skill businesses.</p>
+            <div class="featured-price">899,000 VND</div>
+          </div>
+          <div class="mini-card mini-card-a">Webhook san sang</div>
+          <div class="mini-card mini-card-b">Truy cap Premium</div>
+        </aside>
+      </section>
+
+      <section id="catalog" class="section catalog-section" aria-labelledby="catalog-title">
+        <div class="section-heading wide-heading">
+          <p class="eyebrow">Catalog</p>
+          <h2 id="catalog-title">Ky nang Premium danh cho nha phat trien.</h2>
+          <p>Loc theo danh muc, kiem tra gia tri, sau do bat dau thanh toan voi ma chuyen khoan duy nhat.</p>
+        </div>
+
+        <div class="filter-bar" aria-label="Skill category filters">
+          <button class="filter-button is-active" type="button" data-filter="all">Tat ca</button>
+          <button class="filter-button" type="button" data-filter="Agent Ops">Agent Ops</button>
+          <button class="filter-button" type="button" data-filter="Design">Design</button>
+          <button class="filter-button" type="button" data-filter="Payments">Payments</button>
+          <button class="filter-button" type="button" data-filter="Automation">Automation</button>
+        </div>
+
+        <div id="skill-grid" class="skill-grid" aria-live="polite"></div>
+      </section>
+
+      <section id="premium" class="section premium-section" aria-labelledby="premium-title">
+        <div class="skill-detail" id="skill-detail"></div>
+        <div class="premium-panel">
+          <p class="eyebrow">Premium engine</p>
+          <h2 id="premium-title">Tu y tuong ky nang den truy cap tra phi.</h2>
+          <div class="accordion" id="accordion">
+            <button class="accordion-item is-open" type="button" data-accordion="0">
+              <span>Dong goi</span>
+              <strong>Bien prompt tho thanh goi ky nang san sang ban.</strong>
+            </button>
+            <button class="accordion-item" type="button" data-accordion="1">
+              <span>Thanh toan</span>
+              <strong>Tao don hang server-side va hien thi noi dung chuyen khoan chinh xac.</strong>
+            </button>
+            <button class="accordion-item" type="button" data-accordion="2">
+              <span>Mo khoa</span>
+              <strong>Cap quyen truy cap premium sau khi webhook xac nhan thanh toan.</strong>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section id="payment" class="section payment-section" aria-labelledby="payment-title">
+        <div class="section-heading">
+          <p class="eyebrow">Kien truc SePay</p>
+          <h2 id="payment-title">Chuyen khoan ngay, nhan quyen sau webhook.</h2>
+          <p>Prototype tinh gia lap xac nhan, trong khi thiet ke giu bi mat SePay that su o server cua ban.</p>
+        </div>
+        <div class="flow-grid">
+          <article class="flow-step">
+            <span>1</span>
+            <h3>Tao don hang</h3>
+            <p>Backend tao ma don hang, so tien, tai khoan ngan hang, noi dung chuyen khoan va thoi han.</p>
+          </article>
+          <article class="flow-step">
+            <span>2</span>
+            <h3>Hien thi chuyen khoan</h3>
+            <p>Nguoi mua thanh toan bang QR SePay hoac chuyen khoan ngan hang thu cong.</p>
+          </article>
+          <article class="flow-step">
+            <span>3</span>
+            <h3>Nhan webhook</h3>
+            <p>Server xac minh webhook authentication va khop ma don hang cung so tien.</p>
+          </article>
+          <article class="flow-step">
+            <span>4</span>
+            <h3>Mo khoa ky nang</h3>
+            <p>Don hang da thanh toan tao entitlement cho email hoac tai khoan nguoi mua.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="support" class="section cta-section" aria-labelledby="cta-title">
+        <h2 id="cta-title">Xay dung ke sach premium cho ky nang tot nhat.</h2>
+        <p>Bat dau voi prototype, sau do ket noi checkout session API va SePay webhook endpoint khi backend da san sang.</p>
+        <button class="button button-primary" type="button" data-open-checkout>Thu thanh toan</button>
+      </section>
+    </main>
+
+    <div class="modal-backdrop" id="checkout-modal" aria-hidden="true">
+      <section class="checkout-modal" role="dialog" aria-modal="true" aria-labelledby="checkout-title">
+        <button class="modal-close" type="button" data-close-modal aria-label="Close checkout">x</button>
+        <div class="checkout-copy">
+          <p class="eyebrow">Thanh toan</p>
+          <h2 id="checkout-title">Hoan tat mua hang</h2>
+          <p>Demo tinh. Trong production, thong tin thanh toan den tu `POST /api/checkout/sessions`.</p>
+        </div>
+        <form class="checkout-form" id="checkout-form">
+          <label>
+            Email nguoi mua
+            <input id="buyer-email" type="email" value="buyer@example.com" required>
+          </label>
+          <div class="order-box">
+            <div>
+              <span>San pham</span>
+              <strong id="modal-skill-name">Premium Skill</strong>
+            </div>
+            <div>
+              <span>So tien</span>
+              <strong id="modal-skill-price">0 VND</strong>
+            </div>
+            <div>
+              <span>Ma don hang</span>
+              <strong id="modal-order-code">SKILL-20260611-DEMO</strong>
+            </div>
+            <div>
+              <span>Noi dung chuyen khoan</span>
+              <strong id="modal-transfer-content">SKILL-20260611-DEMO</strong>
+            </div>
+          </div>
+          <div class="qr-box" aria-label="Payment QR placeholder">
+            <div class="qr-pattern"></div>
+            <p id="qr-note">QR placeholder. Thay bang SePay QR tu backend cua ban.</p>
+          </div>
+          <div class="status-pill" id="payment-status">Doi webhook SePay</div>
+          <button class="button button-primary" type="submit">Toi da thanh toan - xac nhan demo</button>
+        </form>
+      </section>
+    </div>
+
+    <div class="toast" id="toast" aria-live="polite"></div>
+
+    <script src="app.js"></script>
+  </body>
+</html>

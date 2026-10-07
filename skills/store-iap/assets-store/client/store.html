@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Assets Store - Premium AI Skills</title>
+    <meta name="description" content="Browse premium AI skill products and checkout with a SePay-ready flow.">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="index.html" aria-label="Assets Store home">
+        <span class="brand-mark">A</span>
+        <span>AssetsStore</span>
+      </a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="store.html" aria-current="page">Store</a>
+        <a href="index.html#catalog">Catalog</a>
+        <a href="index.html#payment">SePay flow</a>
+        <a href="index.html#support">Support</a>
+      </nav>
+      <div class="nav-actions">
+        <button class="nav-cta" type="button" data-open-checkout>Mua ngay</button>
+        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Toggle light and dark mode">Dark</button>
+      </div>
+    </header>
+
+    <main class="page-shell store-page">
+      <section class="store-hero" aria-labelledby="store-title">
+        <div>
+          <p class="eyebrow">Premium store</p>
+          <h1 id="store-title">Chon goi ky nang tra tien cho chinh no.</h1>
+          <p class="hero-lede">So sanh san pham, tai nguyen kem theo va gia truoc khi bat dau thanh toan SePay.</p>
+        </div>
+        <div class="store-summary-panel">
+          <span>San sang mua</span>
+          <strong id="store-count">0</strong>
+          <p>Moi giao dich tao ma chuyen khoan duy nhat va mo khoa sau khi xac nhan thanh toan.</p>
+        </div>
+      </section>
+
+      <section class="store-layout" aria-label="Store products">
+        <aside class="store-sidebar">
+          <label class="store-search-label">
+            Tim kiem san pham
+            <input id="store-search" type="search" placeholder="Ten, tag, ket qua...">
+          </label>
+          <div>
+            <p class="sidebar-title">Danh muc</p>
+            <div class="store-filter-list" aria-label="Store filters">
+              <button class="filter-button is-active" type="button" data-store-filter="all">
+                <span class="category-icon-row"><span class="cat-emoji">&#x1f4e6;</span> Tat ca</span>
+              </button>
+              <button class="filter-button" type="button" data-store-filter="Agent Ops">
+                <span class="category-icon-row"><span class="cat-emoji">&#x1f916;</span> Agent Ops</span>
+              </button>
+              <button class="filter-button" type="button" data-store-filter="Design">
+                <span class="category-icon-row"><span class="cat-emoji">&#x1f3a8;</span> Design</span>
+              </button>
+              <button class="filter-button" type="button" data-store-filter="Payments">
+                <span class="category-icon-row"><span class="cat-emoji">&#x1f4b3;</span> Payments</span>
+              </button>
+              <button class="filter-button" type="button" data-store-filter="Automation">
+                <span class="category-icon-row"><span class="cat-emoji">&#x2699;&#xfe0f;</span> Automation</span>
+              </button>
+            </div>
+          </div>
+          <div class="store-trust-box">
+            <strong>Thanh toan an toan</strong>
+            <p>Bi mat thanh toan nam o server. Trinh duyet chi nhan ma don hang, so tien, noi dung chuyen khoan va trang thai.</p>
+            <div class="trust-badges">
+              <span class="trust-badge">Xac nhan webhook SePay</span>
+              <span class="trust-badge">Giao ngay sau thanh toan</span>
+              <span class="trust-badge">Huy don trong 24h</span>
+            </div>
+          </div>
+        </aside>
+
+        <div class="store-content">
+          <div class="store-toolbar">
+            <div>
+              <p class="eyebrow">San pham</p>
+              <h2>Danh muc Premium</h2>
+            </div>
+            <select id="store-sort" aria-label="Sort products">
+              <option value="featured">Noi bat</option>
+              <option value="price-asc">Gia thap den cao</option>
+              <option value="price-desc">Gia cao den thap</option>
+            </select>
+          </div>
+
+          <!-- Skeleton loading -->
+          <div id="store-skeleton" class="store-grid" aria-hidden="true">
+            <div class="skeleton-card"><div class="skeleton skeleton-line short"></div><div class="skeleton skeleton-line med"></div><div class="skeleton skeleton-line long"></div><div class="skeleton skeleton-block"></div></div>
+            <div class="skeleton-card"><div class="skeleton skeleton-line short"></div><div class="skeleton skeleton-line med"></div><div class="skeleton skeleton-line long"></div><div class="skeleton skeleton-block"></div></div>
+            <div class="skeleton-card"><div class="skeleton skeleton-line short"></div><div class="skeleton skeleton-line med"></div><div class="skeleton skeleton-line long"></div><div class="skeleton skeleton-block"></div></div>
+            <div class="skeleton-card"><div class="skeleton skeleton-line short"></div><div class="skeleton skeleton-line med"></div><div class="skeleton skeleton-line long"></div><div class="skeleton skeleton-block"></div></div>
+          </div>
+
+          <div id="store-grid" class="store-grid" aria-live="polite"></div>
+        </div>
+      </section>
+    </main>
+
+    <div class="modal-backdrop" id="checkout-modal" aria-hidden="true">
+      <section class="checkout-modal" role="dialog" aria-modal="true" aria-labelledby="checkout-title">
+        <button class="modal-close" type="button" data-close-modal aria-label="Close checkout">x</button>
+        <div class="checkout-copy">
+          <p class="eyebrow">Thanh toan</p>
+          <h2 id="checkout-title">Hoan tat mua hang</h2>
+          <p>Demo tinh. Trong production, thong tin thanh toan den tu `POST /api/checkout/sessions`.</p>
+        </div>
+        <form class="checkout-form" id="checkout-form">
+          <label>
+            Email nguoi mua
+            <input id="buyer-email" type="email" value="buyer@example.com" required>
+          </label>
+          <div class="order-box">
+            <div>
+              <span>San pham</span>
+              <strong id="modal-skill-name">Premium Skill</strong>
+            </div>
+            <div>
+              <span>So tien</span>
+              <strong id="modal-skill-price">0 VND</strong>
+            </div>
+            <div>
+              <span>Ma don hang</span>
+              <strong id="modal-order-code">SKILL-20260611-DEMO</strong>
+            </div>
+            <div>
+              <span>Noi dung chuyen khoan</span>
+              <strong id="modal-transfer-content">SKILL-20260611-DEMO</strong>
+            </div>
+          </div>
+          <div class="qr-box" aria-label="Payment QR placeholder">
+            <div class="qr-pattern"></div>
+            <p id="qr-note">QR placeholder. Thay bang SePay QR tu backend cua ban.</p>
+          </div>
+          <div class="status-pill" id="payment-status">Doi webhook SePay</div>
+          <button class="button button-primary" type="submit">Toi da thanh toan - xac nhan demo</button>
+        </form>
+      </section>
+    </div>
+
+    <div class="toast" id="toast" aria-live="polite"></div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
