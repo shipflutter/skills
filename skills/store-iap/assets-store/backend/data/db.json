@@ -1,0 +1,125 @@
+{
+  "users": [
+    {
+      "id": "user-demo-1",
+      "email": "buyer@example.com",
+      "displayName": "Demo Buyer",
+      "passwordHash": "f1010bde1e0f0181b7b40621d48c110a:8d0018a271a106dcdd6fafec6e80d83326a6a572b8851b41924d22c3d124a69a",
+      "status": "active",
+      "createdAt": "2026-06-11T03:33:36.146Z",
+      "updatedAt": "2026-06-11T03:33:36.146Z"
+    }
+  ],
+  "sessions": [],
+  "skills": [
+    {
+      "id": "skill-agent-commerce-kit",
+      "slug": "agent-commerce-kit",
+      "title": "Agent Commerce Kit",
+      "category": "Payments",
+      "summary": "Checkout UX, entitlement rules, webhook reconciliation, and launch copy for premium skill businesses.",
+      "description": "A production-minded package for selling premium AI skills with SePay-ready payment flows.",
+      "status": "active"
+    },
+    {
+      "id": "skill-taste-ui-pack",
+      "slug": "taste-ui-pack",
+      "title": "Taste UI Pack",
+      "category": "Design",
+      "summary": "Editorial storefront sections, dense bento grids, and confident premium CTAs.",
+      "description": "A polished UI kit for reviewing and launching a premium skill storefront.",
+      "status": "active"
+    },
+    {
+      "id": "skill-review-agent-suite",
+      "slug": "review-agent-suite",
+      "title": "Review Agent Suite",
+      "category": "Agent Ops",
+      "summary": "Review workflows for code, architecture, security, reliability, and release readiness.",
+      "description": "A structured suite for teams that want repeatable second-opinion review rituals.",
+      "status": "active"
+    }
+  ],
+  "skillPlans": [
+    {
+      "id": "plan-agent-commerce-premium",
+      "skillId": "skill-agent-commerce-kit",
+      "name": "Premium",
+      "priceVnd": 899000,
+      "compareAtPriceVnd": 1299000,
+      "status": "active"
+    },
+    {
+      "id": "plan-taste-ui-premium",
+      "skillId": "skill-taste-ui-pack",
+      "name": "Premium",
+      "priceVnd": 549000,
+      "compareAtPriceVnd": 799000,
+      "status": "active"
+    },
+    {
+      "id": "plan-review-agent-premium",
+      "skillId": "skill-review-agent-suite",
+      "name": "Premium",
+      "priceVnd": 699000,
+      "compareAtPriceVnd": 999000,
+      "status": "active"
+    }
+  ],
+  "orders": [
+    {
+      "id": "8cf8e4fc-6027-4057-8fdb-9a499d22ce84",
+      "orderCode": "SKILL-20260611-77AFA3",
+      "buyerEmail": "buyer@example.com",
+      "skillId": "skill-agent-commerce-kit",
+      "planId": "plan-agent-commerce-premium",
+      "amountVnd": 899000,
+      "status": "pending_payment",
+      "paymentProvider": "sepay",
+      "expiresAt": "2026-06-11T07:15:59.819Z",
+      "createdAt": "2026-06-11T06:45:59.819Z",
+      "updatedAt": "2026-06-11T06:45:59.819Z"
+    },
+    {
+      "id": "b31a3555-0272-4c53-92e3-dd0a4319b8ff",
+      "orderCode": "SKILL-20260611-D73798",
+      "buyerEmail": "buyer@example.com",
+      "skillId": "skill-agent-commerce-kit",
+      "planId": "plan-agent-commerce-premium",
+      "amountVnd": 899000,
+      "status": "pending_payment",
+      "paymentProvider": "sepay",
+      "expiresAt": "2026-06-11T12:14:55.185Z",
+      "createdAt": "2026-06-11T11:44:55.185Z",
+      "updatedAt": "2026-06-11T11:44:55.185Z"
+    }
+  ],
+  "paymentInstructions": [
+    {
+      "id": "72bee956-035f-4fde-99da-5933eb35f62d",
+      "orderId": "8cf8e4fc-6027-4057-8fdb-9a499d22ce84",
+      "provider": "sepay",
+      "bankName": "Demo Bank",
+      "bankAccountNo": "0123456789",
+      "bankAccountName": "SKILL STORE DEMO",
+      "amountVnd": 899000,
+      "transferContent": "SKILL-20260611-77AFA3",
+      "qrImageUrl": "https://img.vietqr.io/image/970436-0123456789-compact2.png?amount=899000&addInfo=SKILL-20260611-77AFA3&accountName=SKILL%20STORE%20DEMO",
+      "createdAt": "2026-06-11T06:45:59.819Z"
+    },
+    {
+      "id": "abc03c52-5ffd-417d-8b96-25fed08db1fb",
+      "orderId": "b31a3555-0272-4c53-92e3-dd0a4319b8ff",
+      "provider": "sepay",
+      "bankName": "Demo Bank",
+      "bankAccountNo": "0123456789",
+      "bankAccountName": "SKILL STORE DEMO",
+      "amountVnd": 899000,
+      "transferContent": "SKILL-20260611-D73798",
+      "qrImageUrl": "https://img.vietqr.io/image/970436-0123456789-compact2.png?amount=899000&addInfo=SKILL-20260611-D73798&accountName=SKILL%20STORE%20DEMO",
+      "createdAt": "2026-06-11T11:44:55.185Z"
+    }
+  ],
+  "paymentTransactions": [],
+  "entitlements": []
+}
